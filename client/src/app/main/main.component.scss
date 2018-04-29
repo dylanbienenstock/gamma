@@ -14,9 +14,6 @@
 		width: $sidebar-width;
 	}
 
-	// app-main-contacts { border-right: 1px solid $accent-color; }
-	// app-main-options { border-left: 1px solid $accent-color; }
-
 	.visible {
 		animation: "visible" $sidebar-animation-duration;
 		width: $sidebar-width;
@@ -46,7 +43,4 @@
 			}
 		}
 	}
-
-	// app-main-contacts.hidden { transform: translateX(-1px); }
-	// app-main-options.hidden { transform: translateX(1px); }
 }
