@@ -11,4 +11,11 @@ export class SocketService {
 	register(creds: RegisterCreds) {
 		this.socket.emit("register request", creds);
 	}
+
+	joinRoom(room: string, authToken: string) {
+		this.socket.emit("room join request", {
+			room: room,
+			authToken: authToken
+		});
+	}
 }

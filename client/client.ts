@@ -2,8 +2,10 @@ import * as rl from "readline-sync";
 import { LogInCreds, RegisterCreds, RegisterResponse } from "../gamma/account/types";
 import { SocketService } from "./socket.service";
 
-const socketService = new SocketService();
-var currentAction = "initialize";
+const socketService: SocketService = new SocketService();
+var currentAction: string = "initialize";
+var currentRoom: string;
+var authToken: string;
 
 function clear(title?: string) {
 	title = title || "Gamma client by Dylan Bienenstock.";
@@ -22,20 +24,12 @@ function logInOrRegister() {
 	console.log("L - Log in");
 	console.log("R - Register");
 
-	let choice = rl.question("\nAction: ").toLowerCase();
+	let choice = rl.question("\nAction: ").toUpperCase();
 
 	switch (choice) {
-		case "l":
-		case "log in":
-			logIn();
-			break;
-		case "r":
-		case "register":
-			register();
-			break;
-		default:
-			clear();
-			logInOrRegister();
+		case "L": logIn(); break;
+		case "R": register(); break;
+		default: clear(); logInOrRegister();
 	} 
 }
 
@@ -110,24 +104,27 @@ socketService.socket.on("register response", (response: RegisterResponse) => {
 });
 
 function dashboard() {
-	clear("Available actions: (Q / H / L)");
-	console.log("Q - Query a user");
+	currentAction = "dashboard";
+
+	clear("Available actions: (J / H / L)");
+	console.log("J - Join a room");
 	console.log("H - View help");
 	console.log("L - Log out");
 
-	let choice = rl.question("\nAction: ").toLowerCase();
+	let choice = rl.question("\nAction: ").toUpperCase();
 
 	switch (choice) {
-		case "q":
-		case "query a user":
-			break;
-		case "h":
-		case "view help":
-			break;
-		case "l":
-		case "log out":
-			break;
-		default:
-			dashboard();
+		case "J": joinRoom(); break;
+		case "H": break;
+		case "L": break;
+		default: dashboard();
 	}
+}
+
+function joinRoom() {
+	clear("Specify a room to join.");
+	let room = rl.question("Room: ").toLowerCase();
+	console.log("Joining...");
+
+	socketService.joinRoom(room, authToken);
 }

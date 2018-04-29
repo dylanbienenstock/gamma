@@ -3,7 +3,9 @@ import { AccountManager } from "../gamma/module";
 import { LogInCreds, RegisterCreds, RegisterResponse } from "../gamma/account/types";
 import { disconnect } from "cluster";
 
+const p2pserver = require("socket.io-p2p-server").Server
 const io = require("socket.io")();
+io.use(p2pserver);
 
 var users = {};
 
@@ -20,6 +22,7 @@ function listen() {
 	io.on("connection", (socket: SocketIO.Socket) => {
 		let loggedIn = false;
 		let name: string; // Null until logged in
+		let currentRoom: string;
 
 		socket.on("disconnect", () => {
 			AccountManager.logOut(name);
@@ -54,6 +57,20 @@ function listen() {
 					}
 
 					socket.emit("register response", response);
+				});
+			}
+		});
+
+		socket.on("room join request", (data: any) => {
+			if (loggedIn) {
+				AccountManager.validate(name, data.authToken).then((valid) => {
+					socket.leave(currentRoom);
+
+					if (valid) {
+						currentRoom = data.room;
+						socket.join(data.room);
+						p2pserver(socket, null, data.room);
+					}
 				});
 			}
 		});
