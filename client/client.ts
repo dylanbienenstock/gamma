@@ -87,6 +87,8 @@ socketService.socket.on("login response", (response: RegisterResponse) => {
 		if (response.success) {
 			clear("Successfully logged in.");
 			console.log(`Auth Token: ${response.authToken}`);
+
+			setTimeout(dashboard, 1200);
 		} else {
 			logIn("Invalid login credentials. Please try again.");
 		}
@@ -98,8 +100,18 @@ socketService.socket.on("register response", (response: RegisterResponse) => {
 		if (response.success) {
 			clear("Successfully registered.");
 			console.log(`Auth Token: ${response.authToken}`);
+
+			setTimeout(dashboard, 1200);			
 		} else {
 			register(`The following errors occured:\n${response.errors.join("\n")}\n\nPlease try again.`)
 		}
 	}
 });
+
+function dashboard() {
+	clear("Available actions: (Q / H / L)");
+	console.log("Q - Query a user");
+	console.log("H - View help");
+	console.log("L - Log out");
+	let choice = rl.question("\nAction: ");
+}

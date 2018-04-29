@@ -35,6 +35,8 @@ export module AccountManager {
 		let nameInUse = false;
 		let response: RegisterResponse;
 
+		creds.name = creds.name.toLowerCase();
+
 		// Ensure that the name is unique
 		await User.where({ name: creds.name }).findOne((error, user) => {
 			nameInUse = (user != null);
@@ -81,12 +83,14 @@ export module AccountManager {
 		let error: any;
 		let user: any;
 
+		creds.name = creds.name.toLowerCase();		
+
 		await User.where({ name: creds.name }).findOne((_error, _user) => {
 			error = _error;
 			user = _user;
 		});
 
-		if (error) {
+		if (error || creds.password.length == 0) {
 			response = { success: false }
 		}
 		else
