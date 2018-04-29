@@ -1,4 +1,4 @@
-<div class="tab" *ngFor="let tab of tabs; first as isFirst;" [class.selected]="isFirst">
+<div class="tab" *ngFor="let tab of tabs; first as isFirst; last as isLast;" [class.selected]="isFirst" [class.flashing]="isLast">
 	<div class="tab-roundout left"></div>
 	<div class="tab-inner">
 		<span>{{ tab }}</span>
