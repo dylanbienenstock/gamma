@@ -79,6 +79,7 @@ socketService.socket.on("register response", (response: RegisterResponse) => {
 	if (currentAction == "register") {
 		if (response.success) {
 			clear("Successfully registered.");
+			console.log(`\nAuth Token: ${response.authToken}`);
 		} else {
 			register(`The following errors occured:\n${response.errors.join("\n")}\n\nPlease try again.`)
 		}

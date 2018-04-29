@@ -9,8 +9,14 @@ export interface RegisterCreds {
 	password: string;
 }
 
+export interface LogInResponse {
+	success: boolean,
+	authToken?: string
+}
+
 export interface RegisterResponse {
 	success: boolean,
 	user?: any,
+	authToken?: string,	
 	errors?: string[]
 }

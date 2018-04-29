@@ -20,7 +20,9 @@ const User = mongoose.model("User", {
 	password: {
 		type: String,
 		required: [true, "Password is required"]
-	}
+	},
+
+	authToken: String
 });
 
 export { User }
