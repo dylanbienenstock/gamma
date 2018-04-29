@@ -116,7 +116,7 @@ export module AccountManager {
 		return response;
 	}
 
-	export function logOut(name: string, authToken?: string) {
+	export function logOut(name: string, authToken?: string): void {
 		User.where({ name: name }).findOne((error, user) => {
 			let shouldLogOut = true;
 
@@ -131,5 +131,17 @@ export module AccountManager {
 				user.save();
 			}
 		});
+	}
+
+	export async function validate(name: string, authToken: string): Promise<boolean> {
+		let error: any;
+		let user: any;
+
+		await User.where({ name: name }).findOne((_error, _user) => {
+			error = _error;
+			user = _user;
+		});
+
+		return (!error && authToken == user.authToken);
 	}
 }
