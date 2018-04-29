@@ -18,7 +18,7 @@ $chat-tabs-selected-border-color: $accent-color;
 		top: 100%;
 		transform: translateY(-100%);
 		vertical-align: top;
-		font-size: 14px;
+		font-size: 0;
 
 		@for $i from 1 through 16 {
 			&:nth-child(#{$i}) {
@@ -33,12 +33,34 @@ $chat-tabs-selected-border-color: $accent-color;
 			border-top-left-radius: $chat-tabs-border-radius;
 			border-top-right-radius: $chat-tabs-border-radius;
 
-			padding: 0 8px;
+			padding: 0 10px 0 12px;
 			background-color: $chat-tabs-background-color;
 			border: 1px solid $chat-tabs-border-color;
 			border-bottom: 0;
 
-			color: rgba($text-color, 0.6);
+			span {
+				@include noselect;
+
+				font-size: 14px;
+				color: rgba($text-color, 0.6);				
+			}
+
+			.tab-close {
+				cursor: pointer;
+
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				margin-left: 12px;
+
+				transition: background-color 150ms ease;				
+				background-color: $background-tertiary-color;				
+
+				&:hover {
+					background-color: rgb(224, 72, 72);
+				}
+			}
 		}
 
 		.tab-roundout {
