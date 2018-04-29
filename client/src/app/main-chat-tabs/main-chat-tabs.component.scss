@@ -14,13 +14,6 @@
 			transform: translateY(-100%);
 			vertical-align: top;
 			font-size: 0;
-
-			// @for $i from 1 through 16 {
-			// 	&:nth-child(#{$i}) {
-			// 		z-index: 16 - $i;
-			// 		left: -#{$i - 1}px;
-			// 	}
-			// }
 			
 			.tab-inner {
 				height: $chat-tabs-height;
