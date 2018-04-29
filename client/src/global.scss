@@ -7,9 +7,12 @@ $accent-color: #666;
 $sidebar-width: 20vw;
 $sidebar-animation-duration: 600ms;
 
-$chat-tabs-container-height: 40px;
+$top-bar-height: 40px;
+$panel-spacing: 10px;
+$panel-border-radius: 12px;
+
 $chat-tabs-border-radius: 10px;
-$chat-tabs-height: $chat-tabs-container-height - 8px;
+$chat-tabs-height: $top-bar-height - 8px;
 
 @mixin center-vertical {
 	position: relative;

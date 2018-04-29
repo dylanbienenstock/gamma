@@ -1,11 +1,13 @@
+@import "~global.scss";
+
 :host {
-	padding: 8px;
+	padding: $panel-spacing;
 
 	.container {	
 		display: flex;
 		height: 100%;
 		flex-flow: column nowrap;
-		border-radius: 16px;
+		border-radius: $panel-border-radius;
 		overflow: hidden;
 
 		app-main-chat-message-container {

@@ -8,7 +8,7 @@ $chat-tabs-selected-border-color: $accent-color;
 
 :host {
 	display: block;
-	height: $chat-tabs-container-height;
+	height: $top-bar-height;
 	padding-left: $chat-tabs-border-radius;
 	background-color: $background-tertiary-color;
 
