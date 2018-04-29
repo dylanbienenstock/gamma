@@ -20,6 +20,7 @@ $chat-tabs-selected-background-color: $background-secondary-color;
 $chat-tabs-border-color: $background-tertiary-color;
 $chat-tabs-selected-border-color: $accent-color;
 $chat-tabs-transition-duration: 250ms;
+$chat-tabs-transition-function: ease-in;
 
 @mixin center-vertical {
 	position: relative;
