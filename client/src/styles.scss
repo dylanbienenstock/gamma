@@ -1,0 +1,17 @@
+@import "~global.scss";
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans');
+
+html, body {
+	margin: 0;
+	padding: 0;
+
+	background-color: $background-color;
+	color: $text-color;
+	font-family: 'Noto Sans', sans-serif;
+
+	overflow-x: hidden;
+
+	h1, h2, h3, h4, p {
+		margin: 0;
+	}
+}

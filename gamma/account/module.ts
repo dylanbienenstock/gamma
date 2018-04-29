@@ -90,7 +90,7 @@ export module AccountManager {
 			user = _user;
 		});
 
-		if (error || creds.password.length == 0) {
+		if (error || !user || creds.password.length == 0) {
 			response = { success: false }
 		}
 		else
@@ -118,6 +118,8 @@ export module AccountManager {
 
 	export function logOut(name: string, authToken?: string): void {
 		User.where({ name: name }).findOne((error, user) => {
+			if (!user) return;
+
 			let shouldLogOut = true;
 
 			if (authToken) { 
@@ -142,6 +144,6 @@ export module AccountManager {
 			user = _user;
 		});
 
-		return (!error && authToken == user.authToken);
+		return (!error && user && authToken == user.authToken);
 	}
 }

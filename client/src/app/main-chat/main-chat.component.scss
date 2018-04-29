@@ -1,0 +1,15 @@
+:host {
+	padding: 8px;
+
+	.container {	
+		display: flex;
+		height: 100%;
+		flex-flow: column nowrap;
+		border-radius: 16px;
+		overflow: hidden;
+
+		app-main-chat-message-container {
+			flex: 1;
+		}
+	}
+}

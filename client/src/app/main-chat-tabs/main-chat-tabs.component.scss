@@ -1,0 +1,99 @@
+@import "~global.scss";
+
+$chat-tabs-background-color: $background-color;
+$chat-tabs-selected-background-color: $background-secondary-color;
+
+$chat-tabs-border-color: $background-tertiary-color;
+$chat-tabs-selected-border-color: $accent-color;
+
+:host {
+	display: block;
+	height: $chat-tabs-container-height;
+	padding-left: $chat-tabs-border-radius;
+	background-color: $background-tertiary-color;
+
+	.tab {
+		display: inline-flex;
+		position: relative;
+		top: 100%;
+		transform: translateY(-100%);
+		vertical-align: top;
+		font-size: 14px;
+
+		@for $i from 1 through 16 {
+			&:nth-child(#{$i}) {
+				z-index: 16 - $i;
+				left: -#{$i - 1}px;
+			}
+		}
+		
+		.tab-inner {
+			height: $chat-tabs-height;
+			line-height: $chat-tabs-height;
+			border-top-left-radius: $chat-tabs-border-radius;
+			border-top-right-radius: $chat-tabs-border-radius;
+
+			padding: 0 8px;
+			background-color: $chat-tabs-background-color;
+			border: 1px solid $chat-tabs-border-color;
+			border-bottom: 0;
+
+			color: rgba($text-color, 0.6);
+		}
+
+		.tab-roundout {
+			display: inline-block;
+			position: absolute;
+			bottom: -1px;
+			width: $chat-tabs-border-radius;
+			height: $chat-tabs-border-radius;
+			border: 1px solid $chat-tabs-border-color;
+		}
+
+		.tab-roundout.left {
+			z-index: 0;
+			
+			border-bottom-right-radius: $chat-tabs-border-radius;
+			border-width: 0 1px 1px 0;
+			left: -$chat-tabs-border-radius;
+			box-shadow: 2px 2px 0 $chat-tabs-background-color;
+		}
+
+		.tab-roundout.right {
+			z-index: 3;
+			
+			position: absolute;
+			border-bottom-left-radius: $chat-tabs-border-radius;
+			border-width: 0 0 1px 1px;
+			left: calc(100% - 1px);
+			box-shadow: -2px 2px 0 $chat-tabs-background-color;
+		}
+
+		&.selected {
+			z-index: 17;
+			border-left: 0;
+
+			.tab-inner {
+				height: $chat-tabs-height + 1px;
+				transform: translateY(1px);
+				background-color: $chat-tabs-selected-background-color;
+				border: 1px solid $chat-tabs-selected-border-color;
+				border-bottom: 0;
+				color: $text-color;
+			}
+
+			.tab-roundout {
+				border-color: $chat-tabs-selected-border-color !important;
+			}
+
+			.tab-roundout.left {
+				z-index: 2;
+				box-shadow: 4px 4px 0 $chat-tabs-selected-background-color !important;
+			}
+
+			.tab-roundout.right {
+				box-shadow: -4px 4px 0 $chat-tabs-selected-background-color !important;
+			}
+		}
+	}
+}

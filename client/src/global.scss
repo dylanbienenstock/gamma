@@ -1,0 +1,18 @@
+$background-color: #222;
+$background-secondary-color: #333;
+$background-tertiary-color: #444;
+$text-color: #DDD;
+$accent-color: #666;
+
+$sidebar-width: 20vw;
+$sidebar-animation-duration: 600ms;
+
+$chat-tabs-container-height: 40px;
+$chat-tabs-border-radius: 10px;
+$chat-tabs-height: $chat-tabs-container-height - 8px;
+
+@mixin center-vertical {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}

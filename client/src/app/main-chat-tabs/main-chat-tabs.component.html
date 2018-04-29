@@ -1,0 +1,5 @@
+<div class="tab" *ngFor="let tab of tabs; first as isFirst;" [class.selected]="isFirst">
+	<div class="tab-roundout left"></div>
+	<div class="tab-inner">{{ tab }}</div>
+	<div class="tab-roundout right"></div>	
+</div>

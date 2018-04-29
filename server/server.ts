@@ -5,7 +5,6 @@ import { disconnect } from "cluster";
 
 const p2pserver = require("socket.io-p2p-server").Server
 const io = require("socket.io")();
-io.use(p2pserver);
 
 var users = {};
 
@@ -74,7 +73,17 @@ function listen() {
 				});
 			}
 		});
+
+		socket.on("message send", (data: any) => {
+			console.log(data);
+
+			socket.to(data.room).emit("message receive", {
+				name: name,
+				message: data.message
+			});
+		});
 	});
 
 	io.listen(process.env.port || 8000);
+	io.use(p2pserver);
 }

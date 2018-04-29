@@ -1,0 +1,18 @@
+@import "~global.scss";
+
+:host {
+	.container {
+		padding: 8px 8px 8px 0;	
+		width: $sidebar-width;
+		height: 100%;
+		box-sizing: border-box;
+		white-space: nowrap;
+
+		.container-inner {
+			height: 100%;
+			background-color: $background-secondary-color;
+			border-radius: 16px;
+			overflow: hidden;
+		}
+	}
+}

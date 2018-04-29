@@ -5,6 +5,7 @@ import { SocketService } from "./socket.service";
 const socketService: SocketService = new SocketService();
 var currentAction: string = "initialize";
 var currentRoom: string;
+var name: string;
 var authToken: string;
 
 function clear(title?: string) {
@@ -17,6 +18,7 @@ function clear(title?: string) {
 (function initialize() {
 	clear();
 	logInOrRegister();
+	socketService.initialize();	
 })();
 
 function logInOrRegister() {
@@ -43,8 +45,8 @@ function logIn(error?: string) {
 
 	clear(error || "Enter your account credentials.");
 
-	creds.name = rl.question("Username: ");
-	creds.password = rl.question("Password: ", { hideEchoBack: true });
+	creds.name = name = rl.question("Username: ");
+	creds.password = rl.question("Password: ", { hideEchoBack: true, mask: "" });
 
 	socketService.logIn(creds);
 
@@ -62,7 +64,7 @@ function register(error?: string) {
 
 	clear(error || "Enter your account credentials.");
 
-	creds.name = rl.question("Username: ");
+	creds.name = name = rl.question("Username: ");
 	creds.email = rl.question("(Optional) Email: ");
 	creds.password = rl.question("Password: ", { hideEchoBack: true });
 	
@@ -122,9 +124,39 @@ function dashboard() {
 }
 
 function joinRoom() {
+	currentAction = "joining";	
+
 	clear("Specify a room to join.");
 	let room = rl.question("Room: ").toLowerCase();
 	console.log("Joining...");
 
 	socketService.joinRoom(room, authToken);
+
+	setTimeout(() => {
+		currentAction = "chatting";
+		clear(`Connected to room: ${room}`);
+
+		function getMessage() {
+			rl.question(`${name}: `, (message) => {
+				socketService.sendMessage(room, message);
+				getMessage();
+			});
+		}
+	}, 1200);
 }
+
+socketService.p2p.on("message receive", (data: any) => {
+	console.log(data);
+});
+
+socketService.p2p.on('peer-msg', function (data) {
+	console.log("peer-msg", data);
+});
+
+socketService.p2p.on('peer-error', function (data) {
+	console.log("peer-error", data);
+});
+
+socketService.p2p.on('upgrade', function (data) {
+	console.log("upgrade", data);
+});

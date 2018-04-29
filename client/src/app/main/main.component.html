@@ -1,0 +1,13 @@
+<app-main-contacts
+[class.visible]="sidebars.contacts.visible && sidebars.contacts.previouslyHidden"
+[class.hidden]="!sidebars.contacts.visible"
+(click)="hideSidebar('contacts')">
+</app-main-contacts>
+
+<app-main-chat (click)="showSidebar('contacts'); showSidebar('options');"></app-main-chat>
+
+<app-main-options
+[class.visible]="sidebars.options.visible && sidebars.options.previouslyHidden"
+[class.hidden]="!sidebars.options.visible"
+(click)="hideSidebar('options')">
+</app-main-options>
