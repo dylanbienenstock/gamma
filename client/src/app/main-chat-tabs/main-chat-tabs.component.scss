@@ -1,12 +1,5 @@
 @import "~global.scss";
 
-$chat-tabs-background-color: $background-color;
-$chat-tabs-hovered-background-color: lighten($background-color, 25%);
-$chat-tabs-selected-background-color: $background-secondary-color;
-
-$chat-tabs-border-color: $background-tertiary-color;
-$chat-tabs-selected-border-color: $accent-color;
-
 :host {
 	display: block;
 	height: $top-bar-height;
@@ -36,7 +29,7 @@ $chat-tabs-selected-border-color: $accent-color;
 
 			padding: 0 10px 0 12px;
 			background-color: $chat-tabs-background-color;
-			transition: background-color 150ms ease;					
+			transition: background-color $chat-tabs-transition-duration ease;					
 			border: 1px solid $chat-tabs-border-color;
 			border-bottom: 0;
 
@@ -45,7 +38,7 @@ $chat-tabs-selected-border-color: $accent-color;
 
 				font-size: 14px;
 				color: rgba($text-color, 0.6);
-				transition: color 150ms ease;			
+				transition: color $chat-tabs-transition-duration ease;			
 			}
 
 			.tab-close {
@@ -57,7 +50,7 @@ $chat-tabs-selected-border-color: $accent-color;
 				border-radius: 50%;
 				margin-left: 12px;
 
-				transition: background-color 150ms ease;				
+				transition: background-color $chat-tabs-transition-duration ease;				
 				background-color: $background-tertiary-color;				
 
 				&:hover {
@@ -73,7 +66,7 @@ $chat-tabs-selected-border-color: $accent-color;
 			width: $chat-tabs-border-radius;
 			height: $chat-tabs-border-radius;
 			border: 1px solid $chat-tabs-border-color;
-			transition: box-shadow 150ms ease;									
+			transition: box-shadow $chat-tabs-transition-duration ease;									
 		}
 
 		.tab-roundout.left {
@@ -123,7 +116,10 @@ $chat-tabs-selected-border-color: $accent-color;
 				background-color: $chat-tabs-selected-background-color;
 				border: 1px solid $chat-tabs-selected-border-color;
 				border-bottom: 0;
-				color: $text-color;
+
+				span {
+					color: $text-color;
+				}
 			}
 
 			.tab-roundout {
@@ -137,6 +133,27 @@ $chat-tabs-selected-border-color: $accent-color;
 
 			.tab-roundout.right {
 				box-shadow: -4px 4px 0 $chat-tabs-selected-background-color !important;
+			}
+		}
+
+		&.flashing {
+			.tab-inner { animation: "tab-inner-flash" 4s ease-out 0s infinite; }
+			.tab-roundout.left { animation: "tab-roundout-left-flash" 4s ease-out 0s infinite; }
+			.tab-roundout.right { animation: "tab-roundout-right-flash" 4s ease-out 0s infinite; }
+
+			@keyframes tab-inner-flash {
+				0% { background-color: $chat-tabs-hovered-background-color; }
+				25%, 100% { background-color: $chat-tabs-background-color; }
+			}
+
+			@keyframes tab-roundout-left-flash {
+				0% { box-shadow: 2px 2px 0 $chat-tabs-hovered-background-color; }
+				25%, 100% { box-shadow: 2px 2px 0 $chat-tabs-background-color; }
+			}
+
+			@keyframes tab-roundout-right-flash {
+				0% { box-shadow: -2px 2px 0 $chat-tabs-hovered-background-color; }
+				25%, 100% { box-shadow: -2px 2px 0 $chat-tabs-background-color; }
 			}
 		}
 	}
