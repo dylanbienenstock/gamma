@@ -21,15 +21,16 @@ function logInOrRegister() {
 	console.log("Available actions: (L / R)");
 	console.log("L - Log in");
 	console.log("R - Register");
-	let choice = rl.question("\nAction: ");
 
-	choice = choice.toUpperCase();
+	let choice = rl.question("\nAction: ").toLowerCase();
 
 	switch (choice) {
-		case "L":
+		case "l":
+		case "log in":
 			logIn();
 			break;
-		case "R":
+		case "r":
+		case "register":
 			register();
 			break;
 		default:
@@ -113,5 +114,6 @@ function dashboard() {
 	console.log("Q - Query a user");
 	console.log("H - View help");
 	console.log("L - Log out");
-	let choice = rl.question("\nAction: ");
+
+	let choice = rl.question("\nAction: ").toLowerCase();
 }
