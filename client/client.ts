@@ -116,4 +116,18 @@ function dashboard() {
 	console.log("L - Log out");
 
 	let choice = rl.question("\nAction: ").toLowerCase();
+
+	switch (choice) {
+		case "q":
+		case "query a user":
+			break;
+		case "h":
+		case "view help":
+			break;
+		case "l":
+		case "log out":
+			break;
+		default:
+			dashboard();
+	}
 }
