@@ -2,9 +2,13 @@
 	<div class="tab" 
 	*ngFor="let tab of tabs; let i = index;"
 	(mousedown)="onMouseDown(tab, $event)"
-	[ngStyle]="tab.style"
 	[class.selected]="selectedTab == tab" 
-	[class.flashing]="tab.flashing">
+	[class.flashing]="tab.flashing"
+	[ngStyle]="{ 
+		transform: 'translate(' + tab.offsetX + 'px, -100%)', 
+		zIndex: 16 - tab.order,
+		transition: tab != draggingTab ? 'left 300ms ease' : null
+	}">
 		<div class="tab-roundout left"></div>
 		<div class="tab-inner">
 			<span>{{ tab.title }}</span>

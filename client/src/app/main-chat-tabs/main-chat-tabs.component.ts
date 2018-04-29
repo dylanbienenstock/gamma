@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ChatTab } from "./main-chat-tabs.types";
 
 @Component({
@@ -12,20 +12,24 @@ export class MainChatTabsComponent implements OnInit {
 
 	public tabs: ChatTab[] = [];
 
+	@ViewChild("container") private containerRef;
+	public get container() { return this.containerRef.nativeElement };
+
 	ngOnInit() {
 		this.addTab("Dylan Bienenstock");
 		this.addTab("Dylan Bienenstock");
 		this.addTab("Dylan Bienenstock");
+		this.addTab("Dylan Bienenstock");
+
+		this.tabs[2].flashing = true;
 	}
 
 	addTab(title: string) {
 		let tab: ChatTab = {
 			title: title,
 			flashing: false,
-			style: {
-				left: `-${this.tabs.length}px`,
-				zIndex: 16 - this.tabs.length
-			}
+			offsetX: -this.tabs.length,
+			order: this.tabs.length
 		}
 
 		if (this.tabs.length == 0) {
@@ -41,11 +45,9 @@ export class MainChatTabsComponent implements OnInit {
 	private dragStartX: number;
 
 	onMouseDown(tab: ChatTab, e: MouseEvent) {
-		let currentLeft = parseInt(tab.style.left || "0");
-
 		this.dragging = true;
 		this.draggingTab = tab;		
-		this.dragStartX = e.screenX - currentLeft;
+		this.dragStartX = e.screenX - tab.offsetX;
 
 		this.selectedTab = tab;
 	}
@@ -59,8 +61,7 @@ export class MainChatTabsComponent implements OnInit {
 	onMouseMove(e) {
 		if (this.dragging) {
 			let difference = e.screenX - this.dragStartX;
-			// console.log(e.screenX,this.dragStartX);
-			this.draggingTab.style.left = `${difference}px`;
+			this.draggingTab.offsetX = difference;
 		}
 	}
 }
