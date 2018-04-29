@@ -15,7 +15,7 @@ function listen() {
 	console.log(`Listening on port ${port}`);
 
 	io.on("connection", (socket: SocketIO.Socket) => {
-		socket.on("register", (creds: RegisterCreds) => {
+		socket.on("register request", (creds: RegisterCreds) => {
 			AccountManager.createAccount(creds)
 			.then((response) => {
 				socket.emit("register response", response);

@@ -5,10 +5,10 @@ export class SocketService {
 	socket: SocketIOClient.Socket = io("http://localhost:8000");
 
 	logIn(creds: LogInCreds) {
-		this.socket.emit("log in", creds);
+		this.socket.emit("login request", creds);
 	}
 
 	register(creds: RegisterCreds) {
-		this.socket.emit("register", creds);
+		this.socket.emit("register request", creds);
 	}
 }
