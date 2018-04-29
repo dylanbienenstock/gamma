@@ -14,7 +14,19 @@ export module AccountManager {
 		return Object.keys(reject.errors).map(error => reject.errors[error].message);
 	}
 
-	export async function createAccount(creds: RegisterCreds) {
+	function generateAuthToken() {
+		let authToken: string = "";
+
+		for (let i = 0; i < 16; i++) {
+			let byte: number = Math.floor(Math.random() * 255);
+
+			authToken += String.fromCharCode(byte);
+		}
+
+		return authToken;
+	}
+
+	export async function createAccount(creds: RegisterCreds): Promise<RegisterResponse> {
 		// Hash the password
 		await bcrypt.hash(creds.password).then((hash) => {
 			creds.password = hash;
@@ -64,19 +76,7 @@ export module AccountManager {
 		return response;		
 	}
 
-	function generateAuthToken() {
-		let authToken: string = "";
-
-		for (let i = 0; i < 16; i++) {
-			let byte: number = Math.floor(Math.random() * 255);
-
-			authToken += String.fromCharCode(byte);
-		}
-
-		return authToken;
-	}
-
-	export async function logIn(creds: LogInCreds) {
+	export async function logIn(creds: LogInCreds): Promise<LogInResponse> {
 		let response: LogInResponse;
 		let error: any;
 		let user: any;
@@ -110,5 +110,22 @@ export module AccountManager {
 		}
 
 		return response;
+	}
+
+	export function logOut(name: string, authToken?: string) {
+		User.where({ name: name }).findOne((error, user) => {
+			let shouldLogOut = true;
+
+			if (authToken) { 
+				// Don't log them out if they provide the incorrect auth token
+				// Keeps people from logging other people out
+				shouldLogOut = (authToken == user.authToken);
+			}
+
+			if (shouldLogOut) {
+				user.authToken = null;
+				user.save();
+			}
+		});
 	}
 }
