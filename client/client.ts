@@ -6,7 +6,7 @@ const socketService = new SocketService();
 var currentAction = "initialize";
 
 function clear(title?: string) {
-	title = title || "Gamma client by Dylan Bienenstock.\n";
+	title = title || "Gamma client by Dylan Bienenstock.";
 
 	console.log("\x1B[2J\x1B[0f"); // Clear console.
 	console.log(`${title}\n`);
@@ -18,7 +18,10 @@ function clear(title?: string) {
 })();
 
 function logInOrRegister() {
-	let choice = rl.question("[L]og in or [R]egister: ");
+	console.log("Available actions: (L / R)");
+	console.log("L - Log in");
+	console.log("R - Register");
+	let choice = rl.question("\nAction: ");
 
 	choice = choice.toUpperCase();
 
@@ -36,7 +39,7 @@ function logInOrRegister() {
 }
 
 function logIn(error?: string) {
-	currentAction = "log in";
+	currentAction = "login";
 
 	let creds: LogInCreds = {
 		name: null,
@@ -47,6 +50,10 @@ function logIn(error?: string) {
 
 	creds.name = rl.question("Username: ");
 	creds.password = rl.question("Password: ", { hideEchoBack: true });
+
+	socketService.logIn(creds);
+
+	console.log("\nLogging in...");
 }
 
 function register(error?: string) {
@@ -75,11 +82,22 @@ function register(error?: string) {
 	}
 }
 
+socketService.socket.on("login response", (response: RegisterResponse) => {
+	if (currentAction == "login") {
+		if (response.success) {
+			clear("Successfully logged in.");
+			console.log(`Auth Token: ${response.authToken}`);
+		} else {
+			logIn("Invalid login credentials. Please try again.");
+		}
+	}
+});
+
 socketService.socket.on("register response", (response: RegisterResponse) => {
 	if (currentAction == "register") {
 		if (response.success) {
 			clear("Successfully registered.");
-			console.log(`\nAuth Token: ${response.authToken}`);
+			console.log(`Auth Token: ${response.authToken}`);
 		} else {
 			register(`The following errors occured:\n${response.errors.join("\n")}\n\nPlease try again.`)
 		}

@@ -78,27 +78,36 @@ export module AccountManager {
 
 	export async function logIn(creds: LogInCreds) {
 		let response: LogInResponse;
+		let error: any;
+		let user: any;
 
-		await User.where({ name: creds.name }).findOne((error, user) => {
-			bcrypt.compare(creds.password, user.password)
+		await User.where({ name: creds.name }).findOne((_error, _user) => {
+			error = _error;
+			user = _user;
+		});
+
+		if (error) {
+			response = { success: false }
+		}
+		else
+		{
+			await bcrypt.compare(creds.password, user.password)
 			.then(() => {
+				// Generate a new auth token on every login
 				let authToken: string = generateAuthToken();
 
-				user.authToken = authToken;
+				response = {
+					success: true,
+					authToken: authToken
+				}
 
-				user.save().then(() => {
-					response = {
-						success: true,
-						authToken: authToken
-					}
-				});
+				user.authToken = authToken;
+				user.save();
 			})
 			.catch(() => {
-				response = {
-					success: false
-				}
+				response = { success: false }
 			});
-		});
+		}
 
 		return response;
 	}
