@@ -1,8 +1,15 @@
-<div class="tab" *ngFor="let tab of tabs; first as isFirst; last as isLast;" [class.selected]="isFirst" [class.flashing]="isLast">
-	<div class="tab-roundout left"></div>
-	<div class="tab-inner">
-		<span>{{ tab }}</span>
-		<div class="tab-close"></div>
+<div class="container" #container>
+	<div class="tab" 
+	*ngFor="let tab of tabs; let i = index;"
+	(mousedown)="onMouseDown(tab, $event)"
+	[ngStyle]="tab.style"
+	[class.selected]="selectedTab == tab" 
+	[class.flashing]="tab.flashing">
+		<div class="tab-roundout left"></div>
+		<div class="tab-inner">
+			<span>{{ tab.title }}</span>
+			<div class="tab-close"></div>
+		</div>
+		<div class="tab-roundout right"></div>	
 	</div>
-	<div class="tab-roundout right"></div>	
 </div>
