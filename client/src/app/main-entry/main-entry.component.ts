@@ -14,20 +14,25 @@ export class MainEntryComponent implements OnInit {
 	@ViewChild("container") containerRef;
 	public get container(): HTMLHeadingElement { return this.containerRef.nativeElement; }
 
-	private animationDuration: number = 750;
-	private titlePaddingBottom: number = 16;
+	private animationDuration: number = 1500;
+	private titlePaddingBottom: number = 24;
 	public titleOffsetY: number = 0;
+	public titleCentered: boolean = true;
 	public contentVisible: boolean = false;
 
 	ngOnInit() {
 		setTimeout(() => {
-			this.titleOffsetY = this.container.clientHeight / 2 + 
-				this.title.clientHeight / 2 + 
+			this.titleOffsetY = this.container.clientHeight / 2 +
+				this.title.clientHeight / 2 +
 				this.titlePaddingBottom;
 
+			this.titleCentered = false; // Move title to top of form
+
 			setTimeout(() => {
-				this.contentVisible = true;
-			}, this.animationDuration);
-		}, this.animationDuration);
+				this.contentVisible = true; // Fade in the form
+			}, this.animationDuration / 2);
+		}, this.animationDuration / 2);
 	}
+
+	onClickRegister() { }
 }

@@ -27,9 +27,45 @@ $z-index: 9999;
 
 		text-align: center;
 
-		p {
-			width: 75px;
-			word-break: break-all;
+		a {
+			cursor: pointer;
+			display: inline-block;
+			margin-top: 20px;
+			font-size: 14px;
+			color: $text-color !important;
+			opacity: 0.5;
+			text-decoration: none;
+
+			transition: opacity 250ms ease-in;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+
+		form {
+			input[type=text],
+			input[type=password] {
+				display: block;
+				width: 210px;
+				height: 38px;
+				line-height: 38px;
+				padding: 0 8px;
+				margin-bottom: 10px;
+
+				font-size: 18px;
+				border-radius: 16px;
+				background-color: $background-color;
+				color: $text-color;
+				text-align: center;			
+
+				border: 0;
+				outline: 1px solid transparent;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
 		}
 	}
 }
