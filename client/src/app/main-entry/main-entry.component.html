@@ -11,19 +11,45 @@
 	opacity: contentVisible ? 1 : 0,
 	transition: 'opacity ' + animationDuration + 'ms ease'
 }">
-	<form *ngIf="!registering">
-		<input type="text" placeholder="Username">
-		<input type="password" placeholder="Password">
+	<div class="form"
+	*ngIf="!registering" 
+	[formGroup]="loginForm"
+	[class.allTouched]="loginFormAllTouched">
+		<input type="text"
+		formControlName="name"
+		placeholder="Username" 
+		(keyup.enter)="focusNext($event)">
+
+		<input type="password"
+		formControlName="password"		
+		placeholder="Password">
 
 		<a (click)="onClickRegister()">Register an account</a>
-	</form>
+	</div>
 
-	<form *ngIf="registering">
-		<input type="text" placeholder="Username">
-		<input type="text" placeholder="Email address">
-		<input type="password" placeholder="Password">
-		<input type="password" placeholder="Confirm Password">
+	<div class="form" 
+	*ngIf="registering" 
+	[formGroup]="registerForm"
+	[class.allTouched]="registerFormAllTouched">
+		<input type="text"
+		formControlName="name"		
+		placeholder="Username"
+		(keyup.enter)="focusNext($event)">
+		
+		<input type="text"
+		formControlName="email"		
+		placeholder="Email address"
+		(keyup.enter)="focusNext($event);">
+		
+		<input type="password"
+		formControlName="password"		
+		placeholder="Password"
+		(keyup.enter)="focusNext($event)">
+		
+		<input type="password"
+		formControlName="confirmPassword"		
+		placeholder="Confirm Password">
 
 		<a (click)="onClickLogIn()">Back to log in</a>
-	</form>
+	</div>
 </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { matchOtherValidator } from './match-other-validator';
 
 @Component({
 	selector: 'app-main-entry',
@@ -6,7 +8,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 	styleUrls: ['./main-entry.component.scss']
 })
 export class MainEntryComponent implements OnInit {
-	constructor() { }
+	constructor(private _formBuilder: FormBuilder) { 
+		this.createForms();
+	}
 
 	@ViewChild("title") titleRef;
 	public get title(): HTMLHeadingElement { return this.titleRef.nativeElement; }
@@ -21,6 +25,27 @@ export class MainEntryComponent implements OnInit {
 	public titleCentered: boolean = true;
 	public contentVisible: boolean = false;
 	public registering: boolean = false;
+
+	public loginForm: FormGroup;
+	public registerForm: FormGroup;
+	public loginFormAllTouched: boolean = false;
+	public registerFormAllTouched: boolean = false;
+
+	createForms(): void {
+		let emailRegex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		this.loginForm = this._formBuilder.group({
+			name: ["", Validators.required],
+			password: ["", Validators.required]
+		});
+
+		this.registerForm = this._formBuilder.group({
+			name: ["", Validators.compose([Validators.required, Validators.minLength(5)])],
+			email: ["", Validators.compose([Validators.required, Validators.pattern(emailRegex)])],
+			password: ["", Validators.required],
+			confirmPassword: ["", Validators.required, matchOtherValidator("password")],
+		});
+	}
 
 	calculateTitleOffset(): void {
 		this.titleOffsetY = this.container.clientHeight / 2 +
@@ -50,6 +75,12 @@ export class MainEntryComponent implements OnInit {
 		this.switchForm(false);
 	}
 
+	focusNext(e) {
+		let element = event.srcElement.nextElementSibling as HTMLElement;
+
+		if (element) element.focus();
+	}
+
 	switchForm(registering: boolean) {
 		if (this.animating) return;
 
@@ -61,6 +92,12 @@ export class MainEntryComponent implements OnInit {
 
 			setTimeout(() => {
 				this.registering = registering; // Display correct form
+
+				if (registering) {
+					this.registerForm.reset();					
+				} else {
+					this.loginForm.reset();
+				}
 
 				setTimeout(() => {
 					this.calculateTitleOffset();
