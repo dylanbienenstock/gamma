@@ -40,7 +40,7 @@ export class MainEntryComponent implements OnInit {
 		});
 
 		this.registerForm = this._formBuilder.group({
-			name: ["", Validators.compose([Validators.required, Validators.minLength(5)])],
+			name: ["", Validators.required],
 			email: ["", Validators.compose([Validators.required, Validators.pattern(emailRegex)])],
 			password: ["", Validators.required],
 			confirmPassword: ["", Validators.required, matchOtherValidator("password")],
