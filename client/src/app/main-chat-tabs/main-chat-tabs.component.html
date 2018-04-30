@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" onresize="onResize($event)">
 	<img src="{{ sidebars.contacts.visible ? 'assets/contacts.svg' : 'assets/contacts-hidden.svg' }}" 
 	class="panel-button left" 
 	(click)="onToggleContacts()">
@@ -12,7 +12,7 @@
 		[ngStyle]="{ 
 			transform: 'translate(' + (tab.offsetX - tab.order) + 'px, ' + (selectedTab == tab ? 6 : 7) + 'px)',
 			zIndex: 16 - tab.order,
-			transition: tab != draggingTab ? 'transform 300ms ease' : null,
+			transition: (tab != draggingTab && !resizing) ? 'transform 300ms ease' : null,
 			width: tabWidth + 'px'
 		}">
 			<div class="tab-roundout left"></div>
