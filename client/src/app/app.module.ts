@@ -10,6 +10,7 @@ import { MainChatComponent } from './main-chat/main-chat.component';
 import { MainOptionsComponent } from './main-options/main-options.component';
 import { MainChatTabsComponent } from './main-chat-tabs/main-chat-tabs.component';
 import { MainChatMessageContainerComponent } from './main-chat-message-container/main-chat-message-container.component';
+import { MainEntryComponent } from './main-entry/main-entry.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { MainChatMessageContainerComponent } from './main-chat-message-container
     MainOptionsComponent,
     MainChatTabsComponent,
     MainChatMessageContainerComponent,
+    MainEntryComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,35 @@
+@import "~global.scss";
+
+$z-index: 9999;
+
+:host {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: $z-index;
+
+	display: block;
+	width: 100vw;
+	height: 100vh;
+
+	background-color: $background-secondary-color;
+
+	.title {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		z-index: $z-index + 1;
+		color: $gamma;
+	}
+
+	.container {
+		@include center-absolute;
+
+		text-align: center;
+
+		p {
+			width: 75px;
+			word-break: break-all;
+		}
+	}
+}

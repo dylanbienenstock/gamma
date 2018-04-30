@@ -1,0 +1,15 @@
+<h1 class="title" #title
+[ngStyle]="{ 
+	transform: 'translate(-50%, calc(-50% - ' + titleOffsetY + 'px))',
+	transition: 'transform ' + animationDuration + 'ms ease'
+}">
+	gamma
+</h1>
+
+<div class="container" #container
+[ngStyle]="{
+	opacity: contentVisible ? 1 : 0,
+	transition: 'opacity ' + animationDuration + 'ms ease'
+}">
+	<p>jioasdjiosdajiosdjioajiodasjiojiodasjiodaskopdakoskodakopskopdkoakosdakosdkoakopsdkop</p>
+</div>
