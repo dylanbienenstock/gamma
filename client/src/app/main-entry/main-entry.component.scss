@@ -15,92 +15,112 @@ $z-index: 9999;
 
 		background-color: $background-secondary-color;
 
-		.title {
-			@include noselect;
+		.container-animatable {
+			width: 100vw;
+			height: 100vh;
 
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			z-index: $z-index + 1;
-			color: $gamma;
-		}
+			&.shaking {
+				$shake-distance: 32px;
+				$shake-duration: 500ms;
 
-		.container-inner {
-			@include center-absolute;
+				animation: "shake" $shake-duration ease-out;
 
-			text-align: center;
-
-			.form {
-				width: 0;
-				white-space: nowrap;
-
-				* {
-					transform: translateX(-50%);
+				@keyframes shake {
+					0% { transform: translateX(0); }
+					25% { transform: translateX($shake-distance); }
+					50% { transform: translateX(-$shake-distance); }
+					75% { transform: translateX($shake-distance); }
+					100% { transform: translateX(0); }
 				}
+			}
 
-				.switch-forms {
-					a {
-						cursor: pointer;
-						display: inline-block;
-						font-size: 14px;
-						color: $text-color !important;
-						opacity: 0.5;
-						text-decoration: none;
+			.title {
+				@include noselect;
 
-						transition: opacity 250ms ease;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				z-index: $z-index + 1;
+				color: $gamma;
+			}
 
-						&:hover {
-							opacity: 1;
+			.container-inner {
+				@include center-absolute;
+
+				text-align: center;
+
+				.form {
+					width: 0;
+					white-space: nowrap;
+
+					* {
+						transform: translateX(-50%);
+					}
+
+					.switch-forms {
+						a {
+							cursor: pointer;
+							display: inline-block;
+							font-size: 14px;
+							color: $text-color !important;
+							opacity: 0.5;
+							text-decoration: none;
+
+							transition: opacity 250ms ease;
+
+							&:hover {
+								opacity: 1;
+							}
 						}
 					}
-				}
 
-				.loading {
-					display: block;
-					position: relative;
-					height: 42px;
-					top: -30px;
+					.loading {
+						display: block;
+						position: relative;
+						height: 42px;
+						top: -30px;
 
-					transition: opacity 250ms ease;					
-				}
-
-				input {
-					display: block;
-					width: 210px;
-					height: 38px;
-					line-height: 38px;
-					padding: 0 8px;
-					margin-bottom: 10px;
-
-					font-size: 18px;
-					border-radius: 16px;
-					background-color: $background-color;
-					color: $text-color;
-					text-align: center;
-					transition: width 250ms ease,
-								border 350ms ease;
-
-					border: 1px solid transparent;
-					outline: 0;
-
-					&:last-of-type {
-						margin-bottom: 20px !important; 
+						transition: opacity 250ms ease;					
 					}
 
-					&:hover {
-						width: 225px;
-					}
+					input {
+						display: block;
+						width: 210px;
+						height: 38px;
+						line-height: 38px;
+						padding: 0 8px;
+						margin-bottom: 10px;
 
-					&.ng-touched.ng-invalid {
-						border: 1px solid #d64444;
-					}
-				}
+						font-size: 18px;
+						border-radius: 16px;
+						background-color: $background-color;
+						color: $text-color;
+						text-align: center;
+						transition: width 250ms ease,
+									border 350ms ease;
 
-				&.allTouched {
-					input[type=text],
-					input[type=password] {
-						&.ng-invalid {
+						border: 1px solid transparent;
+						outline: 0;
+
+						&:last-of-type {
+							margin-bottom: 20px !important; 
+						}
+
+						&:hover {
+							width: 225px;
+						}
+
+						&.ng-touched.ng-invalid {
 							border: 1px solid #d64444;
+						}
+					}
+
+					&.allTouched {
+						input[type=text],
+						input[type=password] {
+							&.ng-invalid {
+								border: 1px solid #d64444;
+							}
 						}
 					}
 				}

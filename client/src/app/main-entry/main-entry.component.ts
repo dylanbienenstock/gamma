@@ -38,7 +38,13 @@ export class MainEntryComponent implements OnInit {
 	public registerFormAllTouched: boolean = false;
 
 	public waiting: boolean = false;
+	public shaking: boolean = false;
+	public shakeDuration: number = 500; // Represents $shake-duration
 	public loggedIn: boolean = false;
+
+	private get suppressActions() {
+		return this.animating || this.waiting || this.shaking;
+	}
 
 	createForms(): void {
 		let emailRegex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -90,7 +96,17 @@ export class MainEntryComponent implements OnInit {
 		if (element) element.focus();
 	}
 
+	shake() {
+		this.shaking = true;
+
+		setTimeout(() => {
+			this.shaking = false;
+		}, this.shakeDuration);
+	}
+
 	logIn() {
+		if (this.suppressActions) return;
+
 		this.loginFormAllTouched = true;
 
 		if (this.loginForm.invalid) return;		
@@ -111,6 +127,12 @@ export class MainEntryComponent implements OnInit {
 					setTimeout(() => {
 						this.logInComplete.emit(data.authToken);
 					}, this.animationDuration);
+				} else {
+					this.loginForm.get("password").reset();
+					this.loginForm.get("password").markAsUntouched();
+					this.loginFormAllTouched = false;
+
+					this.shake();
 				}
 			});			
 		}, this.animationDuration);
@@ -122,7 +144,7 @@ export class MainEntryComponent implements OnInit {
 	}
 
 	switchForm(registering: boolean) {
-		if (this.animating || this.waiting) return;
+		if (this.suppressActions) return;
 
 		this.animating = true;
 		this.contentVisible = false; // Fade out form
