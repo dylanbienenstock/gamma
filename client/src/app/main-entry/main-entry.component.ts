@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { matchOtherValidator } from './match-other-validator';
 import { SocketService } from '../socket.service';
@@ -21,6 +21,8 @@ export class MainEntryComponent implements OnInit {
 
 	@ViewChild("container") containerRef;
 	public get container(): HTMLHeadingElement { return this.containerRef.nativeElement; }
+
+	@Output() logInComplete: EventEmitter<string> = new EventEmitter<string>();
 	
 	private animationDuration: number = 750;
 	private animating: boolean = true;
@@ -34,6 +36,8 @@ export class MainEntryComponent implements OnInit {
 	public registerForm: FormGroup;
 	public loginFormAllTouched: boolean = false;
 	public registerFormAllTouched: boolean = false;
+
+	public loggedIn: boolean = false;
 
 	createForms(): void {
 		let emailRegex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -91,8 +95,13 @@ export class MainEntryComponent implements OnInit {
 		let loginCreds = this.loginForm.value as LogInCreds;
 		let observable = this.socketService.logIn(loginCreds);
 
-		observable.subscribe((data: LogInResponse) => {
-			console.log(data);
+		let subscription = observable.subscribe((data: LogInResponse) => {
+			this.loggedIn = data.success;
+			subscription.unsubscribe();
+
+			setTimeout(() => {
+				this.logInComplete.emit(data.authToken);
+			}, this.animationDuration);
 		});
 	}
 

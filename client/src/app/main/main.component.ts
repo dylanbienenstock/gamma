@@ -10,6 +10,14 @@ export class MainComponent {
 
 	constructor() { }
 
+	public loggedIn: boolean = false;
+	public authToken: string;
+
+	public onLogInComplete(authToken) {
+		this.loggedIn = true;
+		this.authToken = authToken;
+	}
+
 	public sidebars = {
 		contacts: {
 			visible: true,
