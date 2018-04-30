@@ -44,6 +44,13 @@ $z-index: 9999;
 		}
 
 		form {
+			width: 0;
+			white-space: nowrap;
+
+			* {
+				transform: translateX(-50%);
+			}
+
 			input[type=text],
 			input[type=password] {
 				display: block;
@@ -57,13 +64,17 @@ $z-index: 9999;
 				border-radius: 16px;
 				background-color: $background-color;
 				color: $text-color;
-				text-align: center;			
+				text-align: center;
+				transition: width 250ms ease;
 
 				border: 0;
 				outline: 1px solid transparent;
 
-				&:last-child {
-					margin-bottom: 0;
+
+				&:last-child { margin-bottom: 0 !important; }
+
+				&:hover {
+					width: 225px;
 				}
 			}
 		}
