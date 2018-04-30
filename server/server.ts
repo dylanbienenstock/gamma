@@ -1,12 +1,20 @@
 import { config } from "./server.config";
 import { AccountManager } from "../gamma/module";
 import { LogInCreds, RegisterCreds, RegisterResponse } from "../gamma/account/types";
-import { disconnect } from "cluster";
 
 const p2pserver = require("socket.io-p2p-server").Server
 const io = require("socket.io")();
+const path = require("path");
+const express = require("express");
+const app = express();
 
 var users = {};
+
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
 
 (function initialize() {
 	AccountManager.initialize(config);
@@ -15,8 +23,13 @@ var users = {};
 })();
 
 function listen() {
-	let port = process.env.port || 8000;
-	console.log(`Listening on port ${port}`);
+	let expressPort: string = process.env.port || "8000";
+	let socketPort = "8001";
+
+	app.listen(expressPort, () => {
+		console.log(`Express listening on port ${expressPort}`);
+		console.log(`Socket.IO listening on port ${socketPort}`);
+	});
 
 	io.on("connection", (socket: SocketIO.Socket) => {
 		let loggedIn = false;
@@ -28,7 +41,7 @@ function listen() {
 			delete users[name];
 		});
 
-		socket.on("login request", (creds: RegisterCreds) => {
+		socket.on("login request", (creds: LogInCreds) => {
 			if (!loggedIn) {
 				AccountManager.logIn(creds)
 				.then((response) => {
@@ -84,6 +97,6 @@ function listen() {
 		});
 	});
 
-	io.listen(process.env.port || 8000);
+	io.listen(socketPort);
 	io.use(p2pserver);
 }
