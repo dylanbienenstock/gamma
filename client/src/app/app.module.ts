@@ -12,6 +12,10 @@ import { MainChatTabsComponent } from './main-chat-tabs/main-chat-tabs.component
 import { MainChatMessageContainerComponent } from './main-chat-message-container/main-chat-message-container.component';
 import { MainEntryComponent } from './main-entry/main-entry.component';
 
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+import { SocketService } from './socket.service';
+
+const config: SocketIoConfig = { url: 'http://localhost:8001', options: {} };
 
 @NgModule({
 	declarations: [
@@ -28,9 +32,12 @@ import { MainEntryComponent } from './main-entry/main-entry.component';
 		BrowserModule,
 		AppRoutingModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		SocketIoModule.forRoot(config)
 	],
-	providers: [],
+	providers: [
+		SocketService
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
