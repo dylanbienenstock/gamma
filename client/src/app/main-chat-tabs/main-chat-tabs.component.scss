@@ -27,8 +27,14 @@
 				border: 1px solid $chat-tabs-border-color;
 				border-bottom: 0;
 
+				overflow: hidden;
+
 				span {
 					@include noselect;
+
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
 
 					flex: 1;
 					font-size: 14px;
