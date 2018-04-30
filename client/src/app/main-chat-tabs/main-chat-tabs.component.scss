@@ -14,6 +14,8 @@
 			font-size: 0;
 			
 			.tab-inner {
+				display: flex;
+				flex-flow: row nowrap;
 				height: $chat-tabs-height;
 				line-height: $chat-tabs-height;
 				border-top-left-radius: $chat-tabs-border-radius;
@@ -28,12 +30,15 @@
 				span {
 					@include noselect;
 
+					flex: 1;
 					font-size: 14px;
 					color: rgba($text-color, 0.6);
 					transition: color $chat-tabs-transition-duration $chat-tabs-transition-function;			
 				}
 
 				.tab-close {
+					@include center-vertical;
+
 					cursor: pointer;
 
 					display: inline-block;
