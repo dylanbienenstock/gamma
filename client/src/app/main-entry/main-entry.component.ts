@@ -81,6 +81,14 @@ export class MainEntryComponent implements OnInit {
 		if (element) element.focus();
 	}
 
+	logIn() {
+		this.loginFormAllTouched = true;
+	}
+
+	register() {
+		this.registerFormAllTouched = true;
+	}
+
 	switchForm(registering: boolean) {
 		if (this.animating) return;
 

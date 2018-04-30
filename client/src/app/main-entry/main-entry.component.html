@@ -22,7 +22,8 @@
 
 		<input type="password"
 		formControlName="password"		
-		placeholder="Password">
+		placeholder="Password"
+		(keyup.enter)="logIn()">
 
 		<a (click)="onClickRegister()">Register an account</a>
 	</div>
@@ -48,7 +49,8 @@
 		
 		<input type="password"
 		formControlName="confirmPassword"		
-		placeholder="Confirm Password">
+		placeholder="Confirm Password"
+		(keyup.enter)="register()">
 
 		<a (click)="onClickLogIn()">Back to log in</a>
 	</div>
