@@ -3,92 +3,94 @@
 $z-index: 9999;
 
 :host {
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: $z-index;
-
-	display: block;
-	width: 100vw;
-	height: 100vh;
-
-	background-color: $background-secondary-color;
-
-	.title {
-		@include noselect;
-
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		z-index: $z-index + 1;
-		color: $gamma;
-	}
-
 	.container {
-		@include center-absolute;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: $z-index;
 
-		text-align: center;
+		display: block;
+		width: 100vw;
+		height: 100vh;
 
-		a {
-			cursor: pointer;
-			display: inline-block;
-			margin-top: 20px;
-			font-size: 14px;
-			color: $text-color !important;
-			opacity: 0.5;
-			text-decoration: none;
+		background-color: $background-secondary-color;
 
-			transition: opacity 250ms ease-in;
+		.title {
+			@include noselect;
 
-			&:hover {
-				opacity: 1;
-			}
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			z-index: $z-index + 1;
+			color: $gamma;
 		}
 
-		.form {
-			width: 0;
-			white-space: nowrap;
+		.container-inner {
+			@include center-absolute;
 
-			* {
-				transform: translateX(-50%);
-			}
+			text-align: center;
 
-			input[type=text],
-			input[type=password] {
-				display: block;
-				width: 210px;
-				height: 38px;
-				line-height: 38px;
-				padding: 0 8px;
-				margin-bottom: 10px;
+			a {
+				cursor: pointer;
+				display: inline-block;
+				margin-top: 20px;
+				font-size: 14px;
+				color: $text-color !important;
+				opacity: 0.5;
+				text-decoration: none;
 
-				font-size: 18px;
-				border-radius: 16px;
-				background-color: $background-color;
-				color: $text-color;
-				text-align: center;
-				transition: width 250ms ease,
-							border 350ms ease;
-
-				border: 1px solid transparent;
-				outline: 0;
-
-				&:last-child { margin-bottom: 0 !important; }
+				transition: opacity 250ms ease-in;
 
 				&:hover {
-					width: 225px;
-				}
-
-				&.ng-touched.ng-invalid {
-					border: 1px solid #d64444;
+					opacity: 1;
 				}
 			}
 
-			&.allTouched {
+			.form {
+				width: 0;
+				white-space: nowrap;
+
+				* {
+					transform: translateX(-50%);
+				}
+
 				input[type=text],
 				input[type=password] {
-					&.ng-invalid {
+					display: block;
+					width: 210px;
+					height: 38px;
+					line-height: 38px;
+					padding: 0 8px;
+					margin-bottom: 10px;
+
+					font-size: 18px;
+					border-radius: 16px;
+					background-color: $background-color;
+					color: $text-color;
+					text-align: center;
+					transition: width 250ms ease,
+								border 350ms ease;
+
+					border: 1px solid transparent;
+					outline: 0;
+
+					&:last-child { margin-bottom: 0 !important; }
+
+					&:hover {
+						width: 225px;
+					}
+
+					&.ng-touched.ng-invalid {
 						border: 1px solid #d64444;
+					}
+				}
+
+				&.allTouched {
+					input[type=text],
+					input[type=password] {
+						&.ng-invalid {
+							border: 1px solid #d64444;
+						}
 					}
 				}
 			}

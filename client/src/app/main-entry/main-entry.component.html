@@ -1,57 +1,63 @@
-<h1 class="title" #title
-[ngStyle]="{ 
-	transform: 'translate(-50%, calc(-50% - ' + (titleCentered ? 0 : titleOffsetY) + 'px))',
-	transition: 'transform ' + animationDuration + 'ms ease'
-}">
-	gamma
-</h1>
-
-<div class="container" #container
+<div class="container" 
 [ngStyle]="{
-	opacity: contentVisible ? 1 : 0,
+	opacity: loggedIn ? 0 : 1,
 	transition: 'opacity ' + animationDuration + 'ms ease'
 }">
-	<div class="form"
-	*ngIf="!registering" 
-	[formGroup]="loginForm"
-	[class.allTouched]="loginFormAllTouched">
-		<input type="text"
-		formControlName="name"
-		placeholder="Username" 
-		(keyup.enter)="focusNext($event)">
+	<h1 class="title" #title
+	[ngStyle]="{ 
+		transform: 'translate(-50%, calc(-50% - ' + (titleCentered ? 0 : titleOffsetY) + 'px))',
+		transition: 'transform ' + animationDuration + 'ms ease'
+	}">
+		gamma
+	</h1>
 
-		<input type="password"
-		formControlName="password"		
-		placeholder="Password"
-		(keyup.enter)="logIn()">
+	<div class="container-inner" #container
+	[ngStyle]="{
+		opacity: contentVisible ? 1 : 0,
+		transition: 'opacity ' + animationDuration + 'ms ease'
+	}">
+		<div class="form"
+		*ngIf="!registering" 
+		[formGroup]="loginForm"
+		[class.allTouched]="loginFormAllTouched">
+			<input type="text"
+			formControlName="name"
+			placeholder="Username" 
+			(keyup.enter)="focusNext($event)">
 
-		<a (click)="onClickRegister()">Register an account</a>
-	</div>
+			<input type="password"
+			formControlName="password"		
+			placeholder="Password"
+			(keyup.enter)="logIn()">
 
-	<div class="form" 
-	*ngIf="registering" 
-	[formGroup]="registerForm"
-	[class.allTouched]="registerFormAllTouched">
-		<input type="text"
-		formControlName="name"		
-		placeholder="Username"
-		(keyup.enter)="focusNext($event)">
-		
-		<input type="text"
-		formControlName="email"		
-		placeholder="Email address"
-		(keyup.enter)="focusNext($event);">
-		
-		<input type="password"
-		formControlName="password"		
-		placeholder="Password"
-		(keyup.enter)="focusNext($event)">
-		
-		<input type="password"
-		formControlName="confirmPassword"		
-		placeholder="Confirm Password"
-		(keyup.enter)="register()">
+			<a (click)="onClickRegister()">Register an account</a>
+		</div>
 
-		<a (click)="onClickLogIn()">Back to log in</a>
+		<div class="form" 
+		*ngIf="registering" 
+		[formGroup]="registerForm"
+		[class.allTouched]="registerFormAllTouched">
+			<input type="text"
+			formControlName="name"		
+			placeholder="Username"
+			(keyup.enter)="focusNext($event)">
+			
+			<input type="text"
+			formControlName="email"		
+			placeholder="Email address"
+			(keyup.enter)="focusNext($event);">
+			
+			<input type="password"
+			formControlName="password"		
+			placeholder="Password"
+			(keyup.enter)="focusNext($event)">
+			
+			<input type="password"
+			formControlName="confirmPassword"		
+			placeholder="Confirm Password"
+			(keyup.enter)="register()">
+
+			<a (click)="onClickLogIn()">Back to log in</a>
+		</div>
 	</div>
 </div>
