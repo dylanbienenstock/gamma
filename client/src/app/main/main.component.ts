@@ -19,21 +19,26 @@ export class MainComponent {
 	}
 
 	public sidebars = {
+		// animationDuration must match
+		// $sidebar-animation-duration in global.scss
+		animationDuration: 600,
 		contacts: {
 			visible: true,
-			previouslyHidden: false
+			previouslyHidden: false,
+			animating: false
 		},
 		options: {
 			visible: true,
-			previouslyHidden: false
+			previouslyHidden: false,
+			animating: false			
 		}
 	}
 
-	public hideSidebar(sidebar: string) {
+	private hideSidebar(sidebar: string) {
 		this.sidebars[sidebar].visible = false;
 	}
 
-	public showSidebar(sidebar: string) {
+	private showSidebar(sidebar: string) {
 		if (!this.sidebars[sidebar].visible) {
 			this.sidebars[sidebar].previouslyHidden = true;
 		}
@@ -42,10 +47,18 @@ export class MainComponent {
 	}
 
 	public onToggleSidebar(sidebar: string) {
+		if (this.sidebars[sidebar].animating) return;
+
 		if (this.sidebars[sidebar].visible) {
 			this.hideSidebar(sidebar);
 		} else {
 			this.showSidebar(sidebar);
 		}
+
+		this.sidebars[sidebar].animating = true;
+
+		setTimeout(() => {
+			this.sidebars[sidebar].animating = false;
+		}, this.sidebars.animationDuration);
 	}
 }
