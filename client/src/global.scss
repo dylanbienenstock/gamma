@@ -46,6 +46,13 @@ $chat-tabs-transition-function: ease;
 	transform: translateY(-50%);
 }
 
+@mixin center-absolute {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
 @mixin noselect {
     -webkit-user-select: none;
     -moz-user-select: none;
