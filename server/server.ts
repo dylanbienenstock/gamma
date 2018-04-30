@@ -2,13 +2,19 @@ import { config } from "./server.config";
 import { AccountManager } from "../gamma/module";
 import { LogInCreds, RegisterCreds, RegisterResponse } from "../gamma/account/types";
 
-const p2pserver = require("socket.io-p2p-server").Server
-const io = require("socket.io")();
 const path = require("path");
+
 const express = require("express");
 const app = express();
+const http = require("http").createServer(app);
+
+const io = require("socket.io")(http);
+// const p2pserver = require("socket.io-p2p-server").Server
 
 var users = {};
+
+
+// io.use(p2pserver);
 
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
@@ -23,12 +29,10 @@ app.get("*", (req, res) => {
 })();
 
 function listen() {
-	let expressPort: string = process.env.port || "8000";
-	let socketPort = "8001";
+	let port: string = process.env.port || "8000";
 
-	app.listen(expressPort, () => {
-		console.log(`Express listening on port ${expressPort}`);
-		console.log(`Socket.IO listening on port ${socketPort}`);
+	http.listen(port, () => {
+		console.log(`Listening on port ${port}`);
 	});
 
 	io.on("connection", (socket: SocketIO.Socket) => {
@@ -81,7 +85,7 @@ function listen() {
 					if (valid) {
 						currentRoom = data.room;
 						socket.join(data.room);
-						p2pserver(socket, null, data.room);
+						// p2pserver(socket, null, data.room);
 					}
 				});
 			}
@@ -97,6 +101,4 @@ function listen() {
 		});
 	});
 
-	io.listen(socketPort);
-	io.use(p2pserver);
 }
