@@ -50,8 +50,8 @@ export class MainChatTabsComponent implements OnInit {
 
 	@HostListener("document:mouseup", ["$event"])
 	onMouseUp(e) {
-		this.dragging = false;
-
+		if (!this.dragging) return;
+		
 		let tab = this.tabs.find(tab => tab.order == this.draggingTab.order);
 		let offsetX = 0;
 
@@ -61,6 +61,7 @@ export class MainChatTabsComponent implements OnInit {
 			offsetX += this.tabWidth;
 		}
 
+		this.dragging = false;
 		this.draggingTab.offsetX = offsetX;
 		this.draggingTab = null;
 	}
