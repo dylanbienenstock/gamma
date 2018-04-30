@@ -86,7 +86,7 @@ export class MainChatTabsComponent implements OnInit {
 		if (this.dragging) {
 			// Move the dragged tab
 			let difference = e.screenX - this.dragStartX;
-			let containerWidth = this.container.clientWidth - this.tabWidth - 12;
+			let containerWidth = this.container.clientWidth - this.tabWidth + 3;
 			this.draggingTab.offsetX = Math.min(containerWidth, Math.max(0, difference));
 
 			// Copy the array
