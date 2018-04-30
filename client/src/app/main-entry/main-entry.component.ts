@@ -13,26 +13,67 @@ export class MainEntryComponent implements OnInit {
 
 	@ViewChild("container") containerRef;
 	public get container(): HTMLHeadingElement { return this.containerRef.nativeElement; }
-
-	private animationDuration: number = 1500;
+	
+	private animationDuration: number = 750;
+	private animating: boolean = true;
 	private titlePaddingBottom: number = 24;
 	public titleOffsetY: number = 0;
 	public titleCentered: boolean = true;
 	public contentVisible: boolean = false;
+	public registering: boolean = false;
+
+	calculateTitleOffset(): void {
+		this.titleOffsetY = this.container.clientHeight / 2 +
+			this.title.clientHeight / 2 +
+			this.titlePaddingBottom;
+	}
 
 	ngOnInit() {
 		setTimeout(() => {
-			this.titleOffsetY = this.container.clientHeight / 2 +
-				this.title.clientHeight / 2 +
-				this.titlePaddingBottom;
+			this.calculateTitleOffset();
 
 			this.titleCentered = false; // Move title to top of form
 
 			setTimeout(() => {
-				this.contentVisible = true; // Fade in the form
-			}, this.animationDuration / 2);
-		}, this.animationDuration / 2);
+				this.contentVisible = true; // Fade in form
+				this.animating = false; // Done animating
+				
+			}, this.animationDuration);
+		}, this.animationDuration);
 	}
 
-	onClickRegister() { }
+	onClickRegister() {
+		this.switchForm(true);
+	}
+
+	onClickLogIn() {
+		this.switchForm(false);
+	}
+
+	switchForm(registering: boolean) {
+		if (this.animating) return;
+
+		this.animating = true;
+		this.contentVisible = false; // Fade out form
+
+		setTimeout(() => {
+			this.titleCentered = true; // Re-center title
+
+			setTimeout(() => {
+				this.registering = registering; // Display correct form
+
+				setTimeout(() => {
+					this.calculateTitleOffset();
+
+					this.titleCentered = false;
+
+					setTimeout(() => {
+						this.contentVisible = true; // Fade in form
+						this.animating = false;
+
+					}, this.animationDuration);
+				}, this.animationDuration);
+			}, this.animationDuration);
+		}, this.animationDuration);
+	}
 }

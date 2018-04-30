@@ -1,7 +1,7 @@
 <h1 class="title" #title
 [ngStyle]="{ 
 	transform: 'translate(-50%, calc(-50% - ' + (titleCentered ? 0 : titleOffsetY) + 'px))',
-	transition: 'transform ' + animationDuration / 2 + 'ms ease'
+	transition: 'transform ' + animationDuration + 'ms ease'
 }">
 	gamma
 </h1>
@@ -9,12 +9,21 @@
 <div class="container" #container
 [ngStyle]="{
 	opacity: contentVisible ? 1 : 0,
-	transition: 'opacity ' + animationDuration / 2 + 'ms ease'
+	transition: 'opacity ' + animationDuration + 'ms ease'
 }">
-	<form>
+	<form *ngIf="!registering">
 		<input type="text" placeholder="Username">
 		<input type="password" placeholder="Password">
+
+		<a (click)="onClickRegister()">Register an account</a>
 	</form>
 
-	<a (click)="onClickRegister()">Register an account</a>
+	<form *ngIf="registering">
+		<input type="text" placeholder="Username">
+		<input type="text" placeholder="Email address">
+		<input type="password" placeholder="Password">
+		<input type="password" placeholder="Confirm Password">
+
+		<a (click)="onClickLogIn()">Back to log in</a>
+	</form>
 </div>
