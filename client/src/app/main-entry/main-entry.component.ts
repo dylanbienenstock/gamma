@@ -102,9 +102,11 @@ export class MainEntryComponent implements OnInit {
 				this.registering = registering; // Display correct form
 
 				if (registering) {
-					this.registerForm.reset();					
+					this.registerForm.reset();	
+					this.registerFormAllTouched = false;			
 				} else {
 					this.loginForm.reset();
+					this.loginFormAllTouched = false;
 				}
 
 				setTimeout(() => {
