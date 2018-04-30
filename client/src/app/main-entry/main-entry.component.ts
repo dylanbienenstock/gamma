@@ -37,6 +37,7 @@ export class MainEntryComponent implements OnInit {
 	public loginFormAllTouched: boolean = false;
 	public registerFormAllTouched: boolean = false;
 
+	public waiting: boolean = false;
 	public loggedIn: boolean = false;
 
 	createForms(): void {
@@ -92,19 +93,28 @@ export class MainEntryComponent implements OnInit {
 	logIn() {
 		this.loginFormAllTouched = true;
 
-		let loginCreds = this.loginForm.value as LogInCreds;
-		let observable = this.socketService.logIn(loginCreds);
+		if (this.loginForm.invalid) return;		
 
-		let subscription = observable.subscribe((data: LogInResponse) => {
-			this.loggedIn = data.success;
-			subscription.unsubscribe();
+		this.waiting = true;
 
-			if (data.success) {
-				setTimeout(() => {
-					this.logInComplete.emit(data.authToken);
-				}, this.animationDuration);
-			}
-		});
+		setTimeout(() => {
+			let loginCreds = this.loginForm.value as LogInCreds;
+			let observable = this.socketService.logIn(loginCreds);
+
+			let subscription = observable.subscribe((data: LogInResponse) => {
+				this.waiting = false;
+				this.loggedIn = data.success;
+
+				subscription.unsubscribe();
+
+				if (data.success) {
+					setTimeout(() => {
+						this.logInComplete.emit(data.authToken);
+					}, this.animationDuration);
+				}
+			});			
+		}, this.animationDuration);
+
 	}
 
 	register() {
@@ -112,7 +122,7 @@ export class MainEntryComponent implements OnInit {
 	}
 
 	switchForm(registering: boolean) {
-		if (this.animating) return;
+		if (this.animating || this.waiting) return;
 
 		this.animating = true;
 		this.contentVisible = false; // Fade out form

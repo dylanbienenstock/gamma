@@ -30,22 +30,6 @@ $z-index: 9999;
 
 			text-align: center;
 
-			a {
-				cursor: pointer;
-				display: inline-block;
-				margin-top: 20px;
-				font-size: 14px;
-				color: $text-color !important;
-				opacity: 0.5;
-				text-decoration: none;
-
-				transition: opacity 250ms ease-in;
-
-				&:hover {
-					opacity: 1;
-				}
-			}
-
 			.form {
 				width: 0;
 				white-space: nowrap;
@@ -54,8 +38,33 @@ $z-index: 9999;
 					transform: translateX(-50%);
 				}
 
-				input[type=text],
-				input[type=password] {
+				.switch-forms {
+					a {
+						cursor: pointer;
+						display: inline-block;
+						font-size: 14px;
+						color: $text-color !important;
+						opacity: 0.5;
+						text-decoration: none;
+
+						transition: opacity 250ms ease;
+
+						&:hover {
+							opacity: 1;
+						}
+					}
+				}
+
+				.loading {
+					display: block;
+					position: relative;
+					height: 42px;
+					top: -30px;
+
+					transition: opacity 250ms ease;					
+				}
+
+				input {
 					display: block;
 					width: 210px;
 					height: 38px;
@@ -74,7 +83,9 @@ $z-index: 9999;
 					border: 1px solid transparent;
 					outline: 0;
 
-					&:last-child { margin-bottom: 0 !important; }
+					&:last-of-type {
+						margin-bottom: 20px !important; 
+					}
 
 					&:hover {
 						width: 225px;

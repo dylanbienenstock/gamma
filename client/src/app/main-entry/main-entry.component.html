@@ -30,7 +30,13 @@
 			placeholder="Password"
 			(keyup.enter)="logIn()">
 
-			<a (click)="onClickRegister()">Register an account</a>
+			<div class="switch-forms" [ngStyle]="{ opacity: waiting ? 0 : 1 }">
+				<a (click)="onClickRegister()">Register an account</a>
+			</div>
+
+			<img src="assets/loading.svg" 
+			class="loading" 
+			[ngStyle]="{ opacity: waiting ? 1 : 0 }">
 		</div>
 
 		<div class="form" 
@@ -57,7 +63,9 @@
 			placeholder="Confirm Password"
 			(keyup.enter)="register()">
 
-			<a (click)="onClickLogIn()">Back to log in</a>
+			<div class="switch-forms">
+				<a (click)="onClickLogIn()">Back to log in</a>
+			</div>
 		</div>
 	</div>
 </div>
