@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { matchOtherValidator } from './match-other-validator';
+import { SocketService } from '../socket.service';
+import { LogInCreds, LogInResponse } from '../../../../gamma/account/types';
 
 @Component({
 	selector: 'app-main-entry',
@@ -8,7 +10,9 @@ import { matchOtherValidator } from './match-other-validator';
 	styleUrls: ['./main-entry.component.scss']
 })
 export class MainEntryComponent implements OnInit {
-	constructor(private _formBuilder: FormBuilder) { 
+	constructor(private _formBuilder: FormBuilder,
+				private socketService: SocketService) {
+
 		this.createForms();
 	}
 
@@ -83,6 +87,13 @@ export class MainEntryComponent implements OnInit {
 
 	logIn() {
 		this.loginFormAllTouched = true;
+
+		let loginCreds = this.loginForm.value as LogInCreds;
+		let observable = this.socketService.logIn(loginCreds);
+
+		observable.subscribe((data: LogInResponse) => {
+			console.log(data);
+		});
 	}
 
 	register() {
