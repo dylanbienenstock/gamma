@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -14,21 +14,23 @@ import { MainEntryComponent } from './main-entry/main-entry.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MainComponent,
-    MainContactsComponent,
-    MainChatComponent,
-    MainOptionsComponent,
-    MainChatTabsComponent,
-    MainChatMessageContainerComponent,
-    MainEntryComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		MainComponent,
+		MainContactsComponent,
+		MainChatComponent,
+		MainOptionsComponent,
+		MainChatTabsComponent,
+		MainChatMessageContainerComponent,
+		MainEntryComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		FormsModule,
+		ReactiveFormsModule
+	],
+	providers: [],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }
