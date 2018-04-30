@@ -45,7 +45,7 @@ $z-index: 9999;
 			}
 		}
 
-		form {
+		.form {
 			width: 0;
 			white-space: nowrap;
 
@@ -67,16 +67,29 @@ $z-index: 9999;
 				background-color: $background-color;
 				color: $text-color;
 				text-align: center;
-				transition: width 250ms ease;
+				transition: width 250ms ease,
+							border 350ms ease;
 
-				border: 0;
-				outline: 1px solid transparent;
-
+				border: 1px solid transparent;
+				outline: 0;
 
 				&:last-child { margin-bottom: 0 !important; }
 
 				&:hover {
 					width: 225px;
+				}
+
+				&.ng-touched.ng-invalid {
+					border: 1px solid #d64444;
+				}
+			}
+
+			&.allTouched {
+				input[type=text],
+				input[type=password] {
+					&.ng-invalid {
+						border: 1px solid #d64444;
+					}
 				}
 			}
 		}
