@@ -99,9 +99,11 @@ export class MainEntryComponent implements OnInit {
 			this.loggedIn = data.success;
 			subscription.unsubscribe();
 
-			setTimeout(() => {
-				this.logInComplete.emit(data.authToken);
-			}, this.animationDuration);
+			if (data.success) {
+				setTimeout(() => {
+					this.logInComplete.emit(data.authToken);
+				}, this.animationDuration);
+			}
 		});
 	}
 
