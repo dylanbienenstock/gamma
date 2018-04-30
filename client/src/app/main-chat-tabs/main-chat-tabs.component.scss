@@ -9,9 +9,7 @@
 
 		.tab {
 			display: inline-flex;
-			position: relative;
-			top: 100%;
-			transform: translateY(-100%);
+			position: absolute;
 			vertical-align: top;
 			font-size: 0;
 			
