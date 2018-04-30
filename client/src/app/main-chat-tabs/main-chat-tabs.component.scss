@@ -2,164 +2,183 @@
 
 :host {
 	.container {
-		display: block;
+		display: flex;
+		flex-flow: row nowrap;
 		height: $top-bar-height;
-		padding-left: $chat-tabs-border-radius;
+		padding: 0 $chat-tabs-border-radius;
 		background-color: $background-tertiary-color;
+		font-size: 0;
 
-		.tab {
-			display: inline-flex;
-			position: absolute;
+		.panel-button {
+			@include center-vertical;
+
+			cursor: pointer;
+			display: inline-block;
+			width: 25px;
+
+			&.left { margin-right: $chat-tabs-border-radius; }
+			&.right { margin-left: $chat-tabs-border-radius; }
+		}
+
+		.container-inner {
+			flex: 1;
+			display: inline-block;
 			vertical-align: top;
-			font-size: 0;
-			
-			.tab-inner {
-				display: flex;
-				flex-flow: row nowrap;
-				height: $chat-tabs-height;
-				line-height: $chat-tabs-height;
-				border-top-left-radius: $chat-tabs-border-radius;
-				border-top-right-radius: $chat-tabs-border-radius;
 
-				padding: 0 10px 0 12px;
-				background-color: $chat-tabs-background-color;
-				transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function;					
-				border: 1px solid $chat-tabs-border-color;
-				border-bottom: 0;
-
-				overflow: hidden;
-
-				span {
-					@include noselect;
-
-					white-space: nowrap;
-					overflow: hidden;
-					text-overflow: ellipsis;
-
-					flex: 1;
-					font-size: 14px;
-					color: rgba($text-color, 0.6);
-					transition: color $chat-tabs-transition-duration $chat-tabs-transition-function;			
-				}
-
-				.tab-close {
-					@include center-vertical;
-
-					cursor: pointer;
-
-					display: inline-block;
-					width: 10px;
-					height: 10px;
-					border-radius: 50%;
-					margin-left: 12px;
-
-					transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function;				
-					background-color: $background-tertiary-color;				
-
-					&:hover {
-						background-color: rgb(224, 72, 72);
-					}
-				}
-			}
-
-			.tab-roundout {
-				display: inline-block;
+			.tab {
+				display: inline-flex;
 				position: absolute;
-				bottom: -1px;
-				width: $chat-tabs-border-radius;
-				height: $chat-tabs-border-radius;
-				border: 1px solid $chat-tabs-border-color;
-				transition: box-shadow $chat-tabs-transition-duration $chat-tabs-transition-function;									
-			}
-
-			.tab-roundout.left {
-				z-index: 0;
+				vertical-align: top;
+				font-size: 0;
 				
-				border-bottom-right-radius: $chat-tabs-border-radius;
-				border-width: 0 1px 1px 0;
-				left: -$chat-tabs-border-radius;
-				box-shadow: 2px 2px 0 $chat-tabs-background-color;
-			}
-
-			.tab-roundout.right {
-				z-index: 3;
-				
-				position: absolute;
-				border-bottom-left-radius: $chat-tabs-border-radius;
-				border-width: 0 0 1px 1px;
-				left: calc(100% - 1px);
-				box-shadow: -2px 2px 0 $chat-tabs-background-color;
-			}
-
-			&:hover:not(.selected) {
 				.tab-inner {
-					background-color: $chat-tabs-hovered-background-color;
+					display: flex;
+					flex-flow: row nowrap;
+					height: $chat-tabs-height;
+					line-height: $chat-tabs-height;
+					border-top-left-radius: $chat-tabs-border-radius;
+					border-top-right-radius: $chat-tabs-border-radius;
 
-					span {
-						color: $text-color;
-					}
-				}
-
-				.tab-roundout.left {
-					box-shadow: 2px 2px 0 $chat-tabs-hovered-background-color;
-				}
-
-				.tab-roundout.right {
-					box-shadow: -2px 2px 0 $chat-tabs-hovered-background-color;
-				}
-			}
-
-			&.selected {
-				z-index: 17 !important;
-				border-left: 0;
-
-				.tab-inner {
-					height: $chat-tabs-height + 1px;
-					transform: translateY(1px);
-					background-color: $chat-tabs-selected-background-color;
-					border: 1px solid $chat-tabs-selected-border-color;
+					padding: 0 10px 0 12px;
+					background-color: $chat-tabs-background-color;
+					transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function;					
+					border: 1px solid $chat-tabs-border-color;
 					border-bottom: 0;
-					transition: unset !important;
+
+					overflow: hidden;
 
 					span {
-						color: $text-color;
-						transition: unset !important;					
+						@include noselect;
+
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+
+						flex: 1;
+						font-size: 14px;
+						color: rgba($text-color, 0.6);
+						transition: color $chat-tabs-transition-duration $chat-tabs-transition-function;			
+					}
+
+					.tab-close {
+						@include center-vertical;
+
+						cursor: pointer;
+
+						display: inline-block;
+						width: 10px;
+						height: 10px;
+						border-radius: 50%;
+						margin-left: 12px;
+
+						transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function;				
+						background-color: $background-tertiary-color;				
+
+						&:hover {
+							background-color: rgb(224, 72, 72);
+						}
 					}
 				}
 
 				.tab-roundout {
-					border-color: $chat-tabs-selected-border-color !important;
-					transition: unset !important;				
+					display: inline-block;
+					position: absolute;
+					bottom: -1px;
+					width: $chat-tabs-border-radius;
+					height: $chat-tabs-border-radius;
+					border: 1px solid $chat-tabs-border-color;
+					transition: box-shadow $chat-tabs-transition-duration $chat-tabs-transition-function;									
 				}
 
 				.tab-roundout.left {
-					z-index: 2;
-					box-shadow: 4px 4px 0 $chat-tabs-selected-background-color !important;
+					z-index: 0;
+					
+					border-bottom-right-radius: $chat-tabs-border-radius;
+					border-width: 0 1px 1px 0;
+					left: -$chat-tabs-border-radius;
+					box-shadow: 2px 2px 0 $chat-tabs-background-color;
 				}
 
 				.tab-roundout.right {
-					box-shadow: -4px 4px 0 $chat-tabs-selected-background-color !important;
-				}
-			}
-
-			&.flashing {
-				.tab-inner { animation: "tab-inner-flash" 4s $chat-tabs-transition-function 0s infinite; }
-				.tab-roundout.left { animation: "tab-roundout-left-flash" 4s $chat-tabs-transition-function 0s infinite; }
-				.tab-roundout.right { animation: "tab-roundout-right-flash" 4s $chat-tabs-transition-function 0s infinite; }
-
-				@keyframes tab-inner-flash {
-					0% { background-color: $chat-tabs-hovered-background-color; }
-					25%, 100% { background-color: $chat-tabs-background-color; }
+					z-index: 3;
+					
+					position: absolute;
+					border-bottom-left-radius: $chat-tabs-border-radius;
+					border-width: 0 0 1px 1px;
+					left: calc(100% - 1px);
+					box-shadow: -2px 2px 0 $chat-tabs-background-color;
 				}
 
-				@keyframes tab-roundout-left-flash {
-					0% { box-shadow: 2px 2px 0 $chat-tabs-hovered-background-color; }
-					25%, 100% { box-shadow: 2px 2px 0 $chat-tabs-background-color; }
+				&:hover:not(.selected) {
+					.tab-inner {
+						background-color: $chat-tabs-hovered-background-color;
+
+						span {
+							color: $text-color;
+						}
+					}
+
+					.tab-roundout.left {
+						box-shadow: 2px 2px 0 $chat-tabs-hovered-background-color;
+					}
+
+					.tab-roundout.right {
+						box-shadow: -2px 2px 0 $chat-tabs-hovered-background-color;
+					}
 				}
 
-				@keyframes tab-roundout-right-flash {
-					0% { box-shadow: -2px 2px 0 $chat-tabs-hovered-background-color; }
-					25%, 100% { box-shadow: -2px 2px 0 $chat-tabs-background-color; }
+				&.selected {
+					z-index: 17 !important;
+					border-left: 0;
+
+					.tab-inner {
+						height: $chat-tabs-height + 1px;
+						transform: translateY(1px);
+						background-color: $chat-tabs-selected-background-color;
+						border: 1px solid $chat-tabs-selected-border-color;
+						border-bottom: 0;
+						transition: unset !important;
+
+						span {
+							color: $text-color;
+							transition: unset !important;					
+						}
+					}
+
+					.tab-roundout {
+						border-color: $chat-tabs-selected-border-color !important;
+						transition: unset !important;				
+					}
+
+					.tab-roundout.left {
+						z-index: 2;
+						box-shadow: 4px 4px 0 $chat-tabs-selected-background-color !important;
+					}
+
+					.tab-roundout.right {
+						box-shadow: -4px 4px 0 $chat-tabs-selected-background-color !important;
+					}
+				}
+
+				&.flashing {
+					.tab-inner { animation: "tab-inner-flash" 4s $chat-tabs-transition-function 0s infinite; }
+					.tab-roundout.left { animation: "tab-roundout-left-flash" 4s $chat-tabs-transition-function 0s infinite; }
+					.tab-roundout.right { animation: "tab-roundout-right-flash" 4s $chat-tabs-transition-function 0s infinite; }
+
+					@keyframes tab-inner-flash {
+						0% { background-color: $chat-tabs-hovered-background-color; }
+						25%, 100% { background-color: $chat-tabs-background-color; }
+					}
+
+					@keyframes tab-roundout-left-flash {
+						0% { box-shadow: 2px 2px 0 $chat-tabs-hovered-background-color; }
+						25%, 100% { box-shadow: 2px 2px 0 $chat-tabs-background-color; }
+					}
+
+					@keyframes tab-roundout-right-flash {
+						0% { box-shadow: -2px 2px 0 $chat-tabs-hovered-background-color; }
+						25%, 100% { box-shadow: -2px 2px 0 $chat-tabs-background-color; }
+					}
 				}
 			}
 		}

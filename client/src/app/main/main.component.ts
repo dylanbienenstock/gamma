@@ -32,4 +32,12 @@ export class MainComponent {
 
 		this.sidebars[sidebar].visible = true;
 	}
+
+	public onToggleSidebar(sidebar: string) {
+		if (this.sidebars[sidebar].visible) {
+			this.hideSidebar(sidebar);
+		} else {
+			this.showSidebar(sidebar);
+		}
+	}
 }

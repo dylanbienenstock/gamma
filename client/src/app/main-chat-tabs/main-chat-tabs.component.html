@@ -1,20 +1,30 @@
-<div class="container" #container>
-	<div class="tab" 
-	*ngFor="let tab of tabs; let i = index;"
-	(mousedown)="onMouseDown(tab, $event)"
-	[class.selected]="selectedTab == tab" 
-	[class.flashing]="tab.flashing"
-	[ngStyle]="{ 
-		transform: 'translate(' + (tab.offsetX - tab.order) + 'px, ' + (selectedTab == tab ? 6 : 7) + 'px',
-		zIndex: 16 - tab.order,
-		transition: tab != draggingTab ? 'transform 300ms ease' : null,
-		width: tabWidth + 'px'
-	}">
-		<div class="tab-roundout left"></div>
-		<div class="tab-inner" [ngStyle]="{ width: tabWidth + 'px' }">
-			<span>{{ tab.order }} {{ tab.title }}</span>
-			<div class="tab-close"></div>
+<div class="container">
+	<img src="{{ sidebars.contacts.visible ? 'assets/contacts.svg' : 'assets/contacts-hidden.svg' }}" 
+	class="panel-button left" 
+	(click)="onToggleContacts()">
+
+	<div class="container-inner" #container>
+		<div class="tab" 
+		*ngFor="let tab of tabs; let i = index;"
+		(mousedown)="onMouseDown(tab, $event)"
+		[class.selected]="selectedTab == tab" 
+		[class.flashing]="tab.flashing"
+		[ngStyle]="{ 
+			transform: 'translate(' + (tab.offsetX - tab.order) + 'px, ' + (selectedTab == tab ? 6 : 7) + 'px)',
+			zIndex: 16 - tab.order,
+			transition: tab != draggingTab ? 'transform 300ms ease' : null,
+			width: tabWidth + 'px'
+		}">
+			<div class="tab-roundout left"></div>
+			<div class="tab-inner" [ngStyle]="{ width: tabWidth + 'px' }">
+				<span>{{ tab.order }} {{ tab.title }}</span>
+				<div class="tab-close"></div>
+			</div>
+			<div class="tab-roundout right"></div>	
 		</div>
-		<div class="tab-roundout right"></div>	
 	</div>
+
+	<img src="{{ sidebars.options.visible ? 'assets/options.svg' : 'assets/options-hidden.svg' }}" 
+	class="panel-button right"
+	(click)="onToggleOptions()">
 </div>

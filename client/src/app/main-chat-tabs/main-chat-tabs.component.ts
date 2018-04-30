@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { ChatTab } from "./main-chat-tabs.types";
 
 @Component({
@@ -10,8 +10,23 @@ export class MainChatTabsComponent implements OnInit {
 
 	constructor() { }
 
+	@Input() sidebars;
+	@Output() toggleContacts: EventEmitter<any> = new EventEmitter<any>();
+	@Output() toggleOptions: EventEmitter<any> = new EventEmitter<any>();
+
+	onToggleContacts() {
+		this.toggleContacts.emit(null);
+	}
+
+	onToggleOptions() {
+		this.toggleOptions.emit(null);
+	}
+
 	public tabs: ChatTab[] = [];
 	public tabWidth: number = 180;
+
+	@ViewChild("container") private containerRef;
+	public get container() { return this.containerRef.nativeElement; }
 
 	ngOnInit() {
 		this.addTab("Dylan Bienenstock");
@@ -51,7 +66,7 @@ export class MainChatTabsComponent implements OnInit {
 	@HostListener("document:mouseup", ["$event"])
 	onMouseUp(e) {
 		if (!this.dragging) return;
-		
+
 		let tab = this.tabs.find(tab => tab.order == this.draggingTab.order);
 		let offsetX = 0;
 
@@ -71,7 +86,8 @@ export class MainChatTabsComponent implements OnInit {
 		if (this.dragging) {
 			// Move the dragged tab
 			let difference = e.screenX - this.dragStartX;
-			this.draggingTab.offsetX = difference;
+			let containerWidth = this.container.clientWidth - this.tabWidth - 12;
+			this.draggingTab.offsetX = Math.min(containerWidth, Math.max(0, difference));
 
 			// Copy the array
 			let tabs = Object.assign([], this.tabs);

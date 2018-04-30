@@ -1,4 +1,8 @@
 <div class="container">
-	<app-main-chat-tabs></app-main-chat-tabs>
+	<app-main-chat-tabs
+	[sidebars]="sidebars"
+	(toggleContacts)="onToggleContacts()"
+	(toggleOptions)="onToggleOptions()">
+	</app-main-chat-tabs>
 	<app-main-chat-message-container></app-main-chat-message-container>
 </div>
