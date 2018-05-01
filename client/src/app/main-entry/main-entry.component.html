@@ -35,7 +35,7 @@
 					<a (click)="onClickRegister()">Register an account</a>
 				</div>
 
-				<img src="assets/loading.svg" 
+				<img src="{{ !showCheckmark ? 'assets/loading.svg' : 'assets/checkmark.svg' }}" 
 				class="loading" 
 				[ngStyle]="{ opacity: waiting ? 1 : 0 }">
 			</div>
@@ -67,6 +67,10 @@
 				<div class="switch-forms">
 					<a (click)="onClickLogIn()">Back to log in</a>
 				</div>
+
+				<img src="{{ !showCheckmark ? 'assets/loading.svg' : 'assets/checkmark.svg' }}" 
+				class="loading" 
+				[ngStyle]="{ opacity: waiting ? 1 : 0 }">
 			</div>
 		</div>
 	</div>

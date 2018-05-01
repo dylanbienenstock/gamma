@@ -40,6 +40,7 @@ export class MainEntryComponent implements OnInit {
 	public waiting: boolean = false;
 	public shaking: boolean = false;
 	public shakeDuration: number = 500; // Represents $shake-duration
+	public showCheckmark: boolean = false;
 	public loggedIn: boolean = false;
 
 	private get suppressActions() {
@@ -57,8 +58,8 @@ export class MainEntryComponent implements OnInit {
 		this.registerForm = this._formBuilder.group({
 			name: ["", Validators.required],
 			email: ["", Validators.compose([Validators.required, Validators.pattern(emailRegex)])],
-			password: ["", Validators.required],
-			confirmPassword: ["", Validators.required, matchOtherValidator("password")],
+			password: ["", Validators.compose([Validators.required, Validators.minLength(8)])],
+			confirmPassword: ["", Validators.compose([Validators.required, matchOtherValidator("password")])]
 		});
 	}
 
@@ -118,16 +119,22 @@ export class MainEntryComponent implements OnInit {
 			let observable = this.socketService.logIn(loginCreds);
 
 			let subscription = observable.subscribe((data: LogInResponse) => {
-				this.waiting = false;
-				this.loggedIn = data.success;
+				this.showCheckmark = data.success;
 
 				subscription.unsubscribe();
 
 				if (data.success) {
 					setTimeout(() => {
-						this.logInComplete.emit(data.authToken);
+						this.loggedIn = true;
+
+						setTimeout(() => {
+							this.logInComplete.emit(data.authToken);
+							
+						}, this.animationDuration);
 					}, this.animationDuration);
 				} else {
+					this.waiting = false;
+
 					this.loginForm.get("password").reset();
 					this.loginForm.get("password").markAsUntouched();
 					this.loginFormAllTouched = false;
