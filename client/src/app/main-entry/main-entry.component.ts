@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { matchOtherValidator } from './match-other-validator';
 import { SocketService } from '../socket.service';
-import { LogInCreds, LogInResponse } from '../../../../gamma/account/types';
+import { LogInCreds, LogInResponse, RegisterCreds, RegisterResponse } from '../../../../gamma/account/types';
 
 @Component({
 	selector: 'app-main-entry',
@@ -91,6 +91,13 @@ export class MainEntryComponent implements OnInit {
 		this.switchForm(false);
 	}
 
+	onPasswordKeypress() {
+		setTimeout(() => {
+			this.registerForm.get("confirmPassword")
+				.updateValueAndValidity();
+		}, 100);
+	}
+
 	focusNext(e) {
 		let element = event.srcElement.nextElementSibling as HTMLElement;
 
@@ -124,14 +131,7 @@ export class MainEntryComponent implements OnInit {
 				subscription.unsubscribe();
 
 				if (data.success) {
-					setTimeout(() => {
-						this.loggedIn = true;
-
-						setTimeout(() => {
-							this.logInComplete.emit(data.authToken);
-							
-						}, this.animationDuration);
-					}, this.animationDuration);
+					this.finishLogIn(data.authToken);
 				} else {
 					this.waiting = false;
 
@@ -147,7 +147,49 @@ export class MainEntryComponent implements OnInit {
 	}
 
 	register() {
+		if (this.suppressActions) return;
+
 		this.registerFormAllTouched = true;
+
+		if (this.registerForm.invalid) return;
+
+		this.waiting = true;
+
+		setTimeout(() => {
+			let registerCreds = this.registerForm.value as RegisterCreds;
+			let observable = this.socketService.register(registerCreds);
+
+			let subscription = observable.subscribe((data: RegisterResponse) => {
+				this.showCheckmark = data.success;
+
+				subscription.unsubscribe();
+
+				if (data.success) {
+					this.finishLogIn(data.authToken);
+				} else {
+					this.waiting = false;
+
+					this.registerForm.get("password").reset();
+					this.registerForm.get("password").markAsUntouched();
+					this.registerForm.get("password").reset();
+					this.registerForm.get("password").markAsUntouched();
+					this.registerFormAllTouched = false;
+
+					this.shake();
+				}
+			});
+		}, this.animationDuration);
+	}
+
+	finishLogIn(authToken: string) {
+		setTimeout(() => {
+			this.loggedIn = true;
+
+			setTimeout(() => {
+				this.logInComplete.emit(authToken);
+
+			}, this.animationDuration);
+		}, this.animationDuration);
 	}
 
 	switchForm(registering: boolean) {

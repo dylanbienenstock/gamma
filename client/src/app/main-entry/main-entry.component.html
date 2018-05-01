@@ -57,7 +57,8 @@
 				<input type="password"
 				formControlName="password"		
 				placeholder="Password"
-				(keyup.enter)="focusNext($event)">
+				(keyup.enter)="focusNext($event)"
+				(keyup)="onPasswordKeypress()">
 				
 				<input type="password"
 				formControlName="confirmPassword"		
