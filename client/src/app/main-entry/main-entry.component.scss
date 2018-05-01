@@ -75,6 +75,8 @@ $z-index: 9999;
 					}
 
 					.loading {
+						pointer-events: none;
+
 						display: block;
 						position: relative;
 						height: 42px;
