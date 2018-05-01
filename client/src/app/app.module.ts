@@ -13,7 +13,6 @@ import { MainChatMessageContainerComponent } from './main-chat-message-container
 import { MainEntryComponent } from './main-entry/main-entry.component';
 
 import { SocketService } from './socket.service';
-import { MainEntryHelpComponent } from './main-entry-help/main-entry-help.component';
 
 @NgModule({
 	declarations: [
@@ -25,7 +24,6 @@ import { MainEntryHelpComponent } from './main-entry-help/main-entry-help.compon
 		MainChatTabsComponent,
 		MainChatMessageContainerComponent,
 		MainEntryComponent,
-		MainEntryHelpComponent
 	],
 	imports: [
 		BrowserModule,
