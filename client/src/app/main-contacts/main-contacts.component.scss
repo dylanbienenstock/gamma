@@ -10,6 +10,9 @@
 		white-space: nowrap;
 
 		.container-inner {
+			display: flex;
+			flex-flow: column nowrap;
+
 			height: 100%;
 			background-color: $background-secondary-color;
 			border-radius: $panel-border-radius;
@@ -19,6 +22,18 @@
 				@include topbar;
 
 				text-align: center;
+			}
+
+			.content {
+				flex: 1;
+				display: flex;
+				flex-flow: column nowrap;
+
+				.content-view {
+					flex: 1;
+					padding: 0 $panel-padding;
+					box-sizing: border-box;
+				}
 			}
 		}
 	}
