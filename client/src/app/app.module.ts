@@ -16,6 +16,7 @@ import { SocketService } from './socket.service';
 import { MainContactsSearchComponent } from './main-contacts-search/main-contacts-search.component';
 import { MainContactsHomeComponent } from './main-contacts-home/main-contacts-home.component';
 import { MainContactsHomeStatusComponent } from './main-contacts-home-status/main-contacts-home-status.component';
+import { MainContactsStatusComponent } from './main-contacts-status/main-contacts-status.component';
 
 @NgModule({
 	declarations: [
@@ -29,7 +30,8 @@ import { MainContactsHomeStatusComponent } from './main-contacts-home-status/mai
 		MainEntryComponent,
 		MainContactsSearchComponent,
 		MainContactsHomeComponent,
-		MainContactsHomeStatusComponent
+		MainContactsHomeStatusComponent,
+		MainContactsStatusComponent
 	],
 	imports: [
 		BrowserModule,

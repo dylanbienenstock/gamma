@@ -1,0 +1,48 @@
+@import "~global.scss";
+
+:host {
+	.status {
+		@include noselect;
+
+		cursor: pointer;
+		position: relative;
+		top: 2px;
+
+		width: 58px;
+		height: 20px;
+		font-size: 0;
+		border-radius: 4px;
+		transition: background-color 300ms ease;
+
+		&:hover {
+			background-color: rgba($background-tertiary-color, 0.75);
+		}
+
+		.status-inner {
+			@include center-horizontal;
+
+			display: inline-block;
+
+			.status-text {
+				position: relative;
+				top: 1px;
+
+				display: inline-block;
+				font-size: 12px;
+				margin-right: 4px;
+			}
+
+			.status-blip {
+				display: inline-block;
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+			}
+		}
+
+		&.online {
+			.status-text { color: $gamma }
+			.status-blip { background-color: $gamma }
+		}
+	}
+}
