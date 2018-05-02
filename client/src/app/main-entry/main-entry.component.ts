@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { matchOtherValidator } from './match-other-validator';
 import { SocketService } from '../socket.service';
@@ -22,7 +22,8 @@ export class MainEntryComponent implements OnInit {
 	@ViewChild("container") containerRef;
 	public get container(): HTMLHeadingElement { return this.containerRef.nativeElement; }
 
-	@Output() logInComplete: EventEmitter<string> = new EventEmitter<string>();
+	@Output() setLocalUser: EventEmitter<any> = new EventEmitter<any>();
+	@Output() logInComplete: EventEmitter<any> = new EventEmitter<any>();
 	
 	private animationDuration: number = 750;
 	private animating: boolean = true;
@@ -133,7 +134,7 @@ export class MainEntryComponent implements OnInit {
 				subscription.unsubscribe();
 
 				if (data.success) {
-					this.finishLogIn(data.authToken);
+					this.finishLogIn(data);
 				} else {
 					this.waiting = false;
 					this.loginFormAllTouched = false;
@@ -167,7 +168,7 @@ export class MainEntryComponent implements OnInit {
 				subscription.unsubscribe();
 
 				if (data.success) {
-					this.finishLogIn(data.authToken);
+					this.finishLogIn(data);
 				} else {
 					this.waiting = false;
 					this.registerFormAllTouched = false;
@@ -193,12 +194,13 @@ export class MainEntryComponent implements OnInit {
 		}, this.animationDuration);
 	}
 
-	finishLogIn(authToken: string) {
+	finishLogIn(data: any) {
 		setTimeout(() => {
+			this.setLocalUser.emit(data.user);
 			this.loggedIn = true;
 
 			setTimeout(() => {
-				this.logInComplete.emit(authToken);
+				this.logInComplete.emit(null);
 
 			}, this.animationDuration);
 		}, this.animationDuration);

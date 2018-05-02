@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-main-contacts-home',
-  templateUrl: './main-contacts-home.component.html',
-  styleUrls: ['./main-contacts-home.component.scss']
+	selector: 'app-main-contacts-home',
+	templateUrl: './main-contacts-home.component.html',
+	styleUrls: ['./main-contacts-home.component.scss']
 })
 export class MainContactsHomeComponent implements OnInit {
 
-  constructor() { }
+	constructor() { }
 
-  ngOnInit() {
-  }
+	@Input() localUser: any;	
 
+	ngOnInit() {
+
+	}
 }

@@ -1,8 +1,13 @@
-<app-main-entry *ngIf="!loggedIn" (logInComplete)="onLogInComplete($event)"></app-main-entry>
+<app-main-entry *ngIf="!loggedIn"
+(setLocalUser)="onSetLocalUser($event)"
+(logInComplete)="onLogInComplete($event)"
+></app-main-entry>
 
 <app-main-contacts
 [class.visible]="sidebars.contacts.visible && sidebars.contacts.previouslyHidden"
-[class.hidden]="!sidebars.contacts.visible">
+[class.hidden]="!sidebars.contacts.visible"
+*ngIf="localUser"
+[localUser]="localUser">
 </app-main-contacts>
 
 <app-main-chat 

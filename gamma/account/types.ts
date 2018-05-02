@@ -11,13 +11,12 @@ export interface RegisterCreds {
 
 export interface LogInResponse {
 	success: boolean;
-	authToken?: string;
+	user?: any;
 }
 
 export interface RegisterResponse {
 	success: boolean;
 	user?: any;
-	authToken?: string;
 	errors?: RegisterError[];
 }
 

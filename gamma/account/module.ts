@@ -55,7 +55,7 @@ export module AccountManager {
 		creds.email = creds.email.toLowerCase();
 
 		// Ensure that the name is unique
-		await User.where({ name: creds.name }).findOne((error, user) => {
+		await User.findOne({ name: creds.name }, (error, user) => {
 			if (user) {
 				response.success = false;
 				response.errors.push({
@@ -66,7 +66,7 @@ export module AccountManager {
 		});
 
 		// Ensure that the email address is unique
-		await User.where({ email: creds.email }).findOne((error, user) => {
+		await User.findOne({ email: creds.email }, (error, user) => {
 			if (user) {
 				response.success = false;
 				response.errors.push({
@@ -89,8 +89,10 @@ export module AccountManager {
 
 			await newUser.save()
 			.then((user) => {
-				response.user = user;
-				response.authToken = authToken;
+				response.user = {
+					name: user.name,
+					authToken: user.authToken
+				};
 			})
 			.catch((reject) => {
 				response.success = false;
@@ -108,7 +110,7 @@ export module AccountManager {
 
 		creds.name = creds.name.toLowerCase();		
 
-		await User.where({ name: creds.name }).findOne((_error, _user) => {
+		await User.findOne({ name: creds.name }, (_error, _user) => {
 			error = _error;
 			user = _user;
 		});
@@ -121,14 +123,16 @@ export module AccountManager {
 			await bcrypt.compare(creds.password, user.password)
 			.then(() => {
 				// Generate a new auth token on every login
-				let authToken: string = generateAuthToken();
+				user.authToken = generateAuthToken();
 
 				response = {
 					success: true,
-					authToken: authToken
+					user: {
+						name: user.name,
+						authToken: user.authToken
+					}
 				}
 
-				user.authToken = authToken;
 				user.save();
 			})
 			.catch(() => {

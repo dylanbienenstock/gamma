@@ -11,11 +11,15 @@ export class MainComponent {
 	constructor() { }
 
 	public loggedIn: boolean = false;
-	public authToken: string;
+	public localUser: any;
 
-	public onLogInComplete(authToken) {
+	public onSetLocalUser(user: any) {
+		console.log(user);
+		this.localUser = user;
+	}
+
+	public onLogInComplete() {
 		this.loggedIn = true;
-		this.authToken = authToken;
 	}
 
 	public sidebars = {
