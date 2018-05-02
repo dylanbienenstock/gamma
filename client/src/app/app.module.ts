@@ -14,6 +14,8 @@ import { MainEntryComponent } from './main-entry/main-entry.component';
 
 import { SocketService } from './socket.service';
 import { MainContactsSearchComponent } from './main-contacts-search/main-contacts-search.component';
+import { MainContactsHomeComponent } from './main-contacts-home/main-contacts-home.component';
+import { MainContactsHomeStatusComponent } from './main-contacts-home-status/main-contacts-home-status.component';
 
 @NgModule({
 	declarations: [
@@ -26,6 +28,8 @@ import { MainContactsSearchComponent } from './main-contacts-search/main-contact
 		MainChatMessageContainerComponent,
 		MainEntryComponent,
 		MainContactsSearchComponent,
+		MainContactsHomeComponent,
+		MainContactsHomeStatusComponent
 	],
 	imports: [
 		BrowserModule,
