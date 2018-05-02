@@ -10,13 +10,18 @@ export interface RegisterCreds {
 }
 
 export interface LogInResponse {
-	success: boolean,
-	authToken?: string
+	success: boolean;
+	authToken?: string;
 }
 
 export interface RegisterResponse {
-	success: boolean,
-	user?: any,
-	authToken?: string,	
-	errors?: string[]
+	success: boolean;
+	user?: any;
+	authToken?: string;
+	errors?: RegisterError[];
+}
+
+export interface RegisterError {
+	field: string;
+	text: string;
 }
