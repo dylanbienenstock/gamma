@@ -1,27 +1,75 @@
 @import "~global.scss";
 
-:host {
-	.status {
-		@include noselect;
+$status-width: 58px;
+$status-height: 20px;
+$status-border-radius: 4px;
+$status-border-color: $accent-color;
+$status-background-color: $background-secondary-color;
+$status-color-online: $gamma;
+$status-color-away: #d6d144;
+$status-color-busy: #d64444;
 
+:host {
+	.selector {
 		cursor: pointer;
 		position: relative;
-		top: 2px;
-
-		width: 58px;
-		height: 20px;
+		float: right;
+		transform: translate(1px, -1px);		
+		display: flex;
+		flex-flow: column nowrap;
+		// width: $status-width;
+		// height: $status-height * 3;
+		border-radius: $status-border-radius;
+		border: 1px solid $status-border-color;
 		font-size: 0;
-		border-radius: 4px;
-		transition: background-color 300ms ease;
+		overflow: hidden;
+		background-color: $status-background-color;
+		box-shadow: 0 0 6px black;
 
-		&:hover {
-			background-color: rgba($background-tertiary-color, 0.75);
+		.status {
+			@include noselect;
+
+			height: $status-height;
+
+			&:hover {
+				background-color: rgba($background-tertiary-color, 0.75);
+			}
+		}
+	}
+
+	& > .status {
+		@include noselect;
+
+		// transform: translateY(2px);
+		// width: $status-width;
+		height: $status-height;
+		border-radius: $status-border-radius;
+		font-size: 0;
+
+		&.selectable {
+			cursor: pointer;			
+
+			&:hover {
+				background-color: rgba($background-tertiary-color, 0.75);
+			}
 		}
 
+		&.disabled {
+			visibility: hidden;
+			pointer-events: none;
+		}
+	}
+
+	.selector > .status,
+	& > .status {
 		.status-inner {
-			@include center-horizontal;
+			position: relative;
+			left: 100%;
+			padding: 0 5px;
+			transform: translateX(calc(-100%));
 
 			display: inline-block;
+			text-transform: capitalize;
 
 			.status-text {
 				position: relative;
@@ -38,11 +86,21 @@
 				height: 6px;
 				border-radius: 50%;
 			}
-		}
 
-		&.online {
-			.status-text { color: $gamma }
-			.status-blip { background-color: $gamma }
+			&.online {
+				.status-text { color: $status-color-online }
+				.status-blip { background-color: $status-color-online }
+			}
+
+			&.away {
+				.status-text { color: $status-color-away }
+				.status-blip { background-color: $status-color-away }
+			}
+
+			&.busy {
+				.status-text { color: $status-color-busy }
+				.status-blip { background-color: $status-color-busy }
+			}
 		}
 	}
 }

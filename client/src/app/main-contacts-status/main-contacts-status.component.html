@@ -1,6 +1,23 @@
-<div class="status online">
-	<div class="status-inner">
-		<span class="status-text">Online</span>
+<div class="selector"
+*ngIf="selectable && selectorOpen"
+[ngStyle]="{ top: -20 * statusOptions.indexOf(status) + 'px' }"
+(mouseleave)="closeSelector()">
+	<div class="status"
+	*ngFor="let statusOption of statusOptions"
+	(click)="selectStatus(statusOption)">
+		<div class="status-inner" [ngClass]="statusOption">
+			<span class="status-text">{{ statusOption }}</span>
+			<div class="status-blip"></div>
+		</div>
+	</div>
+</div>
+
+<div class="status"
+[class.disabled]="selectorOpen"
+[class.selectable]="selectable"
+(click)="openSelector()">
+	<div class="status-inner" [ngClass]="status">
+		<span class="status-text">{{ status }}</span>
 		<div class="status-blip"></div>
 	</div>
 </div>
