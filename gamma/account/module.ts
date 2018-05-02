@@ -11,7 +11,13 @@ export module AccountManager {
 	}
 
 	function getValidationErrors(reject: any) {
-		return Object.keys(reject.errors).map(error => reject.errors[error].message);
+		return Object.keys(reject.errors)
+		.map((error) => {
+			return { 
+				field: error,
+				text: reject.errors[error].message
+			};
+		});
 	}
 
 	function generateAuthToken() {
@@ -27,28 +33,50 @@ export module AccountManager {
 	}
 
 	export async function createAccount(creds: RegisterCreds): Promise<RegisterResponse> {
+		let response: RegisterResponse = {
+			success: true,
+			errors: []
+		};
+
+		if (creds.password.length < 8) {
+			response.success = false;
+			response.errors = [{
+				field: "password",
+				text: "Password must be at least 8 characters"
+			}];
+		}
+
 		// Hash the password
 		await bcrypt.hash(creds.password).then((hash) => {
 			creds.password = hash;
 		}, console.error);
 
-		let nameInUse = false;
-		let response: RegisterResponse;
-
 		creds.name = creds.name.toLowerCase();
+		creds.email = creds.email.toLowerCase();
 
 		// Ensure that the name is unique
 		await User.where({ name: creds.name }).findOne((error, user) => {
-			nameInUse = (user != null);
+			if (user) {
+				response.success = false;
+				response.errors.push({
+					field: "name",
+					text: "Username is already in use"
+				});
+			}
 		});
 
-		if (nameInUse) {
-			response = {
-				success: false,
-				errors: ["Username is currently in use"]
-			};
-		}
-		else {
+		// Ensure that the email address is unique
+		await User.where({ email: creds.email }).findOne((error, user) => {
+			if (user) {
+				response.success = false;
+				response.errors.push({
+					field: "email",
+					text: "Email Address is already in use"
+				});
+			}
+		});
+
+		if (response.success) {
 			// Validate and create the user
 			let authToken = generateAuthToken();
 
@@ -61,17 +89,12 @@ export module AccountManager {
 
 			await newUser.save()
 			.then((user) => {
-				response = {
-					success: true,
-					user: user,
-					authToken: authToken
-				};
+				response.user = user;
+				response.authToken = authToken;
 			})
 			.catch((reject) => {
-				response = {
-					success: false,
-					errors: getValidationErrors(reject)
-				};
+				response.success = false;
+				response.errors = response.errors.concat(getValidationErrors(reject))
 			});
 		}
 
