@@ -1,0 +1,40 @@
+@import "~global.scss";
+
+:host {
+	.container {
+		display: flex;
+		flex-flow: row nowrap;
+		width: 100%;
+
+		img {
+			min-width: 32px;
+			height: 64px;
+			margin-right: $panel-padding;
+		}
+
+		& > div {
+			flex: 1;
+
+			.name-and-status {
+				display: flex;
+				flex-flow: row wrap;
+				height: 23px;
+
+				.name {
+					flex-grow: 1;
+					width: 0;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					font-size: 16px;
+
+					&:before {
+						content: "@";
+						margin-right: 2px;
+						opacity: 0.5;						
+					}
+				}
+			}
+		}
+	}
+}
