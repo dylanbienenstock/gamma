@@ -48,6 +48,7 @@ export class MainEntryComponent implements OnInit {
 	}
 
 	createForms(): void {
+		let nameRegex: RegExp = /^([a-zA-Z0-9\-_])*$/;
 		let emailRegex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 		this.loginForm = this._formBuilder.group({
@@ -56,7 +57,7 @@ export class MainEntryComponent implements OnInit {
 		});
 
 		this.registerForm = this._formBuilder.group({
-			name: ["", Validators.required],
+			name: ["", Validators.compose([Validators.required, Validators.pattern(nameRegex)])],
 			email: ["", Validators.compose([Validators.required, Validators.pattern(emailRegex)])],
 			password: ["", Validators.compose([Validators.required, Validators.minLength(8)])],
 			confirmPassword: ["", Validators.compose([Validators.required, matchOtherValidator("password")])]
