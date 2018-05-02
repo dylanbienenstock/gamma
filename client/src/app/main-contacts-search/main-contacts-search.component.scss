@@ -3,7 +3,7 @@
 :host {
 	.container {
 		width: 100%;
-		padding: 16px;
+		padding: $panel-padding;
 		box-sizing: border-box;
 
 		.searchbar {
