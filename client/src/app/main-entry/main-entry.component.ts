@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { matchOtherValidator } from './match-other-validator';
 import { SocketService } from '../socket.service';
-import { LogInCreds, LogInResponse, RegisterCreds, RegisterResponse } from '../../../../gamma/account/types';
+import { LogInCreds, LogInResponse, RegisterCreds, RegisterResponse, RegisterError } from '../../../../gamma/account/types';
 
 @Component({
 	selector: 'app-main-entry',
@@ -36,6 +36,7 @@ export class MainEntryComponent implements OnInit {
 	public registerForm: FormGroup;
 	public loginFormAllTouched: boolean = false;
 	public registerFormAllTouched: boolean = false;
+	public registerErrors: RegisterError[];
 
 	public waiting: boolean = false;
 	public shaking: boolean = false;
@@ -135,11 +136,11 @@ export class MainEntryComponent implements OnInit {
 					this.finishLogIn(data.authToken);
 				} else {
 					this.waiting = false;
+					this.loginFormAllTouched = false;
 
 					this.loginForm.get("password").reset();
 					this.loginForm.get("password").markAsUntouched();
-					this.loginFormAllTouched = false;
-
+					
 					this.shake();
 				}
 			});			
@@ -169,12 +170,22 @@ export class MainEntryComponent implements OnInit {
 					this.finishLogIn(data.authToken);
 				} else {
 					this.waiting = false;
+					this.registerFormAllTouched = false;
+					this.registerErrors = data.errors;
+
+					data.errors.forEach(error => {
+						console.log(error);
+						let field = this.registerForm.get(error.field);
+						let fieldError = {};
+						fieldError[error.field] = error.text;
+
+						field.setErrors(fieldError);
+					});
 
 					this.registerForm.get("password").reset();
 					this.registerForm.get("password").markAsUntouched();
-					this.registerForm.get("password").reset();
-					this.registerForm.get("password").markAsUntouched();
-					this.registerFormAllTouched = false;
+					this.registerForm.get("confirmPassword").reset();
+					this.registerForm.get("confirmPassword").markAsUntouched();
 
 					this.shake();
 				}
@@ -203,6 +214,7 @@ export class MainEntryComponent implements OnInit {
 			this.titleCentered = true; // Re-center title
 
 			setTimeout(() => {
+				this.registerErrors = null;			
 				this.registering = registering; // Display correct form
 
 				if (registering) {

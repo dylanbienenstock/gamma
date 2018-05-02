@@ -31,13 +31,15 @@
 				placeholder="Password"
 				(keyup.enter)="logIn()">
 
-				<div class="switch-forms" [ngStyle]="{ opacity: waiting ? 0 : 1 }">
-					<a (click)="onClickRegister()">Register an account</a>
+				<div class="form-footer">
+					<div class="switch-forms" [ngStyle]="{ opacity: waiting ? 0 : 1 }">
+						<a (click)="onClickRegister()">Register an account</a>
+					</div>
+				
+					<img class="loading"
+					src="{{ !showCheckmark ? 'assets/loading.svg' : 'assets/checkmark.svg' }}"
+					[ngStyle]="{ opacity: waiting ? 1 : 0 }">
 				</div>
-
-				<img src="{{ !showCheckmark ? 'assets/loading.svg' : 'assets/checkmark.svg' }}" 
-				class="loading" 
-				[ngStyle]="{ opacity: waiting ? 1 : 0 }">
 			</div>
 
 			<div class="form" 
@@ -65,13 +67,28 @@
 				placeholder="Confirm Password"
 				(keyup.enter)="register()">
 
-				<div class="switch-forms" [ngStyle]="{ opacity: waiting ? 0 : 1 }">
-					<a (click)="onClickLogIn()">Back to log in</a>
-				</div>
+				<div class="form-footer">
+					<div class="switch-forms"
+					[ngStyle]="{
+						opacity: (waiting || registerErrors) ? 0 : 1,
+						pointerEvents: (waiting || registerErrors) ? 'none' : 'initial'
+					}">
+						<a (click)="onClickLogIn()">Back to log in</a>
+					</div>
+				
+					<div class="form-errors"
+					[ngStyle]="{ opacity: (registerErrors && !waiting) ? 1 : 0 }">
+						<ng-container *ngFor="let error of registerErrors;">
+							<span>{{ error.text }}</span> <br>
+						</ng-container>
 
-				<img src="{{ !showCheckmark ? 'assets/loading.svg' : 'assets/checkmark.svg' }}" 
-				class="loading" 
-				[ngStyle]="{ opacity: waiting ? 1 : 0 }">
+						<a (click)="onClickLogIn()">Back to log in</a>
+					</div>
+				
+					<img class="loading"
+					src="{{ !showCheckmark ? 'assets/loading.svg' : 'assets/checkmark.svg' }}"
+					[ngStyle]="{ opacity: waiting? 1 : 0 }">
+				</div>
 			</div>
 		</div>
 	</div>

@@ -1,6 +1,7 @@
 @import "~global.scss";
 
 $z-index: 9999;
+$error-color: #d64444;
 
 :host {
 	.container {
@@ -60,7 +61,35 @@ $z-index: 9999;
 					.switch-forms {
 						a {
 							cursor: pointer;
+							position: absolute;
 							display: inline-block;
+							font-size: 14px;
+							color: $text-color !important;
+							opacity: 0.5;
+							text-decoration: none;
+
+							transition: opacity 250ms ease;
+
+							&:hover {
+								opacity: 1;
+							}
+						}
+					}
+
+					.form-errors {
+						pointer-events: none;
+
+						position: absolute;
+						font-size: 14px;						
+						color: $error-color;
+						transition: opacity 250ms ease;
+
+						a {
+							pointer-events: all;
+							position: relative;
+							top: 8px;
+
+							cursor: pointer;
 							font-size: 14px;
 							color: $text-color !important;
 							opacity: 0.5;
@@ -78,9 +107,9 @@ $z-index: 9999;
 						pointer-events: none;
 
 						display: block;
-						position: relative;
+						position: absolute;
 						height: 42px;
-						top: -30px;
+						transform: translate(-50%, -10px);
 
 						transition: opacity 250ms ease;					
 					}
@@ -113,7 +142,7 @@ $z-index: 9999;
 						}
 
 						&.ng-touched.ng-invalid {
-							border: 1px solid #d64444;
+							border: 1px solid $error-color;
 						}
 					}
 
@@ -121,7 +150,7 @@ $z-index: 9999;
 						input[type=text],
 						input[type=password] {
 							&.ng-invalid {
-								border: 1px solid #d64444;
+								border: 1px solid $error-color;
 							}
 						}
 					}
