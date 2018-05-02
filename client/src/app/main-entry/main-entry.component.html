@@ -65,7 +65,7 @@
 				placeholder="Confirm Password"
 				(keyup.enter)="register()">
 
-				<div class="switch-forms">
+				<div class="switch-forms" [ngStyle]="{ opacity: waiting ? 0 : 1 }">
 					<a (click)="onClickLogIn()">Back to log in</a>
 				</div>
 
