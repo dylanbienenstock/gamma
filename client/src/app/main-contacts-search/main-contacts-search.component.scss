@@ -1,6 +1,8 @@
 @import "~global.scss";
 
 :host {
+	margin-bottom: $panel-padding;
+
 	.container {
 		width: 100%;
 		padding: $panel-padding;
