@@ -48,6 +48,12 @@ $chat-tabs-transition-function: ease;
 	transform: translateY(-50%);
 }
 
+@mixin center-horizontal {
+	position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 @mixin center-absolute {
 	position: absolute;
 	left: 50%;
