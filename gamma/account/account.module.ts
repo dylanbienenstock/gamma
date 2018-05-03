@@ -168,8 +168,6 @@ export module AccountManager {
 		let defaultFields = "id name authToken";
 		let fields = extraFields ? `${defaultFields} ${extraFields}` : defaultFields;
 
-		console.log(fields);
-
 		await User.findOne({ _id: ObjectId(auth.id) }, fields)
 		.populate(populate || "")
 		.catch((_error) => { error = _error; })
@@ -188,8 +186,10 @@ export module AccountManager {
 	export async function search(query: SearchQuery): Promise<SearchResponse> {
 		let response: SearchResponse = {};
 		let authResult: AuthResult;
+
+		let populate = "friends friends.user friendInvites friendInvites.user";
 		
-		await this.authenticate(query.authCreds, null, "friends friends.user")
+		await this.authenticate(query.authCreds, null, populate)
 		.then((_authResult: AuthResult) => {
 			authResult = _authResult;
 		});
@@ -199,6 +199,7 @@ export module AccountManager {
 		let error: any;
 		let users: any;
 
+		// Find users that match query
 		await User.find(
 			{ name: {
 				$regex: `.*${query.text}.*`,
@@ -209,7 +210,8 @@ export module AccountManager {
 				$skip: query.offset || 0,
 				$limit: query.limit || 16
 			}
-		).catch((_error) => {
+		).populate("friends friends.user")
+		.catch((_error) => {
 			error = _error;
 		})
 		.then((_users) => {
@@ -218,24 +220,33 @@ export module AccountManager {
 
 		if (!error && users) {
 			let friendIds = [];
-			let friendConfirmations = {};
+			let friendConfirmations = [];
+			let friendInviteIds = [];			
 
 			for (let friend of authResult.user.friends) {
 				friendIds.push(friend.user.id);
-				friendConfirmations[friend.user.id] = friend.confirmed;
+
+				if (friend.confirmed) {
+					friendConfirmations.push(friend.user.id);
+				}
 			}
+
+			friendInviteIds = authResult.user.friendInvites
+				.map(friendInvite => friendInvite.user.id);
 
 			response.results = users.map((user) => {
 				let isSelf = user.id == authResult.user.id;
 				let isFriend = !isSelf && friendIds.includes(user.id);
-				let isConfirmed = friendConfirmations[user.id];
+				let isConfirmed = !isSelf && friendConfirmations.includes(user.id);
+				let isRequesting = !isSelf && friendInviteIds.includes(user.id);
 
 				return {
 					id: user.id,
 					name: user.name,
 					isSelf: isSelf,
 					isFriend: isFriend,
-					isConfirmed: isConfirmed
+					isConfirmed: isConfirmed,
+					isRequesting: isRequesting
 				};
 			});
 		} else {
@@ -259,13 +270,17 @@ export module AccountManager {
 		let recipient: any;
 
 		await User.findOne({ _id: ObjectId(invite.id) })
+			.populate("friendInvites friendInvites.user")
 			.catch((error) => { recipientError = error; })
 			.then((user) => { recipient = user; })
 
 		if (recipientError || !recipient) return;
 
-		let senderFriendIds = authResult.user.friends.map(friend => friend.user.id);
-		let recipientFriendInviteIds = recipient.friends.map(friendInvite => friendInvite.user.id);
+		let senderFriendIds = authResult.user.friends
+			.map(friend => friend.user.id.toString());
+			
+		let recipientFriendInviteIds = recipient.friendInvites
+			.map(friendInvite => friendInvite.user.id.toString());
 
 		if (senderFriendIds.includes(recipient.id)) return;
 		if (recipientFriendInviteIds.includes(authResult.user.id)) return;
