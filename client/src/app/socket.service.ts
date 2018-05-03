@@ -10,7 +10,7 @@ export class SocketService {
 	private socket;
 
 	constructor() {
-		this.socket = io();
+		this.socket = io({ transports: ["websocket"] });
 	}
 
 	logIn(creds: LogInCreds): Observable<LogInResponse> {
