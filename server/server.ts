@@ -46,6 +46,10 @@ function listen() {
 			delete users[name];
 		});
 
+		socket.on("ping", (data) => {
+			socket.emit("pong", data);
+		});
+
 		socket.on("login request", (creds: LogInCreds) => {
 			if (!loggedIn) {
 				AccountManager.logIn(creds)

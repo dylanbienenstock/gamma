@@ -13,6 +13,10 @@ export class SocketService {
 		this.socket = io({ transports: ["websocket"] });
 	}
 
+	sendPing() {
+		this.socket.emit("ping", { data: 1 });
+	}
+
 	logIn(creds: LogInCreds): Observable<LogInResponse> {
 		this.socket.emit("login request", creds);
 
