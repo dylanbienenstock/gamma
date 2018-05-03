@@ -215,16 +215,17 @@ export module AccountManager {
 		});
 
 		if (!error && users) {
-			let friendIds = authResult.user.friends.map(friend => friend.id);
+			let friendIds = authResult.user.friends.map(friend => friend.id);		
 
 			response.results = users.map((user) => {
 				let isSelf = user.id == authResult.user.id;
+				let isFriend = !isSelf && friendIds.includes(user.id)
 
 				return {
 					id: user.id,
 					name: user.name,
 					isSelf: isSelf,
-					isFriend: !isSelf && friendIds.contains(user.id)
+					isFriend: isFriend
 				};
 			});
 		} else {
