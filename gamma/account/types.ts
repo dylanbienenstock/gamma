@@ -24,3 +24,25 @@ export interface RegisterError {
 	field: string;
 	text: string;
 }
+
+export interface AuthCreds {
+	id: string;
+	authToken: string;
+}
+
+export interface SearchQuery {
+	auth: AuthCreds;
+	text: string;
+	limit?: number;
+	offset?: number;
+}
+
+export interface SearchResult {
+	id: string;
+	name: string;
+}
+
+export interface SearchResponse {
+	results?: SearchResult[];
+}
+}
