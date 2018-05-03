@@ -29,15 +29,11 @@ export class MainChatTabsComponent implements OnInit {
 	public get container(): HTMLElement { return this.containerRef.nativeElement; }
 
 	ngOnInit() {
-		this.addTab("Dylan Bienenstock");
-		this.addTab("Dylan Bienenstock");
-		this.addTab("Dylan Bienenstock");
+		this.addTab("Dylan");
+		this.addTab("Dylan");
+		this.addTab("Dylan");
 		this.addTab("Dylan");
 
-		this.listenForResize();
-	}
-
-	ngAfterViewInit() {
 		this.listenForResize();
 	}
 
@@ -55,9 +51,7 @@ export class MainChatTabsComponent implements OnInit {
 
 		this.tabs.push(tab);
 
-		setTimeout(() => {
-			this.resizeTabs();
-		}, 0);
+		setTimeout(this.resizeTabs);
 	}
 
 	public resizing: boolean = false;
@@ -67,16 +61,18 @@ export class MainChatTabsComponent implements OnInit {
 	private dragStartX: number;
 
 	resizeTabs() {
-		this.resizing = true;
+		if (this.container) {
+			this.resizing = true;
 
-		let tabWidth = this.container.clientWidth / this.tabs.length;
-		this.tabWidth = Math.min(tabWidth, 180);
+			let tabWidth = this.container.clientWidth / this.tabs.length;
+			this.tabWidth = Math.min(tabWidth, 180);
 
-		this.fixTabPositions();
+			this.fixTabPositions();
 
-		setTimeout(() => {
-			this.resizing = false;
-		});
+			setTimeout(() => {
+				this.resizing = false;
+			});
+		}
 	}
 
 	listenForResize() {
