@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angu
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { matchOtherValidator } from './match-other-validator';
 import { SocketService } from '../socket.service';
-import { LogInCreds, LogInResponse, RegisterCreds, RegisterResponse, RegisterError } from '../../../../gamma/account/types';
+import { LogInCreds, LogInResponse, RegisterCreds, RegisterResponse, RegisterError } from '../../../../gamma/account/account.types';
 
 @Component({
 	selector: 'app-main-entry',

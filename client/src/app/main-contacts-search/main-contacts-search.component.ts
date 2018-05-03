@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SearchQuery, SearchResult, SearchResponse } from '../../../../gamma/account/types';
+import { SearchQuery, SearchResult, SearchResponse } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
 import { Observable } from 'rxjs/Observable';
 

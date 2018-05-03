@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthCreds } from '../../../../gamma/account/types';
+import { AuthCreds } from '../../../../gamma/account/account.types';
 
 @Component({
 	selector: 'app-main',

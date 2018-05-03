@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { SearchResult } from '../../../../gamma/account/types';
+import { SearchResult } from '../../../../gamma/account/account.types';
 
 @Component({
 	selector: 'app-main-contacts-user',

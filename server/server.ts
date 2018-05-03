@@ -1,6 +1,6 @@
 import { config } from "./server.config";
-import { AccountManager } from "../gamma/module";
-import { LogInCreds, RegisterCreds, RegisterResponse, SearchQuery } from "../gamma/account/types";
+import { AccountManager } from "../gamma/gamma.module";
+import { LogInCreds, RegisterCreds, RegisterResponse, SearchQuery } from "../gamma/account/account.types";
 
 const path = require("path");
 

@@ -1,9 +1,9 @@
 import * as mongoose from "mongoose";
 import * as bcrypt from "bcrypt-as-promised";
 
-import { GammaConfig } from "../types";
-import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, FriendInviteResponse, SearchResponse, SearchQuery, AuthCreds, AuthResult } from "./types";
-import { User } from "./schemas";
+import { GammaConfig } from "../gamma.types";
+import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, FriendInviteResponse, SearchResponse, SearchQuery, AuthCreds, AuthResult } from "./account.types";
+import { User } from "./account.schemas";
 
 const ObjectId = mongoose.Types.ObjectId;
 
