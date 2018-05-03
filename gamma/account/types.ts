@@ -25,13 +25,18 @@ export interface RegisterError {
 	text: string;
 }
 
+export interface AuthResult {
+	valid: boolean;
+	user?: any;
+}
+
 export interface AuthCreds {
 	id: string;
 	authToken: string;
 }
 
 export interface SearchQuery {
-	auth: AuthCreds;
+	authCreds: AuthCreds;
 	text: string;
 	limit?: number;
 	offset?: number;
@@ -40,6 +45,8 @@ export interface SearchQuery {
 export interface SearchResult {
 	id: string;
 	name: string;
+	isSelf: boolean;
+	isFriend: boolean;
 }
 
 export interface SearchResponse {

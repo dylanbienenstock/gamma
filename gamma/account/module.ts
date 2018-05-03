@@ -2,8 +2,10 @@ import * as mongoose from "mongoose";
 import * as bcrypt from "bcrypt-as-promised";
 
 import { GammaConfig } from "../types";
-import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, FriendInviteResponse, SearchResponse, SearchQuery } from "./types";
+import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, FriendInviteResponse, SearchResponse, SearchQuery, AuthCreds, AuthResult } from "./types";
 import { User } from "./schemas";
+
+const ObjectId = mongoose.Types.ObjectId;
 
 export module AccountManager {
 	export function initialize(config: GammaConfig) {
@@ -159,20 +161,38 @@ export module AccountManager {
 		});
 	}
 
-	export async function validate(name: string, authToken: string): Promise<boolean> {
+	export async function authenticate(auth: AuthCreds, extraFields?: string): Promise<AuthResult> {
 		let error: any;
 		let user: any;
 
-		await User.where({ name: name }).findOne((_error, _user) => {
+		let defaultFields = "id name authToken";
+		let fields = extraFields ? `${defaultFields} ${extraFields}` : defaultFields;
+
+		await User.findOne({ _id: ObjectId(auth.id) }, fields, (_error, _user) => {
 			error = _error;
 			user = _user;
 		});
 
-		return (!error && user && authToken == user.authToken);
+		if (!error && user && auth.authToken == user.authToken) {
+			return {
+				valid: true,
+				user: user
+			}
+		}
+
+		return { valid: false };
 	}
 
 	export async function search(query: SearchQuery): Promise<SearchResponse> {
 		let response: SearchResponse = {};
+		let authResult: AuthResult;
+		
+		await this.authenticate(query.authCreds, "friends")
+		.then((_authResult: AuthResult) => {
+			authResult = _authResult;
+		});
+
+		if (!authResult.valid) return response;
 
 		let error: any;
 		let users: any;
@@ -184,20 +204,27 @@ export module AccountManager {
 			}},
 			"id name",
 			{
-				$limit: query.limit || 16,
-				$skip: query.offset || 0
-			},
-			(_error, _users) => {
-				error = _error;
-				users = _users;
+				$skip: query.offset || 0,
+				$limit: query.limit || 16
 			}
-		);
+		).catch((_error) => {
+			error = _error;
+		})
+		.then((_users) => {
+			users = _users;
+		});
 
-		if (!error) {
+		if (!error && users) {
+			let friendIds = authResult.user.friends.map(friend => friend.id);
+
 			response.results = users.map((user) => {
+				let isSelf = user.id == authResult.user.id;
+
 				return {
 					id: user.id,
-					name: user.name
+					name: user.name,
+					isSelf: isSelf,
+					isFriend: !isSelf && friendIds.contains(user.id)
 				};
 			});
 		} else {
