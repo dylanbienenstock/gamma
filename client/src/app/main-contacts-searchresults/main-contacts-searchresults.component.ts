@@ -22,8 +22,14 @@ export class MainContactsSearchresultsComponent implements OnInit {
 			if (a.isSelf) return -1;
 			if (b.isSelf) return 1;
 
+			if (a.isRequesting) return -1;
+			if (b.isRequesting) return 1;
+
 			if (a.isFriend) return -1;
 			if (b.isFriend) return 1;
+
+			if (a.isConfirmed) return -1;
+			if (b.isConfirmed) return 1;
 
 			return 0;
 		});
