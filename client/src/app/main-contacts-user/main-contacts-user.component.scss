@@ -40,20 +40,27 @@ $user-container-height: 38px;
 					}
 				}
 
-				.invite {
-					cursor: pointer;
-					
-					img {
+				.invite {					
+					svg {
 						@include noselect;
 
-						width: 12px;
+						cursor: pointer;
+						
+						width: 16px;
 						margin-right: 2px;
 						opacity: 0.75;
-					}
+						transition: transform 300ms ease;
 
-					&:hover {
-						img {
+						g { transition: fill 300ms ease; }
+
+						&:hover {
 							opacity: 1;
+						}
+
+						&.invited {
+							transform: rotate(45deg);
+
+							g { fill: #d64444; }
 						}
 					}
 				}
