@@ -1,0 +1,17 @@
+@import "~global.scss";
+
+:host {
+	.noresults {
+		text-align: center;
+		font-size: 16px;
+	}
+
+	.spinner {
+		width: 100%;
+		text-align: center;
+
+		img {			
+			width: 42px; // TODO: Turn this into a variable
+		}
+	}
+}

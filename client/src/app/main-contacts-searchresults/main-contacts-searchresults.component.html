@@ -1,5 +1,13 @@
-<p *ngIf="waiting">loading</p>
+<p class="noresults" *ngIf="!waiting && noResults">No results :(</p>
 
-<p *ngIf="!waiting && noResults">no results</p>
+<div *ngIf="!waiting && !noResults">
+	<app-main-contacts-user
+	*ngFor="let result of searchResults; index as index;"
+	[data]="result"
+	[index]="index">
+	</app-main-contacts-user>
+</div>
 
-<pre *ngIf="!waiting && !noResults">{{ searchResults | json }}</pre>
+<div class="spinner" *ngIf="waiting">
+	<img src="assets/loading.svg">
+</div>

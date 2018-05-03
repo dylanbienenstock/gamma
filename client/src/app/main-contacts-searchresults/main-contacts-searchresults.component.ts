@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SearchResult } from '../../../../gamma/account/types';
 
 @Component({
 	selector: 'app-main-contacts-searchresults',
@@ -9,12 +10,12 @@ export class MainContactsSearchresultsComponent implements OnInit {
 
 	constructor() { }
 
-	_searchResults: any[];
+	_searchResults: SearchResult[];
 	noResults: boolean;
 
 	@Input() waiting: boolean
 
-	@Input() set searchResults(value: any[]) {
+	@Input() set searchResults(value: SearchResult[]) {
 		this._searchResults = value;
 		this.noResults = (!value || value.length == 0);
 	}
