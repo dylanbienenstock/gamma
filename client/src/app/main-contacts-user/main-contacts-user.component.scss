@@ -1,0 +1,45 @@
+@import "~global.scss";
+
+$user-container-height: 38px;
+
+:host {
+	.container {
+		display: flex;
+		flex-flow: row nowrap;
+		height: $user-container-height;
+		width: 100%;
+		margin-bottom: 10px;
+		transition: all 250ms ease;
+
+		img {
+			width: $user-container-height;
+			height: $user-container-height;
+			margin-right: $panel-padding;
+		}
+
+		& > div {
+			flex: 1;
+
+			.name-and-status {
+				display: flex;
+				flex-flow: row wrap;
+				line-height: $user-container-height;
+
+				.name {
+					flex-grow: 1;
+					width: 0;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					font-size: 16px;
+
+					&:before {
+						content: "@";
+						margin-right: 2px;
+						opacity: 0.5;						
+					}
+				}
+			}
+		}
+	}
+}

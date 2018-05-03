@@ -1,3 +1,14 @@
-<p>
-  main-contacts-user works!
-</p>
+<div class="container" [ngStyle]="{
+	opacity: hidden ? 0 : 1,
+	transform: hidden ? 'translateY(18px)' : ''
+}">
+	<img src="assets/contacts.svg">
+
+	<div>
+		<div class="name-and-status">
+			<p class="name">{{ data.name }}</p>
+
+			<app-main-contacts-status status="online"></app-main-contacts-status>
+		</div>
+	</div>
+</div>
