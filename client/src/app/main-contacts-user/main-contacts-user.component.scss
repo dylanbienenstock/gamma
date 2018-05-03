@@ -23,7 +23,13 @@ $user-container-height: 38px;
 			.name-and-status {
 				display: flex;
 				flex-flow: row wrap;
-				line-height: $user-container-height;
+				@include center-vertical;				
+				// line-height: $user-container-height;
+
+				app-main-contacts-status {
+					position: relative;
+					top: 2px;
+				}
 
 				.name {
 					flex-grow: 1;
@@ -40,18 +46,27 @@ $user-container-height: 38px;
 					}
 				}
 
-				.invite {					
-					svg {
+				.invite,
+				.accept-or-reject {
+					@include noselect;	
+
+					cursor: default;
+
+					svg, img {
 						@include noselect;
+						@include center-vertical;						
 
 						cursor: pointer;
-						
 						width: 16px;
-						margin-right: 2px;
-						opacity: 0.75;
+						opacity: 0.6;
 
 						&:hover { opacity: 1; }
+						&:last-child { margin-right: 2px; }
+					}
+				}
 
+				.invite {					
+					svg {
 						g {
 							transition: all 200ms ease;
 							transform-origin: 50% 50% !important;
@@ -62,6 +77,17 @@ $user-container-height: 38px;
 								fill: #d64444;
 								transform: rotate(45deg);
 							}
+						}
+					}
+				}
+
+				.accept-or-reject {
+					font-size: 0;
+
+					img {
+						&.reject {
+							position: relative;
+							left: -6px;
 						}
 					}
 				}
