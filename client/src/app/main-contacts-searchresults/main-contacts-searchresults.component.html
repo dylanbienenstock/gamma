@@ -3,6 +3,7 @@
 <div *ngIf="!waiting && !noResults">
 	<app-main-contacts-user
 	*ngFor="let result of searchResults; index as index;"
+	[localUser]="localUser"
 	[data]="result"
 	[index]="index">
 	</app-main-contacts-user>

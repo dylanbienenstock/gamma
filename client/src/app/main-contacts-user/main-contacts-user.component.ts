@@ -9,6 +9,7 @@ import { SearchResult } from '../../../../gamma/account/account.types';
 export class MainContactsUserComponent implements AfterViewInit {
 	constructor() { }
 
+	@Input() localUser: any;
 	@Input() data: SearchResult;
 	@Input() index: number;
 

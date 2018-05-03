@@ -13,7 +13,8 @@ export class MainContactsSearchresultsComponent implements OnInit {
 	_searchResults: SearchResult[];
 	noResults: boolean;
 
-	@Input() waiting: boolean
+	@Input() localUser: any;
+	@Input() waiting: boolean;
 
 	@Input() set searchResults(value: SearchResult[]) {
 		this.noResults = (!value || value.length == 0);

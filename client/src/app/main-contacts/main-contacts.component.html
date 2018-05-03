@@ -18,9 +18,10 @@
 				</app-main-contacts-home>
 
 				<app-main-contacts-searchresults
+				*ngIf="searching"
 				[waiting]="waiting"
 				[searchResults]="searchResults"
-				*ngIf="searching">
+				[localUser]="localUser">
 				</app-main-contacts-searchresults>
 			</div>
 		</div>
