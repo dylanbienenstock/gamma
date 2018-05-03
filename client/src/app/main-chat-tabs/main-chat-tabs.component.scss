@@ -10,6 +10,7 @@
 		font-size: 0;
 
 		.panel-button {
+			@include noselect;
 			@include center-vertical;
 
 			cursor: pointer;
