@@ -3,6 +3,8 @@
 		"lib": [
 			"es2016",
 			"dom"
-		]
+		],
+		"experimentalDecorators": true,
+		"allowJs": true
 	}
 }
