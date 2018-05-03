@@ -5,10 +5,23 @@
 		</div>
 
 		<div class="content">
-			<app-main-contacts-search [localUser]="localUser"></app-main-contacts-search>
+			<app-main-contacts-search
+			(setSearching)="onSetSearching($event)"
+			(displaySearchResults)="onDisplaySearchResults($event)"
+			[localUser]="localUser">
+			</app-main-contacts-search>
 
 			<div class="content-view">
-				<app-main-contacts-home [localUser]="localUser"></app-main-contacts-home>
+				<app-main-contacts-home
+				*ngIf="!searching"
+				[localUser]="localUser">
+				</app-main-contacts-home>
+
+				<app-main-contacts-searchresults
+				[waiting]="waiting"
+				[searchResults]="searchResults"
+				*ngIf="searching">
+				</app-main-contacts-searchresults>
 			</div>
 		</div>
 	</div>

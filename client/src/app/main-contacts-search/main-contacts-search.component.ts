@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SearchQuery } from '../../../../gamma/account/types';
+import { SearchQuery, SearchResult, SearchResponse } from '../../../../gamma/account/types';
 import { SocketService } from '../socket.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
 	selector: 'app-main-contacts-search',
@@ -13,9 +14,12 @@ export class MainContactsSearchComponent implements OnInit {
 	constructor(private socketService: SocketService) { }
 
 	@Input() localUser: any;
+	@Output() setSearching: EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() displaySearchResults: EventEmitter<any[]> = new EventEmitter<any[]>();
 
 	queryText: string;
 	searchTimeout: any;
+	searchDelay: number = 350;
 	searchSubscription: Subscription;
 
 	ngOnInit() {
@@ -23,26 +27,27 @@ export class MainContactsSearchComponent implements OnInit {
 	}
 
 	onNgModelChange() {
+		let searching: boolean = this.queryText.length > 0;
+		this.setSearching.emit(searching);
+
 		clearTimeout(this.searchTimeout);
 
 		this.searchTimeout = setTimeout(() => {
 			this.search({
-				auth: this.localUser.authCreds(),
+				authCreds: this.localUser.authCreds(),
 				text: this.queryText
 			});
-		}, 250);
+		}, this.searchDelay);
 	}
 
 	search(query: SearchQuery) {
-		console.log(query);
-
 		if (this.searchSubscription) {
 			this.searchSubscription.unsubscribe();
 		}
 
-		let observable = this.socketService.search(query);
-		this.searchSubscription = observable.subscribe((data) => {
-			console.log(data);
+		let observable: Observable<SearchResponse> = this.socketService.search(query);
+		this.searchSubscription = observable.subscribe((data: SearchResponse) => {
+			this.displaySearchResults.emit(data.results);
 			this.searchSubscription.unsubscribe();
 		});
 	}

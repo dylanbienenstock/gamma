@@ -11,7 +11,22 @@ export class MainContactsComponent implements OnInit {
 
 	@Input() localUser: any;
 
+	waiting: boolean;
+	searching: boolean = false;
+	searchResults: any[];
+
 	ngOnInit() {
 		
+	}
+
+	onSetSearching(searching: boolean) {
+		this.waiting = true;
+		this.searching = searching;
+		this.searchResults = [];
+	}
+
+	onDisplaySearchResults(searchResults: any[]) {
+		this.searchResults = searchResults;
+		this.waiting = false;
 	}
 }
