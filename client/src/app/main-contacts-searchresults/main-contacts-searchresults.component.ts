@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SearchResult } from '../../../../gamma/account/account.types';
+import { Contact } from '../../../../gamma/account/account.types';
 
 @Component({
 	selector: 'app-main-contacts-searchresults',
@@ -10,13 +10,13 @@ export class MainContactsSearchresultsComponent implements OnInit {
 
 	constructor() { }
 
-	_searchResults: SearchResult[];
+	_searchResults: Contact[];
 	noResults: boolean;
 
 	@Input() localUser: any;
 	@Input() waiting: boolean;
 
-	@Input() set searchResults(value: SearchResult[]) {
+	@Input() set searchResults(value: Contact[]) {
 		this.noResults = (!value || value.length == 0);
 		this._searchResults = value.sort((a, b) => {
 			if (a.isSelf) return -1;

@@ -42,7 +42,7 @@ export interface SearchQuery {
 	offset?: number;
 }
 
-export interface SearchResult {
+export interface Contact {
 	id: string;
 	name: string;
 	isSelf: boolean;
@@ -51,7 +51,7 @@ export interface SearchResult {
 }
 
 export interface SearchResponse {
-	results?: SearchResult[];
+	results?: Contact[];
 }
 
 export interface FriendInviteRequest {

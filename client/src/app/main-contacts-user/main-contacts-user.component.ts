@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { SearchResult, FriendInviteRequest } from '../../../../gamma/account/account.types';
+import { Contact, FriendInviteRequest } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class MainContactsUserComponent implements AfterViewInit {
 	constructor(private socketService: SocketService) { }
 
 	@Input() localUser: any;
-	@Input() data: SearchResult;
+	@Input() data: Contact;
 	@Input() index: number;
 
 	hidden: boolean = true;
