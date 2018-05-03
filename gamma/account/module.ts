@@ -209,4 +209,44 @@ export module AccountManager {
 
 		return response;
 	}
+
+	export async function sendFriendInvite(inviterName: string, inviteeName: string, ): Promise<FriendInviteResponse> {
+		let response: FriendInviteResponse = { success: false };
+
+		let inviterError: any;
+		let inviter: any;
+
+		let inviteeError: any;
+		let invitee: any;
+
+		await User.where({ name: inviterName }).findOne((_inviterError, _inviter) => {
+			inviterError = _inviterError;
+			inviter = _inviter;
+		});
+
+		if (inviterError || !inviter) return response;
+
+		await User.where({ name: inviteeName }).findOne((_inviteeError, _invitee) => {
+			inviteeError = _inviteeError;
+			invitee = _invitee;
+		});
+
+		if (inviteeError || !invitee) return response;
+
+		let inviterFriendNames = inviter.friends.map(friend => friend.id);
+
+		if (inviterFriendNames.contains(invitee.names)) return response;
+
+		let friendInvite = { friendId: invitee.id }
+		inviter.friendInvites.push(friendInvite);
+		inviter.save();
+
+		response.success = true;
+		response.friendInvite = {
+			id: invitee.id,
+			name: invitee.name
+		}
+
+		return response;
+	}
 }
