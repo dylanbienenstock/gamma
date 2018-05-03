@@ -49,18 +49,19 @@ $user-container-height: 38px;
 						width: 16px;
 						margin-right: 2px;
 						opacity: 0.75;
-						transition: transform 300ms ease;
 
-						g { transition: fill 300ms ease; }
+						&:hover { opacity: 1; }
 
-						&:hover {
-							opacity: 1;
+						g {
+							transition: all 200ms ease;
+							transform-origin: 50% 50% !important;
 						}
 
 						&.invited {
-							transform: rotate(45deg);
-
-							g { fill: #d64444; }
+							g {
+								fill: #d64444;
+								transform: rotate(45deg);
+							}
 						}
 					}
 				}
