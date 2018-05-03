@@ -183,6 +183,43 @@ export module AccountManager {
 		return { valid: false };
 	}
 
+	// Owner must populate:
+	// "friends friends.user friendInvites friendInvites.user"
+	// Users must populate:
+	// "friends friends.user"
+	export function generateContactsList(owner: any, users: any[]) {
+		let friendIds = [];
+		let friendConfirmations = [];
+		let friendInviteIds = [];
+
+		for (let friend of owner.friends) {
+			friendIds.push(friend.user.id.toString());
+
+			if (friend.confirmed) {
+				friendConfirmations.push(friend.user.id.toString());
+			}
+		}
+
+		friendInviteIds = owner.friendInvites
+			.map(friendInvite => friendInvite.user.id);
+
+		return users.map((contacts) => {
+			let isSelf = contacts.id == owner.id;
+			let isFriend = !isSelf && friendIds.includes(contacts.id);
+			let isConfirmed = !isSelf && friendConfirmations.includes(contacts.id);
+			let isRequesting = !isSelf && friendInviteIds.includes(contacts.id);
+
+			return {
+				id: contacts.id,
+				name: contacts.name,
+				isSelf: isSelf,
+				isFriend: isFriend,
+				isConfirmed: isConfirmed,
+				isRequesting: isRequesting
+			};
+		});
+	}
+
 	export async function search(query: SearchQuery): Promise<SearchResponse> {
 		let response: SearchResponse = {};
 		let authResult: AuthResult;
@@ -219,36 +256,7 @@ export module AccountManager {
 		});
 
 		if (!error && users) {
-			let friendIds = [];
-			let friendConfirmations = [];
-			let friendInviteIds = [];			
-
-			for (let friend of authResult.user.friends) {
-				friendIds.push(friend.user.id);
-
-				if (friend.confirmed) {
-					friendConfirmations.push(friend.user.id);
-				}
-			}
-
-			friendInviteIds = authResult.user.friendInvites
-				.map(friendInvite => friendInvite.user.id);
-
-			response.results = users.map((user) => {
-				let isSelf = user.id == authResult.user.id;
-				let isFriend = !isSelf && friendIds.includes(user.id);
-				let isConfirmed = !isSelf && friendConfirmations.includes(user.id);
-				let isRequesting = !isSelf && friendInviteIds.includes(user.id);
-
-				return {
-					id: user.id,
-					name: user.name,
-					isSelf: isSelf,
-					isFriend: isFriend,
-					isConfirmed: isConfirmed,
-					isRequesting: isRequesting
-				};
-			});
+			response.results = this.generateContactsList(authResult.user, users);
 		} else {
 			console.log(error);
 		}
@@ -278,7 +286,7 @@ export module AccountManager {
 
 		let senderFriendIds = authResult.user.friends
 			.map(friend => friend.user.id.toString());
-			
+
 		let recipientFriendInviteIds = recipient.friendInvites
 			.map(friendInvite => friendInvite.user.id.toString());
 
