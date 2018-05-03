@@ -9,6 +9,7 @@ const app = express();
 const http = require("http").createServer(app);
 
 const io = require("socket.io")(http);
+io.set("transports", ["websocket"]);
 // const p2pserver = require("socket.io-p2p-server").Server
 
 var users = {};
@@ -78,8 +79,6 @@ function listen() {
 		});
 
 		socket.on("search request", (query: SearchQuery) => {
-			console.log(query);
-
 			AccountManager.search(query)
 			.then((response) => {
 				socket.emit("search response", response);
