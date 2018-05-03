@@ -1,6 +1,6 @@
 import { config } from "./server.config";
 import { AccountManager } from "../gamma/gamma.module";
-import { LogInCreds, RegisterCreds, RegisterResponse, SearchQuery } from "../gamma/account/account.types";
+import { LogInCreds, RegisterCreds, RegisterResponse, SearchQuery, FriendInviteRequest } from "../gamma/account/account.types";
 
 const path = require("path");
 
@@ -87,6 +87,14 @@ function listen() {
 			.then((response) => {
 				socket.emit("search response", response);
 			});
+		});
+
+		socket.on("friend add", (invite: FriendInviteRequest) => {
+			AccountManager.addFriend(invite);
+		});
+
+		socket.on("friend remove", (invite: FriendInviteRequest) => {
+			AccountManager.removeFriend(invite);
 		});
 
 		// socket.on("room join request", (data: any) => {

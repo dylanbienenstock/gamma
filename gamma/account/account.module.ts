@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 import * as bcrypt from "bcrypt-as-promised";
 
 import { GammaConfig } from "../gamma.types";
-import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, FriendInviteResponse, SearchResponse, SearchQuery, AuthCreds, AuthResult } from "./account.types";
+import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, SearchResponse, SearchQuery, AuthCreds, AuthResult, FriendInviteRequest } from "./account.types";
 import { User } from "./account.schemas";
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -161,17 +161,19 @@ export module AccountManager {
 		});
 	}
 
-	export async function authenticate(auth: AuthCreds, extraFields?: string): Promise<AuthResult> {
+	export async function authenticate(auth: AuthCreds, extraFields?: string, populate?: string): Promise<AuthResult> {
 		let error: any;
 		let user: any;
 
 		let defaultFields = "id name authToken";
 		let fields = extraFields ? `${defaultFields} ${extraFields}` : defaultFields;
 
-		await User.findOne({ _id: ObjectId(auth.id) }, fields, (_error, _user) => {
-			error = _error;
-			user = _user;
-		});
+		console.log(fields);
+
+		await User.findOne({ _id: ObjectId(auth.id) }, fields)
+		.populate(populate || "")
+		.catch((_error) => { error = _error; })
+		.then((_user) => { user = _user });
 
 		if (!error && user && auth.authToken == user.authToken) {
 			return {
@@ -187,7 +189,7 @@ export module AccountManager {
 		let response: SearchResponse = {};
 		let authResult: AuthResult;
 		
-		await this.authenticate(query.authCreds, "friends")
+		await this.authenticate(query.authCreds, null, "friends friends.user")
 		.then((_authResult: AuthResult) => {
 			authResult = _authResult;
 		});
@@ -215,17 +217,25 @@ export module AccountManager {
 		});
 
 		if (!error && users) {
-			let friendIds = authResult.user.friends.map(friend => friend.id);		
+			let friendIds = [];
+			let friendConfirmations = {};
+
+			for (let friend of authResult.user.friends) {
+				friendIds.push(friend.user.id);
+				friendConfirmations[friend.user.id] = friend.confirmed;
+			}
 
 			response.results = users.map((user) => {
 				let isSelf = user.id == authResult.user.id;
-				let isFriend = !isSelf && friendIds.includes(user.id)
+				let isFriend = !isSelf && friendIds.includes(user.id);
+				let isConfirmed = friendConfirmations[user.id];
 
 				return {
 					id: user.id,
 					name: user.name,
 					isSelf: isSelf,
-					isFriend: isFriend
+					isFriend: isFriend,
+					isConfirmed: isConfirmed
 				};
 			});
 		} else {
@@ -235,43 +245,57 @@ export module AccountManager {
 		return response;
 	}
 
-	export async function sendFriendInvite(inviterName: string, inviteeName: string, ): Promise<FriendInviteResponse> {
-		let response: FriendInviteResponse = { success: false };
+	export async function addFriend(invite: FriendInviteRequest): Promise<null> {
+		let authResult: AuthResult;
 
-		let inviterError: any;
-		let inviter: any;
-
-		let inviteeError: any;
-		let invitee: any;
-
-		await User.where({ name: inviterName }).findOne((_inviterError, _inviter) => {
-			inviterError = _inviterError;
-			inviter = _inviter;
+		await this.authenticate(invite.authCreds, null, "friends friends.user")
+		.then((_authResult: AuthResult) => {
+			authResult = _authResult;
 		});
 
-		if (inviterError || !inviter) return response;
+		if (!authResult.valid) return;
 
-		await User.where({ name: inviteeName }).findOne((_inviteeError, _invitee) => {
-			inviteeError = _inviteeError;
-			invitee = _invitee;
+		let recipientError: any;
+		let recipient: any;
+
+		await User.findOne({ _id: ObjectId(invite.id) })
+			.catch((error) => { recipientError = error; })
+			.then((user) => { recipient = user; })
+
+		if (recipientError || !recipient) return;
+
+		let senderFriendIds = authResult.user.friends.map(friend => friend.user.id);
+		let recipientFriendInviteIds = recipient.friends.map(friendInvite => friendInvite.user.id);
+
+		if (senderFriendIds.includes(recipient.id)) return;
+		if (recipientFriendInviteIds.includes(authResult.user.id)) return;
+
+		let friend = { user: ObjectId(recipient.id) };
+		authResult.user.friends.push(friend);
+		authResult.user.save();
+
+		let friendInvite = { user: ObjectId(authResult.user.id) };
+		recipient.friendInvites.push(friendInvite);
+		recipient.save();
+	}
+
+	export async function removeFriend(invite: FriendInviteRequest): Promise<null> {
+		let authResult: AuthResult;
+
+		await this.authenticate(invite.authCreds, null, "friends friends.user")
+		.then((_authResult: AuthResult) => {
+			authResult = _authResult;
 		});
 
-		if (inviteeError || !invitee) return response;
+		if (!authResult.valid) return;
 
-		let inviterFriendNames = inviter.friends.map(friend => friend.id);
+		for (let friend of authResult.user.friends) {
+			if (friend.user.id == invite.id) {
+				authResult.user.friends.id(ObjectId(friend.id)).remove();
+				authResult.user.save();
 
-		if (inviterFriendNames.contains(invitee.names)) return response;
-
-		let friendInvite = { friendId: invitee.id }
-		inviter.friendInvites.push(friendInvite);
-		inviter.save();
-
-		response.success = true;
-		response.friendInvite = {
-			id: invitee.id,
-			name: invitee.name
+				break;
+			}
 		}
-
-		return response;
 	}
 }

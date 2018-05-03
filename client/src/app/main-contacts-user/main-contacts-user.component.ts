@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { SearchResult } from '../../../../gamma/account/account.types';
+import { SearchResult, FriendInviteRequest } from '../../../../gamma/account/account.types';
+import { SocketService } from '../socket.service';
 
 @Component({
 	selector: 'app-main-contacts-user',
@@ -7,13 +8,13 @@ import { SearchResult } from '../../../../gamma/account/account.types';
 	styleUrls: ['./main-contacts-user.component.scss']
 })
 export class MainContactsUserComponent implements AfterViewInit {
-	constructor() { }
+
+	constructor(private socketService: SocketService) { }
 
 	@Input() localUser: any;
 	@Input() data: SearchResult;
 	@Input() index: number;
 
-	invited: boolean = false;
 	hidden: boolean = true;
 	animationDelay: number = 75;
 
@@ -24,6 +25,17 @@ export class MainContactsUserComponent implements AfterViewInit {
 	}
 
 	toggleInvitation() {
-		this.invited = !this.invited;
+		this.data.isFriend = !this.data.isFriend;
+
+		let invite: FriendInviteRequest = {
+			authCreds: this.localUser.authCreds(),
+			id: this.data.id
+		}
+
+		if (this.data.isFriend) {
+			this.socketService.addFriend(invite);
+		} else {
+			this.socketService.removeFriend(invite);			
+		}
 	}
 }

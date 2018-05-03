@@ -7,7 +7,7 @@ const nameRegex: RegExp = /^([a-zA-Z0-9\-_])*$/;
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const friendInviteSchema = new Schema({
-	friendId: ObjectId,
+	user: ObjectId,
 	confirmed: {
 		type: Boolean,
 		default: false
@@ -18,7 +18,7 @@ const friendInviteSchema = new Schema({
 });
 
 const friendSchema = new Schema({
-	friendId: ObjectId,
+	user: ObjectId,
 	confirmed: {
 		type: Boolean,
 		default: false

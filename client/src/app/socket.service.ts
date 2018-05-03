@@ -1,4 +1,4 @@
-import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, SearchResponse } from "../../../gamma/account/account.types";
+import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, SearchResponse, FriendInviteRequest } from "../../../gamma/account/account.types";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
@@ -45,5 +45,13 @@ export class SocketService {
 				observer.next(data);
 			});
 		});	
+	}
+
+	addFriend(invite: FriendInviteRequest) {
+		this.socket.emit("friend add", invite);
+	}
+
+	removeFriend(invite: FriendInviteRequest) {
+		this.socket.emit("friend remove", invite);
 	}
 }

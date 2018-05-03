@@ -47,18 +47,14 @@ export interface SearchResult {
 	name: string;
 	isSelf: boolean;
 	isFriend: boolean;
+	isConfirmed: boolean;
 }
 
 export interface SearchResponse {
 	results?: SearchResult[];
 }
 
-export interface FriendInviteResponse {
-	success: boolean;
-	friendInvite?: FriendInvite;
-}
-
-export interface FriendInvite {
-	id: string;
-	name: string;
+export interface FriendInviteRequest {
+	authCreds: AuthCreds;
+	id: string; // Recipient id
 }

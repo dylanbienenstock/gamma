@@ -9,14 +9,14 @@
 			<p class="name">{{ data.name }}</p>
 
 			<app-main-contacts-status
-			*ngIf="data.isFriend || data.isSelf"
+			*ngIf="data.isConfirmed || data.isSelf"
 			status="online">
 			</app-main-contacts-status>
 
 			<div class="invite"
 			(click)="toggleInvitation()"
-			*ngIf="!data.isFriend && !data.isSelf">
-				<img src="{{ invited ? 'assets/invite-sent.svg' : 'assets/invite.svg' }}">
+			*ngIf="!data.isConfirmed && !data.isSelf">
+				<img src="{{ data.isFriend ? 'assets/invite-sent.svg' : 'assets/invite.svg' }}">
 			</div>
 		</div>
 	</div>
