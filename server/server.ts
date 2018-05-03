@@ -1,6 +1,6 @@
 import { config } from "./server.config";
 import { AccountManager } from "../gamma/module";
-import { LogInCreds, RegisterCreds, RegisterResponse } from "../gamma/account/types";
+import { LogInCreds, RegisterCreds, RegisterResponse, SearchQuery } from "../gamma/account/types";
 
 const path = require("path");
 
@@ -77,28 +77,36 @@ function listen() {
 			}
 		});
 
-		socket.on("room join request", (data: any) => {
-			if (loggedIn) {
-				AccountManager.validate(name, data.authToken).then((valid) => {
-					socket.leave(currentRoom);
+		socket.on("search request", (query: SearchQuery) => {
+			console.log(query);
 
-					if (valid) {
-						currentRoom = data.room;
-						socket.join(data.room);
-						// p2pserver(socket, null, data.room);
-					}
-				});
-			}
-		});
-
-		socket.on("message send", (data: any) => {
-			console.log(data);
-
-			socket.to(data.room).emit("message receive", {
-				name: name,
-				message: data.message
+			AccountManager.search(query)
+			.then((response) => {
+				socket.emit("search response", response);
 			});
 		});
-	});
 
+		// socket.on("room join request", (data: any) => {
+		// 	if (loggedIn) {
+		// 		AccountManager.validate(name, data.authToken).then((valid) => {
+		// 			socket.leave(currentRoom);
+
+		// 			if (valid) {
+		// 				currentRoom = data.room;
+		// 				socket.join(data.room);
+		// 				// p2pserver(socket, null, data.room);
+		// 			}
+		// 		});
+		// 	}
+		// });
+
+		// socket.on("message send", (data: any) => {
+		// 	console.log(data);
+
+		// 	socket.to(data.room).emit("message receive", {
+		// 		name: name,
+		// 		message: data.message
+		// 	});
+		// });
+	});
 }
