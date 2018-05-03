@@ -2,13 +2,22 @@
 	opacity: hidden ? 0 : 1,
 	transform: hidden ? 'translateY(18px)' : ''
 }">
-	<img src="assets/contacts.svg">
+	<img class="avatar" src="assets/contacts.svg">
 
 	<div>
 		<div class="name-and-status">
 			<p class="name">{{ data.name }}</p>
 
-			<app-main-contacts-status status="online"></app-main-contacts-status>
+			<app-main-contacts-status
+			*ngIf="data.isFriend || data.isSelf"
+			status="online">
+			</app-main-contacts-status>
+
+			<div class="invite"
+			(click)="toggleInvitation()"
+			*ngIf="!data.isFriend && !data.isSelf">
+				<img src="{{ invited ? 'assets/invite-sent.svg' : 'assets/invite.svg' }}">
+			</div>
 		</div>
 	</div>
 </div>

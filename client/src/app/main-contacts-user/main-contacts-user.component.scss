@@ -11,7 +11,7 @@ $user-container-height: 38px;
 		margin-bottom: 10px;
 		transition: all 250ms ease;
 
-		img {
+		.avatar {
 			width: $user-container-height;
 			height: $user-container-height;
 			margin-right: $panel-padding;
@@ -37,6 +37,24 @@ $user-container-height: 38px;
 						content: "@";
 						margin-right: 2px;
 						opacity: 0.5;						
+					}
+				}
+
+				.invite {
+					cursor: pointer;
+					
+					img {
+						@include noselect;
+
+						width: 12px;
+						margin-right: 2px;
+						opacity: 0.75;
+					}
+
+					&:hover {
+						img {
+							opacity: 1;
+						}
 					}
 				}
 			}

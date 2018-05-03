@@ -12,6 +12,7 @@ export class MainContactsUserComponent implements AfterViewInit {
 	@Input() data: SearchResult;
 	@Input() index: number;
 
+	invited: boolean = false;
 	hidden: boolean = true;
 	animationDelay: number = 75;
 
@@ -19,5 +20,9 @@ export class MainContactsUserComponent implements AfterViewInit {
 		setTimeout(() => {
 			this.hidden = false;
 		}, (this.index + 1) * this.animationDelay)
+	}
+
+	toggleInvitation() {
+		this.invited = !this.invited;
 	}
 }
