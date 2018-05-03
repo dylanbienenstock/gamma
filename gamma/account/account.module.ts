@@ -236,6 +236,14 @@ export module AccountManager {
 		let error: any;
 		let users: any;
 
+		// https://codereview.stackexchange.com/questions/153691/escape-user-input-for-use-in-js-regex
+		query.text = (function sanitize(text) {
+			var toSanitize = RegExp("[" + "{}[]-/\\()*+?.%$|"
+				.replace(RegExp(".", "g"), "\\$&") + "]", "g");
+
+			return text.replace(toSanitize, "\\$&");
+		})(query.text);
+
 		// Find users that match query
 		await User.find(
 			{ name: {
