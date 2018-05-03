@@ -1,4 +1,4 @@
-import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse } from "../../../gamma/account/types";
+import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, SearchResponse } from "../../../gamma/account/types";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
@@ -33,4 +33,13 @@ export class SocketService {
 		});		
 	}
 
+	search(query: SearchQuery): Observable<SearchResponse> {
+		this.socket.emit("search request", query);
+
+		return new Observable<SearchResponse>((observer) => {
+			this.socket.on("search response", (data) => {
+				observer.next(data);
+			});
+		});	
+	}
 }
