@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthCreds } from '../../../../gamma/account/types';
 
 @Component({
 	selector: 'app-main',
@@ -15,7 +16,14 @@ export class MainComponent {
 
 	public onSetLocalUser(user: any) {
 		console.log(user);
+		
 		this.localUser = user;
+		this.localUser.authCreds = (): AuthCreds => {
+			return {
+				id: this.localUser.id,
+				authToken: this.localUser.authToken
+			}
+		}
 	}
 
 	public onLogInComplete() {
