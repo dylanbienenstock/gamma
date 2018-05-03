@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 import * as bcrypt from "bcrypt-as-promised";
 
 import { GammaConfig } from "../types";
-import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse } from "./types";
+import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, FriendInviteResponse, SearchResponse, SearchQuery } from "./types";
 import { User } from "./schemas";
 
 export module AccountManager {
@@ -90,6 +90,7 @@ export module AccountManager {
 			await newUser.save()
 			.then((user) => {
 				response.user = {
+					id: user.id,					
 					name: user.name,
 					authToken: user.authToken
 				};
@@ -104,7 +105,8 @@ export module AccountManager {
 	}
 
 	export async function logIn(creds: LogInCreds): Promise<LogInResponse> {
-		let response: LogInResponse;
+		let response: LogInResponse = { success: false };
+
 		let error: any;
 		let user: any;
 
@@ -115,30 +117,25 @@ export module AccountManager {
 			user = _user;
 		});
 
-		if (error || !user || creds.password.length == 0) {
-			response = { success: false }
-		}
-		else
-		{
-			await bcrypt.compare(creds.password, user.password)
-			.then(() => {
-				// Generate a new auth token on every login
-				user.authToken = generateAuthToken();
+		if (error || !user || creds.password.length == 0) return response;
 
-				response = {
-					success: true,
-					user: {
-						name: user.name,
-						authToken: user.authToken
-					}
+		await bcrypt.compare(creds.password, user.password)
+		.then(() => {
+			// Generate a new auth token on every login
+			user.authToken = generateAuthToken();
+
+			response = {
+				success: true,
+				user: {
+					id: user.id,
+					name: user.name,
+					authToken: user.authToken
 				}
+			}
 
-				user.save();
-			})
-			.catch(() => {
-				response = { success: false }
-			});
-		}
+			user.save();
+		})
+		.catch(() => { /* Do nothing */ });
 
 		return response;
 	}
