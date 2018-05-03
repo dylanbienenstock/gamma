@@ -17,6 +17,8 @@ import { MainContactsSearchComponent } from './main-contacts-search/main-contact
 import { MainContactsHomeComponent } from './main-contacts-home/main-contacts-home.component';
 import { MainContactsHomeYouComponent } from './main-contacts-home-you/main-contacts-home-you.component';
 import { MainContactsStatusComponent } from './main-contacts-status/main-contacts-status.component';
+import { MainContactsSearchresultsComponent } from './main-contacts-searchresults/main-contacts-searchresults.component';
+import { MainContactsUserComponent } from './main-contacts-user/main-contacts-user.component';
 
 @NgModule({
 	declarations: [
@@ -31,7 +33,9 @@ import { MainContactsStatusComponent } from './main-contacts-status/main-contact
 		MainContactsSearchComponent,
 		MainContactsHomeComponent,
 		MainContactsHomeYouComponent,
-		MainContactsStatusComponent
+		MainContactsStatusComponent,
+		MainContactsSearchresultsComponent,
+		MainContactsUserComponent
 	],
 	imports: [
 		BrowserModule,

@@ -1,0 +1,5 @@
+<p *ngIf="waiting">loading</p>
+
+<p *ngIf="!waiting && noResults">no results</p>
+
+<pre *ngIf="!waiting && !noResults">{{ searchResults | json }}</pre>
