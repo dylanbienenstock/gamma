@@ -9,12 +9,12 @@
 			<p class="name">{{ data.name }}</p>
 
 			<app-main-contacts-status
-			*ngIf="data.isConfirmed || data.isSelf"
+			*ngIf="(data.isSelf || (data.isConfirmed && data.isFriend)) && !data.isRequesting"
 			status="online">
 			</app-main-contacts-status>
 
 			<div class="invite"
-			*ngIf="!data.isConfirmed && !data.isSelf">
+			*ngIf="!data.isSelf && !data.isConfirmed && !data.isRequesting">
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 4.233 4.233"
 				[class.invited]="data.isFriend" 
 				(click)="toggleInvitation()">
@@ -23,6 +23,12 @@
 						<path d="M.53 1.92l.004.507 3.17-.022-.004-.507z" paint-order="markers fill stroke" />
 					</g>
 				</svg>
+			</div>
+
+			<div class="accept-or-reject"
+			*ngIf="!data.isSelf && !data.isConfirmed && !data.isFriend && data.isRequesting">
+				<img class="reject" src="assets/invite-reject.svg">
+				<img class="accept" src="assets/invite-accept.svg">
 			</div>
 		</div>
 	</div>
