@@ -45,4 +45,13 @@ export interface SearchResult {
 export interface SearchResponse {
 	results?: SearchResult[];
 }
+
+export interface FriendInviteResponse {
+	success: boolean;
+	friendInvite?: FriendInvite;
+}
+
+export interface FriendInvite {
+	id: string;
+	name: string;
 }
