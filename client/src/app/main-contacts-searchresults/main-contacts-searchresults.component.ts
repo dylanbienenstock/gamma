@@ -16,8 +16,16 @@ export class MainContactsSearchresultsComponent implements OnInit {
 	@Input() waiting: boolean
 
 	@Input() set searchResults(value: SearchResult[]) {
-		this._searchResults = value;
 		this.noResults = (!value || value.length == 0);
+		this._searchResults = value.sort((a, b) => {
+			if (a.isSelf) return -1;
+			if (b.isSelf) return 1;
+
+			if (a.isFriend) return -1;
+			if (b.isFriend) return 1;
+
+			return 0;
+		});
 	}
 
 	get searchResults() {
