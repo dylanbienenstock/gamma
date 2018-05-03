@@ -173,4 +173,40 @@ export module AccountManager {
 
 		return (!error && user && authToken == user.authToken);
 	}
+
+	export async function search(query: SearchQuery): Promise<SearchResponse> {
+		let response: SearchResponse = {};
+
+		let error: any;
+		let users: any;
+
+		await User.find(
+			{ name: {
+				$regex: `.*${query.text}.*`,
+				$options: "i"
+			}},
+			"id name",
+			{
+				$limit: query.limit || 16,
+				$skip: query.offset || 0
+			},
+			(_error, _users) => {
+				error = _error;
+				users = _users;
+			}
+		);
+
+		if (!error) {
+			response.results = users.map((user) => {
+				return {
+					id: user.id,
+					name: user.name
+				};
+			});
+		} else {
+			console.log(error);
+		}
+
+		return response;
+	}
 }
