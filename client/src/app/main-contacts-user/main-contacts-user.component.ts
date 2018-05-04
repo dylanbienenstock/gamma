@@ -14,6 +14,8 @@ export class MainContactsUserComponent implements AfterViewInit {
 	@Input() localUser: any;
 	@Input() data: Contact;
 	@Input() index: number;
+	@Input() showBanner: boolean;
+	@Input() bannerText: string;
 
 	hidden: boolean = true;
 	animationDelay: number = 75;

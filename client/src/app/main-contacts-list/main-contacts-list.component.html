@@ -1,20 +1,26 @@
 <app-main-contacts-user
-*ngFor="let result of requests; index as index;"
+*ngFor="let result of requests; index as index; first as isFirst;"
 [localUser]="localUser"
 [data]="result"
-[index]="index">
+[index]="index"
+[showBanner]="isFirst"
+bannerText="Requests">
 </app-main-contacts-user>
 
 <app-main-contacts-user
-*ngFor="let result of invitations; index as index;"
+*ngFor="let result of invitations; index as index; first as isFirst;"
 [localUser]="localUser"
 [data]="result"
-[index]="index + requests.length">
+[index]="index + requests.length"
+[showBanner]="isFirst"
+bannerText="Pending">
 </app-main-contacts-user>
 
 <app-main-contacts-user
-*ngFor="let result of invitations; index as index;"
+*ngFor="let result of invitations; index as index; first as isFirst;"
 [localUser]="localUser"
 [data]="result"
-[index]="index + requests.length + invitations.length">
+[index]="index + requests.length + invitations.length"
+[showBanner]="isFirst"
+bannerText="Friends">
 </app-main-contacts-user>
