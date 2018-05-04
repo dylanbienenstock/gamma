@@ -1,12 +1,7 @@
 <p class="noresults" *ngIf="!waiting && noResults">No results :(</p>
 
 <div *ngIf="!waiting && !noResults">
-	<app-main-contacts-user
-	*ngFor="let result of searchResults; index as index;"
-	[localUser]="localUser"
-	[data]="result"
-	[index]="index">
-	</app-main-contacts-user>
+	<app-main-contacts-list [contacts]="searchResults"></app-main-contacts-list>
 </div>
 
 <div class="spinner" *ngIf="waiting">

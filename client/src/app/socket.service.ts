@@ -1,4 +1,4 @@
-import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, SearchResponse, FriendInviteRequest } from "../../../gamma/account/account.types";
+import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest } from "../../../gamma/account/account.types";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
@@ -37,10 +37,10 @@ export class SocketService {
 		});		
 	}
 
-	search(query: SearchQuery): Observable<SearchResponse> {
+	search(query: SearchQuery): Observable<ContactList> {
 		this.socket.emit("search request", query);
 
-		return new Observable<SearchResponse>((observer) => {
+		return new Observable<ContactList>((observer) => {
 			this.socket.on("search response", (data) => {
 				observer.next(data);
 			});

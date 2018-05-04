@@ -51,8 +51,8 @@ export interface Contact {
 	isRequesting: boolean; // Sent me an invitation
 }
 
-export interface SearchResponse {
-	results?: Contact[];
+export interface ContactList {
+	contacts?: Contact[];
 }
 
 export interface FriendInviteRequest {

@@ -1,0 +1,20 @@
+<app-main-contacts-user
+*ngFor="let result of requests; index as index;"
+[localUser]="localUser"
+[data]="result"
+[index]="index">
+</app-main-contacts-user>
+
+<app-main-contacts-user
+*ngFor="let result of invitations; index as index;"
+[localUser]="localUser"
+[data]="result"
+[index]="index + requests.length">
+</app-main-contacts-user>
+
+<app-main-contacts-user
+*ngFor="let result of invitations; index as index;"
+[localUser]="localUser"
+[data]="result"
+[index]="index + requests.length + invitations.length">
+</app-main-contacts-user>

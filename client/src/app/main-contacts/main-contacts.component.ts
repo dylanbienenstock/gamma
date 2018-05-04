@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ContactList } from '../../../../gamma/account/account.types';
 
 @Component({
 	selector: 'app-main-contacts',
@@ -13,7 +14,7 @@ export class MainContactsComponent implements OnInit {
 
 	waiting: boolean;
 	searching: boolean = false;
-	searchResults: any[];
+	searchResults: ContactList;
 
 	ngOnInit() {
 		
@@ -22,10 +23,12 @@ export class MainContactsComponent implements OnInit {
 	onSetSearching(searching: boolean) {
 		this.waiting = true;
 		this.searching = searching;
-		this.searchResults = [];
+		this.searchResults = {
+			contacts: []	
+		};
 	}
 
-	onDisplaySearchResults(searchResults: any[]) {
+	onDisplaySearchResults(searchResults: ContactList) {
 		this.searchResults = searchResults;
 		this.waiting = false;
 	}

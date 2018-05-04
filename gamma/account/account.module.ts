@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 import * as bcrypt from "bcrypt-as-promised";
 
 import { GammaConfig } from "../gamma.types";
-import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, SearchResponse, SearchQuery, AuthCreds, AuthResult, FriendInviteRequest } from "./account.types";
+import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, ContactList, SearchQuery, AuthCreds, AuthResult, FriendInviteRequest } from "./account.types";
 import { User } from "./account.schemas";
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -185,8 +185,8 @@ export module AccountManager {
 		return { valid: false };
 	}
 
-	export async function getContactsList(authCreds: AuthCreds) {
-		let response: SearchResponse = {};
+	export async function getContactList(authCreds: AuthCreds) {
+		let response: ContactList = {};
 		let authResult: AuthResult;
 
 		let populate = "friends friends.user friendInvites friendInvites.user";
@@ -201,14 +201,14 @@ export module AccountManager {
 		let users: any[] = authResult.user.friends.map(friend => friend.user);
 		users = users.concat(authResult.user.friendInvites.map(friend => friend.user));
 
-		return generateContactsList(authResult.user, users);
+		return generateContactList(authResult.user, users);
 	}
 	
 	// Owner must populate:
 	// "friends friends.user friendInvites friendInvites.user"
 	// Users must populate:
 	// "friends friends.user"
-	function generateContactsList(owner: any, users: any[]) {
+	function generateContactList(owner: any, users: any[]) {
 		let friendIds = [];
 		let friendConfirmations = [];
 		let friendInviteIds = [];
@@ -241,8 +241,8 @@ export module AccountManager {
 		});
 	}
 
-	export async function search(query: SearchQuery): Promise<SearchResponse> {
-		let response: SearchResponse = {};
+	export async function search(query: SearchQuery): Promise<ContactList> {
+		let response: ContactList = {};
 		let authResult: AuthResult;
 
 		let populate = "friends friends.user friendInvites friendInvites.user";
@@ -285,7 +285,7 @@ export module AccountManager {
 		});
 
 		if (!error && users) {
-			response.results = generateContactsList(authResult.user, users);
+			response.contacts = generateContactList(authResult.user, users);
 		} else {
 			console.log(error);
 		}

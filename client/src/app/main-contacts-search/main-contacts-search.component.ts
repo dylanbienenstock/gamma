@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SearchQuery, Contact, SearchResponse } from '../../../../gamma/account/account.types';
+import { SearchQuery, Contact, ContactList } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -15,7 +15,7 @@ export class MainContactsSearchComponent implements OnInit {
 
 	@Input() localUser: any;
 	@Output() setSearching: EventEmitter<boolean> = new EventEmitter<boolean>();
-	@Output() displaySearchResults: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
+	@Output() displaySearchResults: EventEmitter<ContactList> = new EventEmitter<ContactList>();
 
 	queryText: string;
 	searchTimeout: any;
@@ -45,9 +45,9 @@ export class MainContactsSearchComponent implements OnInit {
 			this.searchSubscription.unsubscribe();
 		}
 
-		let observable: Observable<SearchResponse> = this.socketService.search(query);
-		this.searchSubscription = observable.subscribe((data: SearchResponse) => {
-			this.displaySearchResults.emit(data.results);
+		let observable: Observable<ContactList> = this.socketService.search(query);
+		this.searchSubscription = observable.subscribe((data: ContactList) => {
+			this.displaySearchResults.emit(data);
 			this.searchSubscription.unsubscribe();
 		});
 	}
