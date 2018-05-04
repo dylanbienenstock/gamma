@@ -4,6 +4,8 @@ $user-container-height: 38px;
 $user-container-animation-duration: 250ms;
 
 :host {
+	&:last-child .container { margin-bottom: 0; }
+
 	.container {
 		display: flex;
 		flex-flow: row nowrap;
@@ -12,7 +14,7 @@ $user-container-animation-duration: 250ms;
 		margin-bottom: 10px;
 		height: $user-container-height;
 		width: 100%;
-		transition: all 250ms ease;		
+		transition: all 250ms ease;
 
 		.avatar {
 			width: $user-container-height;
