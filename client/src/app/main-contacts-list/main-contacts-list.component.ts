@@ -15,6 +15,8 @@ export class MainContactsListComponent {
 	invitations: Contact[]; // Send invitatons
 	friends: Contact[]; // Confirmed friends
 
+	@Input() localUser: any;
+
 	@Input() set contacts(value: ContactList) {
 		this.requests = value.contacts.filter(value =>
 			!value.isSelf &&

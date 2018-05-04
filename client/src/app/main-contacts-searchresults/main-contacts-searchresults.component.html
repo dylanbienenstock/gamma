@@ -1,7 +1,10 @@
 <p class="noresults" *ngIf="!waiting && noResults">No results :(</p>
 
 <div *ngIf="!waiting && !noResults">
-	<app-main-contacts-list [contacts]="searchResults"></app-main-contacts-list>
+	<app-main-contacts-list
+	[localUser]="localUser"
+	[contacts]="searchResults">
+	</app-main-contacts-list>
 </div>
 
 <div class="spinner" *ngIf="waiting">
