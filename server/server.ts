@@ -1,6 +1,8 @@
 import { config } from "./server.config";
 import { AccountManager } from "../gamma/gamma.module";
 import { LogInCreds, RegisterCreds, RegisterResponse, SearchQuery, FriendInviteRequest } from "../gamma/account/account.types";
+import { Socket } from "socket.io";
+import { Events } from "./server.events";
 
 const path = require("path");
 
@@ -36,66 +38,68 @@ function listen() {
 		console.log(`Listening on port ${port}`);
 	});
 
-	io.on("connection", (socket: SocketIO.Socket) => {
-		let loggedIn = false;
-		let name: string; // Null until logged in
-		let currentRoom: string;
+	io.on("connection", (socket: Socket) => {
+		Events.configure(socket);
 
-		socket.on("disconnect", () => {
-			AccountManager.logOut(name);
-			delete users[name];
-		});
+		// let loggedIn = false;
+		// let name: string; // Null until logged in
+		// let currentRoom: string;
 
-		socket.on("ping", (data) => {
-			socket.emit("pong", data);
-		});
+		// socket.on("disconnect", () => {
+		// 	AccountManager.logOut(name);
+		// 	delete users[name];
+		// });
 
-		socket.on("login request", (creds: LogInCreds) => {
-			if (!loggedIn) {
-				AccountManager.logIn(creds)
-				.then((response) => {
-					if (response.success) {
-						users[creds.name] = socket.id;
+		// socket.on("ping", (data) => {
+		// 	socket.emit("pong", data);
+		// });
 
-						loggedIn = true;
-						name = creds.name;
-					}
+		// socket.on("login request", (creds: LogInCreds) => {
+		// 	if (!loggedIn) {
+		// 		AccountManager.logIn(creds)
+		// 		.then((response) => {
+		// 			if (response.success) {
+		// 				users[creds.name] = socket.id;
 
-					socket.emit("login response", response);
-				});
-			}
-		});
+		// 				loggedIn = true;
+		// 				name = creds.name;
+		// 			}
 
-		socket.on("register request", (creds: RegisterCreds) => {
-			if (!loggedIn) {
-				AccountManager.createAccount(creds)
-				.then((response) => {
-					if (response.success) {
-						users[creds.name] = socket.id;
+		// 			socket.emit("login response", response);
+		// 		});
+		// 	}
+		// });
 
-						loggedIn = true;
-						name = creds.name;						
-					}
+		// socket.on("register request", (creds: RegisterCreds) => {
+		// 	if (!loggedIn) {
+		// 		AccountManager.createAccount(creds)
+		// 		.then((response) => {
+		// 			if (response.success) {
+		// 				users[creds.name] = socket.id;
 
-					socket.emit("register response", response);
-				});
-			}
-		});
+		// 				loggedIn = true;s
+		// 				name = creds.name;						
+		// 			}
 
-		socket.on("search request", (query: SearchQuery) => {
-			AccountManager.search(query)
-			.then((response) => {
-				socket.emit("search response", response);
-			});
-		});
+		// 			socket.emit("register response", response);
+		// 		});
+		// 	}
+		// });
 
-		socket.on("friend add", (invite: FriendInviteRequest) => {
-			AccountManager.addFriend(invite);
-		});
+		// socket.on("search request", (query: SearchQuery) => {
+		// 	AccountManager.search(query)
+		// 	.then((response) => {
+		// 		socket.emit("search response", response);
+		// 	});
+		// });
 
-		socket.on("friend remove", (invite: FriendInviteRequest) => {
-			AccountManager.removeFriend(invite);
-		});
+		// socket.on("friend add", (invite: FriendInviteRequest) => {
+		// 	AccountManager.addFriend(invite);
+		// });
+
+		// socket.on("friend remove", (invite: FriendInviteRequest) => {
+		// 	AccountManager.removeFriend(invite);
+		// });
 
 		// socket.on("room join request", (data: any) => {
 		// 	if (loggedIn) {
