@@ -2,38 +2,38 @@
 	opacity: hidden ? 0 : 1,
 	transform: hidden ? 'translateY(18px)' : ''
 }">
+	<img class="avatar" src="assets/contacts.svg">
 
-	<div class="banner" *ngIf="showBanner">{{ bannerText }}</div>
+	<div>
+		<div class="name-and-status">
+			<p class="name">{{ data.name }}</p>
 
-	<div class="container-inner">
-		<img class="avatar" src="assets/contacts.svg">
+			<app-main-contacts-status
+			*ngIf="(data.isSelf || (data.isConfirmed && data.isFriend)) && !data.isRequesting"
+			status="online">
+			</app-main-contacts-status>
 
-		<div>
-			<div class="name-and-status">
-				<p class="name">{{ data.name }}</p>
+			<div class="invite"
+			*ngIf="!data.isSelf && !data.isConfirmed && !data.isRequesting">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 4.233 4.233"
+				[class.invited]="data.isFriend" 
+				(click)="toggleInvitation()">
+					<g fill="#65d588">
+						<path d="M1.822 3.704h.53V.53h-.53z" paint-order="markers fill stroke" />
+						<path d="M.53 1.92l.004.507 3.17-.022-.004-.507z" paint-order="markers fill stroke" />
+					</g>
+				</svg>
+			</div>
 
-				<app-main-contacts-status
-				*ngIf="(data.isSelf || (data.isConfirmed && data.isFriend)) && !data.isRequesting"
-				status="online">
-				</app-main-contacts-status>
+			<div class="accept-or-reject"
+			*ngIf="!data.isSelf && !data.isConfirmed && !data.isFriend && data.isRequesting">
+				<img class="reject"
+				src="assets/invite-reject.svg"
+				(click)="rejectInvitation(data.id)">
 
-				<div class="invite"
-				*ngIf="!data.isSelf && !data.isConfirmed && !data.isRequesting">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 4.233 4.233"
-					[class.invited]="data.isFriend" 
-					(click)="toggleInvitation()">
-						<g fill="#65d588">
-							<path d="M1.822 3.704h.53V.53h-.53z" paint-order="markers fill stroke" />
-							<path d="M.53 1.92l.004.507 3.17-.022-.004-.507z" paint-order="markers fill stroke" />
-						</g>
-					</svg>
-				</div>
-
-				<div class="accept-or-reject"
-				*ngIf="!data.isSelf && !data.isConfirmed && !data.isFriend && data.isRequesting">
-					<img class="reject" src="assets/invite-reject.svg">
-					<img class="accept" src="assets/invite-accept.svg">
-				</div>
+				<img class="accept"
+				src="assets/invite-accept.svg"
+				(click)="acceptInvitation(data.id)">
 			</div>
 		</div>
 	</div>

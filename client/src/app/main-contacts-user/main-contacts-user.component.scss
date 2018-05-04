@@ -1,112 +1,96 @@
 @import "~global.scss";
 
 $user-container-height: 38px;
+$user-container-animation-duration: 250ms;
 
 :host {
 	.container {
-		transition: all 250ms ease;
+		display: flex;
+		flex-flow: row nowrap;
+		padding: 0 $panel-padding;
+		box-sizing: border-box;
+		margin-bottom: 10px;
+		height: $user-container-height;
+		width: 100%;
+		transition: all 250ms ease;		
 
-		.banner {
-			height: 20px;
-			line-height: 20px;
-			width: 100%;
-			padding: 0 6px;
-			margin-bottom: $panel-padding;
-			box-sizing: border-box;
-
-			background-color: $background-tertiary-color;
-			color: $text-color;
-			font-size: 12px;
-			text-align: center;
+		.avatar {
+			width: $user-container-height;
+			height: $user-container-height;
+			margin-right: $panel-padding;
 		}
 
-		.container-inner {
-			display: flex;
-			flex-flow: row nowrap;
-			padding: 0 $panel-padding;
-			box-sizing: border-box;
-			margin-bottom: 10px;
-			height: $user-container-height;
-			width: 100%;
+		& > div {
+			flex: 1;
 
-			.avatar {
-				width: $user-container-height;
-				height: $user-container-height;
-				margin-right: $panel-padding;
-			}
+			.name-and-status {
+				display: flex;
+				flex-flow: row wrap;
+				@include center-vertical;
+				// line-height: $user-container-height;
 
-			& > div {
-				flex: 1;
+				app-main-contacts-status {
+					position: relative;
+					top: 2px;
+				}
 
-				.name-and-status {
-					display: flex;
-					flex-flow: row wrap;
-					@include center-vertical;
-					// line-height: $user-container-height;
+				.name {
+					flex-grow: 1;
+					width: 0;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					font-size: 16px;
 
-					app-main-contacts-status {
-						position: relative;
-						top: 2px;
+					&:before {
+						content: "@";
+						margin-right: 2px;
+						opacity: 0.5;						
 					}
+				}
 
-					.name {
-						flex-grow: 1;
-						width: 0;
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						font-size: 16px;
+				.invite,
+				.accept-or-reject {
+					@include noselect;	
 
-						&:before {
-							content: "@";
-							margin-right: 2px;
-							opacity: 0.5;						
+					cursor: default;
+
+					svg, img {
+						@include noselect;
+						@include center-vertical;						
+
+						cursor: pointer;
+						width: 16px;
+						opacity: 0.6;
+
+						&:hover { opacity: 1; }
+						&:last-child { margin-right: 2px; }
+					}
+				}
+
+				.invite {					
+					svg {
+						g {
+							transition: all 200ms ease;
+							transform-origin: 50% 50% !important;
 						}
-					}
 
-					.invite,
-					.accept-or-reject {
-						@include noselect;	
-
-						cursor: default;
-
-						svg, img {
-							@include noselect;
-							@include center-vertical;						
-
-							cursor: pointer;
-							width: 16px;
-							opacity: 0.6;
-
-							&:hover { opacity: 1; }
-							&:last-child { margin-right: 2px; }
-						}
-					}
-
-					.invite {					
-						svg {
+						&.invited {
 							g {
-								transition: all 200ms ease;
-								transform-origin: 50% 50% !important;
-							}
-
-							&.invited {
-								g {
-									fill: #d64444;
-									transform: rotate(45deg);
-								}
+								fill: #d64444;
+								transform: rotate(45deg);
 							}
 						}
 					}
+				}
 
-					.accept-or-reject {
-						font-size: 0;
+				.accept-or-reject {
+					font-size: 0;
 
-						img {
-							&.reject {
-								position: relative;
-								left: -6px;
-							}
+					img {
+						&.reject {
+							position: relative;
+							left: -6px;
 						}
 					}
 				}
