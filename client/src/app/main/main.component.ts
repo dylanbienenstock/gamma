@@ -15,8 +15,6 @@ export class MainComponent {
 	public localUser: any;
 
 	public onSetLocalUser(user: any) {
-		console.log(user);
-		
 		this.localUser = user;
 		this.localUser.authCreds = (): AuthCreds => {
 			return {

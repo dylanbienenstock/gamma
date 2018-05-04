@@ -18,8 +18,6 @@ export class MainContactsHomeComponent implements OnInit {
 	};
 
 	ngOnInit() {
-		console.log(this.localUser.authCreds());
-
 		let observable = this.socketService
 		.getContactList(this.localUser.authCreds());
 
@@ -28,7 +26,6 @@ export class MainContactsHomeComponent implements OnInit {
 			subscription.unsubscribe();
 
 			this.contactList = contactList;
-			console.log("contactList", this.contactList);
 		});
 	}
 }
