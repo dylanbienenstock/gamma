@@ -1,4 +1,4 @@
-import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest } from "../../../gamma/account/account.types";
+import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest, AuthCreds } from "../../../gamma/account/account.types";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
@@ -35,6 +35,16 @@ export class SocketService {
 				observer.next(data);
 			});
 		});		
+	}
+
+	getContactList(authCreds: AuthCreds): Observable<ContactList> {
+		this.socket.emit("contacts request", authCreds);
+
+		return new Observable<ContactList>((observer) => {
+			this.socket.on("contacts response", (data) => {
+				observer.next(data);
+			});
+		});	
 	}
 
 	search(query: SearchQuery): Observable<ContactList> {
