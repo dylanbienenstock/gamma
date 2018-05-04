@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 import * as bcrypt from "bcrypt-as-promised";
 
 import { GammaConfig } from "../gamma.types";
-import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, ContactList, SearchQuery, AuthCreds, AuthResult, FriendInviteRequest } from "./account.types";
+import { RegisterCreds, RegisterResponse, LogInCreds, LogInResponse, ContactList, SearchQuery, AuthCreds, AuthResult, FriendInviteRequest, Contact } from "./account.types";
 import { User } from "./account.schemas";
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -208,7 +208,7 @@ export module AccountManager {
 	// "friends friends.user friendInvites friendInvites.user"
 	// Users must populate:
 	// "friends friends.user"
-	function generateContactList(owner: any, users: any[]) {
+	function generateContactList(owner: any, users: any[]): ContactList {
 		let friendIds = [];
 		let friendConfirmations = [];
 		let friendInviteIds = [];
@@ -224,21 +224,23 @@ export module AccountManager {
 		friendInviteIds = owner.friendInvites
 			.map(friendInvite => friendInvite.user.id);
 
-		return users.map((contacts) => {
-			let isSelf = contacts.id == owner.id;
-			let isFriend = !isSelf && friendIds.includes(contacts.id);
-			let isConfirmed = !isSelf && friendConfirmations.includes(contacts.id);
-			let isRequesting = !isSelf && friendInviteIds.includes(contacts.id);
+		return {
+			contacts: users.map((contacts) => {
+				let isSelf = contacts.id == owner.id;
+				let isFriend = !isSelf && friendIds.includes(contacts.id);
+				let isConfirmed = !isSelf && friendConfirmations.includes(contacts.id);
+				let isRequesting = !isSelf && friendInviteIds.includes(contacts.id);
 
-			return {
-				id: contacts.id,
-				name: contacts.name,
-				isSelf: isSelf,
-				isFriend: isFriend,
-				isConfirmed: isConfirmed,
-				isRequesting: isRequesting
-			};
-		});
+				return {
+					id: contacts.id,
+					name: contacts.name,
+					isSelf: isSelf,
+					isFriend: isFriend,
+					isConfirmed: isConfirmed,
+					isRequesting: isRequesting
+				};
+			})
+		}
 	}
 
 	export async function search(query: SearchQuery): Promise<ContactList> {
@@ -285,7 +287,7 @@ export module AccountManager {
 		});
 
 		if (!error && users) {
-			response.contacts = generateContactList(authResult.user, users);
+			response = generateContactList(authResult.user, users);
 		} else {
 			console.log(error);
 		}
