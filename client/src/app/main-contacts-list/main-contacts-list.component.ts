@@ -11,49 +11,67 @@ export class MainContactsListComponent {
 
 	constructor() { }
 
-	you: Contact[]; // It's only an array because I'm lazy.
-	requests: Contact[]; // Received invitations
-	invitations: Contact[]; // Send invitatons
-	friends: Contact[]; // Confirmed friends
-	others: Contact[]; // Confirmed friends
+	you: Contact[] = []; // It's only an array because I'm lazy.
+	requests: Contact[] = []; // Received invitations
+	invitations: Contact[] = []; // Send invitatons
+	friends: Contact[] = []; // Confirmed friends
+	others: Contact[] = []; // Confirmed friends
 
 	@Input() localUser: any;
+	@Input() sections: {
+		you: boolean;
+		requests: boolean;
+		invitations: boolean;
+		friends: boolean;
+		others: boolean;
+		all: boolean;
+	};
 
 	@Input() set contacts(value: ContactList) {
-		this.you = value.contacts.filter(value =>
-			value.isSelf &&
-			!value.isFriend &&
-			!value.isConfirmed &&
-			!value.isRequesting
-		) || [];
+		if (this.sections.you || this.sections.all) {
+			this.you = value.contacts.filter(value =>
+				value.isSelf &&
+				!value.isFriend &&
+				!value.isConfirmed &&
+				!value.isRequesting
+			) || [];
+		}
 
-		this.requests = value.contacts.filter(value =>
-			!value.isSelf &&
-			!value.isFriend &&
-			!value.isConfirmed &&
-			value.isRequesting
-		) || [];
+		if (this.sections.requests || this.sections.all) {
+			this.requests = value.contacts.filter(value =>
+				!value.isSelf &&
+				!value.isFriend &&
+				!value.isConfirmed &&
+				value.isRequesting
+			) || [];
+		}
 
-		this.invitations = value.contacts.filter(value =>
-			!value.isSelf &&
-			value.isFriend &&
-			!value.isConfirmed &&
-			!value.isRequesting
-		) || [];
+		if (this.sections.invitations || this.sections.all) {
+			this.invitations = value.contacts.filter(value =>
+				!value.isSelf &&
+				value.isFriend &&
+				!value.isConfirmed &&
+				!value.isRequesting
+			) || [];
+		}
 
-		this.friends = value.contacts.filter(value =>
-			!value.isSelf &&
-			value.isFriend &&
-			value.isConfirmed &&
-			!value.isRequesting
-		) || [];
+		if (this.sections.friends || this.sections.all) {
+			this.friends = value.contacts.filter(value =>
+				!value.isSelf &&
+				value.isFriend &&
+				value.isConfirmed &&
+				!value.isRequesting
+			) || [];
+		}
 
-		this.others = value.contacts.filter(value =>
-			!value.isSelf &&
-			!value.isFriend &&
-			!value.isConfirmed &&
-			!value.isRequesting
-		) || [];
+		if (this.sections.others || this.sections.all) {
+			this.others = value.contacts.filter(value =>
+				!value.isSelf &&
+				!value.isFriend &&
+				!value.isConfirmed &&
+				!value.isRequesting
+			) || [];
+		}
 	}
 
 	onAccepted(index: number) {
