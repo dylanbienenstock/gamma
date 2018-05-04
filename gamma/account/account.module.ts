@@ -142,8 +142,10 @@ export module AccountManager {
 		return response;
 	}
 
-	export function logOut(name: string, authToken?: string): void {
-		User.where({ name: name }).findOne((error, user) => {
+	export function logOut(id: string, authToken?: string): void {
+		User.findOne({ _id: ObjectId(id) })
+		.catch(console.error)
+		.then((user) => {
 			if (!user) return;
 
 			let shouldLogOut = true;
