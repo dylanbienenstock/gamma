@@ -6,9 +6,11 @@ $user-container-height: 38px;
 	.container {
 		display: flex;
 		flex-flow: row nowrap;
+		padding: 0 $panel-padding;
+		box-sizing: border-box;
+		margin-bottom: 10px;
 		height: $user-container-height;
 		width: 100%;
-		margin-bottom: 10px;
 		transition: all 250ms ease;
 
 		.avatar {
@@ -23,7 +25,7 @@ $user-container-height: 38px;
 			.name-and-status {
 				display: flex;
 				flex-flow: row wrap;
-				@include center-vertical;				
+				@include center-vertical;
 				// line-height: $user-container-height;
 
 				app-main-contacts-status {

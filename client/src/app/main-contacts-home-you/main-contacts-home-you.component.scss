@@ -4,6 +4,9 @@
 	.container {
 		display: flex;
 		flex-flow: row nowrap;
+		padding: 0 $panel-padding;
+		box-sizing: border-box;		
+		margin-bottom: $panel-padding * 2;
 		width: 100%;
 
 		img {
