@@ -191,7 +191,7 @@ export module AccountManager {
 
 		let populate = "friends friends.user friendInvites friendInvites.user";
 
-		await this.authenticate(authCreds, null, populate)
+		await authenticate(authCreds, null, populate)
 		.then((_authResult: AuthResult) => {
 			authResult = _authResult;
 		});
@@ -247,7 +247,7 @@ export module AccountManager {
 
 		let populate = "friends friends.user friendInvites friendInvites.user";
 		
-		await this.authenticate(query.authCreds, null, populate)
+		await authenticate(query.authCreds, null, populate)
 		.then((_authResult: AuthResult) => {
 			authResult = _authResult;
 		});
@@ -285,7 +285,7 @@ export module AccountManager {
 		});
 
 		if (!error && users) {
-			response.results = this.generateContactsList(authResult.user, users);
+			response.results = generateContactsList(authResult.user, users);
 		} else {
 			console.log(error);
 		}
@@ -296,7 +296,7 @@ export module AccountManager {
 	export async function addFriend(invite: FriendInviteRequest): Promise<null> {
 		let authResult: AuthResult;
 
-		await this.authenticate(invite.authCreds, null, "friends friends.user")
+		await authenticate(invite.authCreds, null, "friends friends.user")
 		.then((_authResult: AuthResult) => {
 			authResult = _authResult;
 		});
@@ -334,7 +334,7 @@ export module AccountManager {
 	export async function removeFriend(invite: FriendInviteRequest): Promise<null> {
 		let authResult: AuthResult;
 
-		await this.authenticate(invite.authCreds, null, "friends friends.user")
+		await authenticate(invite.authCreds, null, "friends friends.user")
 		.then((_authResult: AuthResult) => {
 			authResult = _authResult;
 		});
