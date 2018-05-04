@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest } from "../gamma/account/account.types";
+import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds } from "../gamma/account/account.types";
 import { Actions } from "./server.actions";
 
 export module Events {
@@ -18,6 +18,10 @@ export module Events {
 
 		socket.on("register request", (creds: RegisterCreds) => {
 			Actions.register(socket, creds);
+		});
+
+		socket.on("contacts request", (authCreds: AuthCreds) => {
+			Actions.getContactList(socket, authCreds);
 		});
 
 		socket.on("search request", (query: SearchQuery) => {

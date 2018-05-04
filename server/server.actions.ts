@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest } from "../gamma/account/account.types";
+import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds } from "../gamma/account/account.types";
 import { AccountManager } from "../gamma/gamma.module";
 import { State } from "./server.state";
 
@@ -39,6 +39,13 @@ export module Actions {
 				socket.emit("register response", response);
 			});
 		}
+	}
+
+	export function getContactList(socket: Socket, authCreds: AuthCreds) {
+		AccountManager.getContactList(authCreds)
+		.then((response) => {
+			socket.emit("contacts response", response);
+		});
 	}
 
 	export function search(socket: Socket, query: SearchQuery) {
