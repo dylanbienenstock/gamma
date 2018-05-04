@@ -1,25 +1,42 @@
-<app-main-contacts-user
-*ngFor="let result of requests; index as index; first as isFirst;"
-[localUser]="localUser"
-[data]="result"
-[index]="index"
-[showBanner]="isFirst"
-bannerText="Requests">
-</app-main-contacts-user>
+<app-main-contacts-list-banner
+*ngIf="requests && requests.length != 0"
+index="0"
+text="Requests">
+</app-main-contacts-list-banner>
 
 <app-main-contacts-user
-*ngFor="let result of invitations; index as index; first as isFirst;"
+*ngFor="let contact of requests; index as index; first as isFirst;"
 [localUser]="localUser"
-[data]="result"
+[data]="contact"
+[index]="index"
+(accepted)="onAccepted(index)">
+</app-main-contacts-user>
+
+<app-main-contacts-list-banner
+*ngIf="invitations && invitations.length != 0"
+index="requests.length"
+text="Pending">
+</app-main-contacts-list-banner>
+
+<app-main-contacts-user
+*ngFor="let contact of invitations; index as index; first as isFirst;"
+[localUser]="localUser"
+[data]="contact"
 [index]="index + requests.length"
 [showBanner]="isFirst"
 bannerText="Pending">
 </app-main-contacts-user>
 
+<app-main-contacts-list-banner
+*ngIf="friends && friends.length != 0"
+index="requests.length + invitations.length"
+text="Friends">
+</app-main-contacts-list-banner>
+
 <app-main-contacts-user
-*ngFor="let result of invitations; index as index; first as isFirst;"
+*ngFor="let contact of friends; index as index; first as isFirst;"
 [localUser]="localUser"
-[data]="result"
+[data]="contact"
 [index]="index + requests.length + invitations.length"
 [showBanner]="isFirst"
 bannerText="Friends">
