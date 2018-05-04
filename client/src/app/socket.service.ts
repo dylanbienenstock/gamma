@@ -64,4 +64,12 @@ export class SocketService {
 	removeFriend(invite: FriendInviteRequest) {
 		this.socket.emit("friend remove", invite);
 	}
+
+	acceptInvitation(invite: FriendInviteRequest) {
+		this.socket.emit("friend invite accept", invite);
+	}
+
+	rejectInvitation(invite: FriendInviteRequest) {
+		this.socket.emit("friend invite reject", invite);
+	}	
 }

@@ -352,4 +352,62 @@ export module AccountManager {
 			}
 		}
 	}
+
+	export async function acceptInvitation(invite: FriendInviteRequest): Promise<null> {
+		console.log("acceptInvitation")
+		let authResult: AuthResult;
+
+		let populate = "friends friends.user friendInvites friendInvites.user";
+
+		await authenticate(invite.authCreds, null, populate)
+		.then((_authResult: AuthResult) => {
+			authResult = _authResult;
+		});
+
+		if (!authResult.valid) return;
+
+		// Make sure we actually have the invitation
+		let friendInviteIds = authResult.user.friendInvites
+			.map(friendInvite => friendInvite.user.id);
+			
+		if (!friendInviteIds.includes(invite.id)) return;
+
+		// Make sure the sender actually sent it
+		let sender: any;
+		let senderError: any;
+
+		await User.findOne({ _id: ObjectId(invite.id) })
+		.catch((error) => { senderError = error; })
+		.then((user) => { sender = user; });
+
+		if (senderError || !sender) return;
+		
+		// Add sender to our friends list
+		authResult.user.friends.push({
+			user: ObjectId(sender.id),
+			confirmed: true
+		});
+
+		// Remove invitation
+		for (let friendInvite of authResult.user.friendInvites) {
+			if (friendInvite.user.id == invite.id) {
+				authResult.user.friendInvites.id(ObjectId(friendInvite.id)).remove();
+
+				break;
+			}
+		}
+
+		// Confirm friendship for sender
+		for (let friend of sender.friends) {
+			if (friend.user.id == invite.id) {
+				sender.friends.id(ObjectId(friend.id)).confirmed = true;
+
+				break;
+			}
+		}
+
+		// Save everything
+		authResult.user.save();
+		sender.save();
+	}
 }

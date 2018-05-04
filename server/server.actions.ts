@@ -62,4 +62,12 @@ export module Actions {
 	export function removeFriend(socket: Socket, invite: FriendInviteRequest) {
 		AccountManager.removeFriend(invite);
 	}
+
+	export function acceptInvitation(socket: Socket, invite: FriendInviteRequest) {
+		AccountManager.acceptInvitation(invite);
+	}
+
+	export function rejectInvitation(socket: Socket, invite: FriendInviteRequest) {
+		// AccountManager.rejectInvitation(invite);
+	}
 }

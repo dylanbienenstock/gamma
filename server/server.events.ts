@@ -35,5 +35,13 @@ export module Events {
 		socket.on("friend remove", (invite: FriendInviteRequest) => {
 			Actions.removeFriend(socket, invite);
 		});
+
+		socket.on("friend invite accept", (invite: FriendInviteRequest) => {
+			Actions.acceptInvitation(socket, invite);
+		});
+
+		socket.on("friend invite reject", (invite: FriendInviteRequest) => {
+			Actions.rejectInvitation(socket, invite);
+		});
 	}
 }

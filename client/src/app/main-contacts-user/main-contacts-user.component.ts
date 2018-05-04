@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { Contact, FriendInviteRequest } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
 
@@ -16,6 +16,8 @@ export class MainContactsUserComponent implements AfterViewInit {
 	@Input() index: number;
 	@Input() showBanner: boolean;
 	@Input() bannerText: string;
+
+	@Output() accepted: EventEmitter<any> = new EventEmitter<any>();
 
 	hidden: boolean = true;
 	animationDelay: number = 75;
@@ -39,5 +41,28 @@ export class MainContactsUserComponent implements AfterViewInit {
 		} else {
 			this.socketService.removeFriend(invite);			
 		}
+	}
+
+	acceptInvitation(id: string) {
+		if (this.hidden) return;
+
+		this.hidden = true;
+		this.accepted.emit(null);		
+
+		this.socketService.acceptInvitation({ 
+			authCreds: this.localUser.authCreds(),
+			id: id
+		});
+	}
+
+	rejectInvitation(id: string) {
+		if (this.hidden) return;
+
+		this.hidden = true;
+
+		this.socketService.rejectInvitation({
+			authCreds: this.localUser.authCreds(),
+			id: id
+		});
 	}
 }
