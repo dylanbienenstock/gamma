@@ -24,6 +24,7 @@ export class MainContactsListComponent {
 			!value.isConfirmed &&
 			value.isRequesting
 		);
+		) || [];
 
 		this.invitations = value.contacts.filter(value =>
 			!value.isSelf &&
@@ -31,12 +32,14 @@ export class MainContactsListComponent {
 			!value.isConfirmed &&
 			!value.isRequesting
 		);
+		) || [];
 
-		this.invitations = value.contacts.filter(value =>
+		this.friends = value.contacts.filter(value =>
 			!value.isSelf &&
 			value.isFriend &&
 			value.isConfirmed &&
 			!value.isRequesting
-		);
+		) || [];
+	}
 	}
 }
