@@ -183,11 +183,30 @@ export module AccountManager {
 		return { valid: false };
 	}
 
+	export async function getContactsList(authCreds: AuthCreds) {
+		let response: SearchResponse = {};
+		let authResult: AuthResult;
+
+		let populate = "friends friends.user friendInvites friendInvites.user";
+
+		await this.authenticate(authCreds, null, populate)
+		.then((_authResult: AuthResult) => {
+			authResult = _authResult;
+		});
+
+		if (!authResult.valid) return response;
+
+		let users: any[] = authResult.user.friends.map(friend => friend.user);
+		users = users.concat(authResult.user.friendInvites.map(friend => friend.user));
+
+		return generateContactsList(authResult.user, users);
+	}
+	
 	// Owner must populate:
 	// "friends friends.user friendInvites friendInvites.user"
 	// Users must populate:
 	// "friends friends.user"
-	export function generateContactsList(owner: any, users: any[]) {
+	function generateContactsList(owner: any, users: any[]) {
 		let friendIds = [];
 		let friendConfirmations = [];
 		let friendInviteIds = [];
@@ -234,7 +253,7 @@ export module AccountManager {
 		if (!authResult.valid) return response;
 
 		let error: any;
-		let users: any;
+		let users: any[];
 
 		// https://codereview.stackexchange.com/questions/153691/escape-user-input-for-use-in-js-regex
 		query.text = (function sanitize(text) {
