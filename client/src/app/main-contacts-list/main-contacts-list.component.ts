@@ -3,6 +3,7 @@ import { Contact, ContactList } from '../../../../gamma/account/account.types';
 import { ContactService } from '../contact.service';
 import { SectionChange } from '../contact.service.types';
 import { Subscription } from 'rxjs/Subscription';
+import { SocketService } from '../socket.service';
 
 @Component({
 	selector: 'app-main-contacts-list',
@@ -12,13 +13,15 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 
-	constructor(private contactService: ContactService) { }
+	constructor(private contactService: ContactService,
+				private socketService: SocketService) { }
 
 	// $user-container-animation-duration in
 	// main-contacts-user.component.scss
 	animationDuration: number = 250;
 	contacts: { [key: string]: Contact[] } = { };
-	onChangeSectionSubscription: Subscription;
+	allContacts: Contact[] = [];
+	subscriptions: Subscription[];
 
 	@Input() sections = {
 		you: false,
@@ -38,18 +41,62 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 				this.contacts[section] = [];
 			}
 		}
+
+		this.allContacts = value.contacts;
+	}
+
+	private getContactById(id: string): Contact {
+		return this.allContacts.find((contact) => {
+			return contact && contact.id == id;
+		});
 	}
 
 	ngAfterViewInit() {
-		this.onChangeSectionSubscription = 
+		let onChangeSection = 
 		this.contactService.onChangeSection
 		.subscribe((data) => {
 			this.onChangeSection(data);
 		});
+
+		let onFriendAdded = 
+		this.socketService.onFriendAdded()
+		.subscribe((id) => {
+			let contact = this.getContactById(id);
+			this.contactService.changeSection(contact, "requests");
+		});
+
+		let onFriendRemoved = 
+		this.socketService.onFriendRemoved()
+		.subscribe((id) => {
+			let contact = this.getContactById(id);
+			this.contactService.changeSection(contact, "others");
+		});
+
+		let onInvitationAccepted = 
+		this.socketService.onInvitationAccepted()
+		.subscribe((id) => {
+			let contact = this.getContactById(id);
+			this.contactService.changeSection(contact, "friends");
+		});
+
+		let onInvitationRejected = 
+		this.socketService.onInvitationRejected()
+		.subscribe((id) => {
+			let contact = this.getContactById(id);
+			this.contactService.changeSection(contact, "others");
+		});
+
+		this.subscriptions = [
+			onChangeSection,
+			onFriendAdded,
+			onFriendRemoved,
+			onInvitationAccepted,
+			onInvitationRejected
+		];
 	}
 
 	ngOnDestroy() {
-		this.onChangeSectionSubscription.unsubscribe();
+		this.subscriptions.forEach(sub => sub.unsubscribe());
 	}
 
 	onChangeSection(sectionChange: SectionChange) {

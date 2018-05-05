@@ -71,5 +71,37 @@ export class SocketService {
 
 	rejectInvitation(invite: FriendInviteRequest) {
 		this.socket.emit("friend invite reject", invite);
-	}	
+	}
+
+	onFriendAdded(): Observable<string> {
+		return new Observable<string>((observer) => {
+			this.socket.on("dispatch friend added", (data) => {
+				observer.next(data);
+			});
+		});
+	}
+
+	onFriendRemoved(): Observable<string> {
+		return new Observable<string>((observer) => {
+			this.socket.on("dispatch friend removed", (data) => {
+				observer.next(data);
+			});
+		});
+	}
+
+	onInvitationAccepted(): Observable<string> {
+		return new Observable<string>((observer) => {
+			this.socket.on("dispatch friend accepted", (data) => {
+				observer.next(data);
+			});
+		});
+	}
+
+	onInvitationRejected(): Observable<string> {
+		return new Observable<string>((observer) => {
+			this.socket.on("dispatch friend rejected", (data) => {
+				observer.next(data);
+			});
+		});
+	}
 }
