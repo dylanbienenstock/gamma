@@ -2,12 +2,15 @@
 	<app-main-contacts-list-banner
 	*ngIf="contacts.you.length != 0"
 	text="You"
+	[contacts]="contacts.you"
+	[hideContact]="hideContact"
 	index="0">
 	</app-main-contacts-list-banner>
 
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.you; index as index"
 	[contact]="contact"
+	[hideContact]="hideContact"
 	section="you"
 	[index]="index">
 	</app-main-contacts-user>
@@ -18,12 +21,15 @@
 	<app-main-contacts-list-banner
 	*ngIf="contacts.requests.length != 0"
 	text="Requests"
+	[contacts]="contacts.requests"
+	[hideContact]="hideContact"
 	[index]="contacts.you.length">
 	</app-main-contacts-list-banner>
 
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.requests; index as index"
 	[contact]="contact"
+	[hideContact]="hideContact"
 	section="requests"	
 	[index]="
 		index +
@@ -37,6 +43,8 @@
 	<app-main-contacts-list-banner
 	*ngIf="contacts.pending.length != 0"
 	text="Pending"
+	[contacts]="contacts.pending"
+	[hideContact]="hideContact"
 	[index]="
 		contacts.you.length +
 		contacts.requests.length">
@@ -45,6 +53,7 @@
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.pending; index as index"
 	[contact]="contact"
+	[hideContact]="hideContact"
 	section="pending"
 	[index]="
 		index +
@@ -58,6 +67,8 @@
 	<app-main-contacts-list-banner
 	*ngIf="contacts.friends.length != 0"
 	text="Friends"
+	[contacts]="contacts.friends"
+	[hideContact]="hideContact"
 	[index]="
 		contacts.you.length +
 		contacts.requests.length +
@@ -67,6 +78,7 @@
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.friends; index as index"
 	[contact]="contact"
+	[hideContact]="hideContact"
 	section="friends"	
 	[index]="
 		index +
@@ -81,6 +93,8 @@
 	<app-main-contacts-list-banner
 	*ngIf="contacts.others.length != 0"
 	text="Others"
+	[contacts]="contacts.others"
+	[hideContact]="hideContact"
 	[index]="
 		contacts.you.length +
 		contacts.requests.length +
@@ -91,6 +105,7 @@
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.others; index as index"
 	[contact]="contact"
+	[hideContact]="hideContact"
 	section="others"
 	[index]="
 		index +

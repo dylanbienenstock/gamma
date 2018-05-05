@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, OnDestroy, EventEmitter } from '@angular/core';
 import { Contact, ContactList } from '../../../../gamma/account/account.types';
 import { ContactService } from '../contact.service';
 import { SectionChange } from '../contact.service.types';
@@ -21,6 +21,7 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 	animationDuration: number = 250;
 	contacts: { [key: string]: Contact[] } = { };
 	allContacts: Contact[] = [];
+	hideContact: EventEmitter<string> = new EventEmitter<string>();
 	subscriptions: Subscription[];
 
 	@Input() sections = {
@@ -121,7 +122,11 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 				let index = this.contacts[sectionChange.from].indexOf(contact);
 
 				if (index != -1) {
-					this.contacts[sectionChange.from].splice(index, 1);
+					this.hideContact.next(contact.id);
+
+					setTimeout(() => {
+						this.contacts[sectionChange.from].splice(index, 1);						
+					}, this.animationDuration);
 				}
 			}
 		}

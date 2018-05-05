@@ -1,21 +1,23 @@
-import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Contact, FriendInviteRequest } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
 import { ContactService } from '../contact.service';
 import { LocalUserService } from '../local-user.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
 	selector: 'app-main-contacts-user',
 	templateUrl: './main-contacts-user.component.html',
 	styleUrls: ['./main-contacts-user.component.scss']
 })
-export class MainContactsUserComponent implements AfterViewInit {
+export class MainContactsUserComponent implements AfterViewInit, OnDestroy {
 
 	constructor(private socketService: SocketService,
 				private contactService: ContactService,
 				private localUserService: LocalUserService) { }
 
 	@Input() contact: Contact;
+	@Input() hideContact: EventEmitter<string>;
 	@Input() section: string;
 	@Input() index: number;
 	@Input() showBanner: boolean;
@@ -23,16 +25,27 @@ export class MainContactsUserComponent implements AfterViewInit {
 
 	hidden: boolean = true;
 	animationDelay: number = 75;
+	hideContactSubscription: Subscription;
 
 	ngAfterViewInit() {
 		setTimeout(() => {
 			this.hidden = false;
 		}, (this.index + 1) * this.animationDelay)
+
+		this.hideContactSubscription = 
+		this.hideContact.subscribe((id) => {
+			if (this.contact.id == id) {
+				this.hidden = true;
+			}
+		});
+	}
+
+	ngOnDestroy() {
+		this.hideContactSubscription.unsubscribe();
 	}
 
 	toggleInvitation() {
 		if (this.hidden) return;
-		this.hidden = true;
 
 		setTimeout(() => {
 			if (this.contactService.in(this.contact, "others")) {
@@ -46,14 +59,12 @@ export class MainContactsUserComponent implements AfterViewInit {
 
 	acceptInvitation() {
 		if (this.hidden) return;
-		this.hidden = true;	
 
 		this.contactService.acceptInvitation(this.contact);
 	}
 
 	rejectInvitation() {
 		if (this.hidden) return;
-		this.hidden = true;
 
 		this.contactService.rejectInvitation(this.contact);
 	}
