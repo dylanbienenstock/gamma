@@ -60,29 +60,29 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 
 		let onFriendAdded = 
 		this.socketService.onFriendAdded()
-		.subscribe((id) => {
-			let contact = this.getContactById(id);
+		.subscribe((statelessContact) => {
+			let contact = this.getContactById(statelessContact.id) || statelessContact;
 			this.contactService.changeSection(contact, "requests");
 		});
 
 		let onFriendRemoved = 
 		this.socketService.onFriendRemoved()
-		.subscribe((id) => {
-			let contact = this.getContactById(id);
+		.subscribe((statelessContact) => {
+			let contact = this.getContactById(statelessContact.id) || statelessContact;
 			this.contactService.changeSection(contact, "others");
 		});
 
 		let onInvitationAccepted = 
 		this.socketService.onInvitationAccepted()
-		.subscribe((id) => {
-			let contact = this.getContactById(id);
+		.subscribe((statelessContact) => {
+			let contact = this.getContactById(statelessContact.id) || statelessContact;
 			this.contactService.changeSection(contact, "friends");
 		});
 
 		let onInvitationRejected = 
 		this.socketService.onInvitationRejected()
-		.subscribe((id) => {
-			let contact = this.getContactById(id);
+		.subscribe((statelessContact) => {
+			let contact = this.getContactById(statelessContact.id) || statelessContact;
 			this.contactService.changeSection(contact, "others");
 		});
 
@@ -100,23 +100,30 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 	}
 
 	onChangeSection(sectionChange: SectionChange) {
-		let contact = this.contacts[sectionChange.from]
+		this.contacts[sectionChange.to].unshift(sectionChange.contact);
+
+		let contactInAllContacts = this.allContacts
 		.find((contact) => {
-			// if (contact) {
-				return contact.id == sectionChange.contact.id;
-			// }
+			return contact.id == sectionChange.contact.id;
 		});
 
-		// if (!contact) return;
-
-		let index = this.contacts[sectionChange.from].indexOf(contact);
-
-		// if (index == -1) return;
-
-		if (this.sections[sectionChange.to]) {
-			this.contacts[sectionChange.to].unshift(sectionChange.contact);
+		if (!contactInAllContacts) {
+			this.allContacts.unshift(sectionChange.contact);
 		}
 		
-		this.contacts[sectionChange.from].splice(index, 1);
+		if (sectionChange.from) {
+			let contact = this.contacts[sectionChange.from]
+			.find((contact) => {
+				return contact && contact.id == sectionChange.contact.id;
+			});
+
+			if (contact) {
+				let index = this.contacts[sectionChange.from].indexOf(contact);
+
+				if (index != -1) {
+					this.contacts[sectionChange.from].splice(index, 1);
+				}
+			}
+		}
 	}
 }

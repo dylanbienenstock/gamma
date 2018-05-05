@@ -1,6 +1,7 @@
 import { State } from "./server.state";
 import { Socket } from "socket.io";
 import { DispatchEvent } from "./server.types";
+import { Contact } from "../gamma/account/account.types";
 
 export module Dispatch {
 	function direct(dispatch: DispatchEvent) {
@@ -23,12 +24,19 @@ export module Dispatch {
 		}
 	}
 
+	function statelessContact(socket: Socket): Contact {
+		return {
+			id: State.getId(socket),
+			name: State.getName(socket)
+		};
+	}
+
 	export function friendAdded(socket: Socket, id: string) {
 		direct({
 			from: socket,
 			to: id,
 			event: "friend added",
-			data: State.getId(socket)
+			data: statelessContact(socket)
 		});
 	}
 
@@ -37,7 +45,7 @@ export module Dispatch {
 			from: socket,
 			to: id,
 			event: "friend removed",
-			data: State.getId(socket)
+			data: statelessContact(socket)
 		});
 	}
 
@@ -46,7 +54,7 @@ export module Dispatch {
 			from: socket,
 			to: id,
 			event: "friend accepted",
-			data: State.getId(socket)
+			data: statelessContact(socket)
 		});
 	}
 
@@ -55,7 +63,7 @@ export module Dispatch {
 			from: socket,
 			to: id,
 			event: "friend rejected",
-			data: State.getId(socket)
+			data: statelessContact(socket)
 		});
 	}
 }

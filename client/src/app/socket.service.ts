@@ -1,4 +1,4 @@
-import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest, AuthCreds } from "../../../gamma/account/account.types";
+import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest, AuthCreds, Contact } from "../../../gamma/account/account.types";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
@@ -73,32 +73,32 @@ export class SocketService {
 		this.socket.emit("friend invite reject", invite);
 	}
 
-	onFriendAdded(): Observable<string> {
-		return new Observable<string>((observer) => {
+	onFriendAdded(): Observable<Contact> {
+		return new Observable<Contact>((observer) => {
 			this.socket.on("dispatch friend added", (data) => {
 				observer.next(data);
 			});
 		});
 	}
 
-	onFriendRemoved(): Observable<string> {
-		return new Observable<string>((observer) => {
+	onFriendRemoved(): Observable<Contact> {
+		return new Observable<Contact>((observer) => {
 			this.socket.on("dispatch friend removed", (data) => {
 				observer.next(data);
 			});
 		});
 	}
 
-	onInvitationAccepted(): Observable<string> {
-		return new Observable<string>((observer) => {
+	onInvitationAccepted(): Observable<Contact> {
+		return new Observable<Contact>((observer) => {
 			this.socket.on("dispatch friend accepted", (data) => {
 				observer.next(data);
 			});
 		});
 	}
 
-	onInvitationRejected(): Observable<string> {
-		return new Observable<string>((observer) => {
+	onInvitationRejected(): Observable<Contact> {
+		return new Observable<Contact>((observer) => {
 			this.socket.on("dispatch friend rejected", (data) => {
 				observer.next(data);
 			});
