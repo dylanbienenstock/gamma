@@ -55,11 +55,6 @@ export class MainContactsUserComponent implements AfterViewInit {
 		if (this.hidden) return;
 		this.hidden = true;
 
-		this.contactService.rejectInvitation(this.contact);		
-
-		this.socketService.rejectInvitation({
-			authCreds: this.localUserService.authCreds(),
-			contact: this.contact
-		});
+		this.contactService.rejectInvitation(this.contact);
 	}
 }
