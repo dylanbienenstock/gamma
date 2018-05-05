@@ -1,17 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { LocalUserService } from '../local-user.service';
 
 @Component({
 	selector: 'app-main-contacts-home-you',
 	templateUrl: './main-contacts-home-you.component.html',
 	styleUrls: ['./main-contacts-home-you.component.scss']
 })
-export class MainContactsHomeYouComponent implements OnInit {
-
-	constructor() { }
-
-	@Input() localUser: any;	
-
-	ngOnInit() {
-		
-	}
+export class MainContactsHomeYouComponent {
+	constructor(private localUserService: LocalUserService) { }
 }

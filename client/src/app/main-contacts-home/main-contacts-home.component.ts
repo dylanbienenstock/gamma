@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ContactList } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
+import { LocalUserService } from '../local-user.service';
 
 @Component({
 	selector: 'app-main-contacts-home',
@@ -9,9 +10,8 @@ import { SocketService } from '../socket.service';
 })
 export class MainContactsHomeComponent implements OnInit {
 
-	constructor(private socketService: SocketService) { }
-
-	@Input() localUser: any;
+	constructor(private socketService: SocketService,
+				private localUserService: LocalUserService) { }
 
 	contactList: ContactList = {
 		contacts: []
@@ -19,7 +19,7 @@ export class MainContactsHomeComponent implements OnInit {
 
 	ngOnInit() {
 		let observable = this.socketService
-		.getContactList(this.localUser.authCreds());
+		.getContactList(this.localUserService.authCreds());
 
 		let subscription = observable
 		.subscribe((contactList: ContactList) => {

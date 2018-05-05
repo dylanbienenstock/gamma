@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthCreds } from '../../../../gamma/account/account.types';
+import { LocalUserService } from '../local-user.service';
 
 @Component({
 	selector: 'app-main',
@@ -9,20 +10,9 @@ import { AuthCreds } from '../../../../gamma/account/account.types';
 
 export class MainComponent {
 
-	constructor() { }
+	constructor(private localUserService: LocalUserService) { }
 
 	public loggedIn: boolean = false;
-	public localUser: any;
-
-	public onSetLocalUser(user: any) {
-		this.localUser = user;
-		this.localUser.authCreds = (): AuthCreds => {
-			return {
-				id: this.localUser.id,
-				authToken: this.localUser.authToken
-			}
-		}
-	}
 
 	public onLogInComplete() {
 		this.loggedIn = true;

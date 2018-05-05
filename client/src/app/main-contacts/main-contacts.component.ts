@@ -7,10 +7,7 @@ import { ContactList } from '../../../../gamma/account/account.types';
 	styleUrls: ['./main-contacts.component.scss']
 })
 export class MainContactsComponent implements OnInit {
-
 	constructor() { }
-
-	@Input() localUser: any;
 
 	waiting: boolean;
 	searching: boolean = false;

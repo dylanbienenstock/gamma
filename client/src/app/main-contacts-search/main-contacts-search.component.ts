@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { SearchQuery, Contact, ContactList } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
 import { Observable } from 'rxjs/Observable';
+import { LocalUserService } from '../local-user.service';
 
 @Component({
 	selector: 'app-main-contacts-search',
@@ -11,9 +12,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class MainContactsSearchComponent implements OnInit {
 
-	constructor(private socketService: SocketService) { }
+	constructor(private socketService: SocketService,
+				private localUserService: LocalUserService) { }
 
-	@Input() localUser: any;
 	@Output() setSearching: EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() displaySearchResults: EventEmitter<ContactList> = new EventEmitter<ContactList>();
 
@@ -34,7 +35,7 @@ export class MainContactsSearchComponent implements OnInit {
 
 		this.searchTimeout = setTimeout(() => {
 			this.search({
-				authCreds: this.localUser.authCreds(),
+				authCreds: this.localUserService.authCreds(),
 				text: this.queryText
 			});
 		}, this.searchDelay);

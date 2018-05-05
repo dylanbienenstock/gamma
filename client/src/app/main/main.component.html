@@ -6,8 +6,7 @@
 <app-main-contacts
 [class.visible]="sidebars.contacts.visible && sidebars.contacts.previouslyHidden"
 [class.hidden]="!sidebars.contacts.visible"
-*ngIf="localUser"
-[localUser]="localUser">
+*ngIf="localUserService.valid">
 </app-main-contacts>
 
 <app-main-chat 

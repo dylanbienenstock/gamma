@@ -7,7 +7,6 @@
 
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.you; index as index"
-	[localUser]="localUser"
 	[contact]="contact"
 	section="you"
 	[index]="index">
@@ -24,7 +23,6 @@
 
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.requests; index as index"
-	[localUser]="localUser"
 	[contact]="contact"
 	section="requests"	
 	[index]="
@@ -46,7 +44,6 @@
 
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.pending; index as index"
-	[localUser]="localUser"
 	[contact]="contact"
 	section="pending"
 	[index]="
@@ -69,7 +66,6 @@
 
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.friends; index as index"
-	[localUser]="localUser"
 	[contact]="contact"
 	section="friends"	
 	[index]="
@@ -94,7 +90,6 @@
 
 	<app-main-contacts-user
 	*ngFor="let contact of contacts.others; index as index"
-	[localUser]="localUser"
 	[contact]="contact"
 	section="others"
 	[index]="

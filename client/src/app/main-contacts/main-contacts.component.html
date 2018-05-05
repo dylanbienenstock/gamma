@@ -7,21 +7,18 @@
 		<div class="content">
 			<app-main-contacts-search
 			(setSearching)="onSetSearching($event)"
-			(displaySearchResults)="onDisplaySearchResults($event)"
-			[localUser]="localUser">
+			(displaySearchResults)="onDisplaySearchResults($event)">
 			</app-main-contacts-search>
 
 			<div class="content-view">
 				<app-main-contacts-home
-				[hidden]="searching"
-				[localUser]="localUser">
+				[hidden]="searching">
 				</app-main-contacts-home>
 
 				<app-main-contacts-searchresults
 				*ngIf="searching"
 				[waiting]="waiting"
-				[searchResults]="searchResults"
-				[localUser]="localUser">
+				[searchResults]="searchResults">
 				</app-main-contacts-searchresults>
 			</div>
 		</div>

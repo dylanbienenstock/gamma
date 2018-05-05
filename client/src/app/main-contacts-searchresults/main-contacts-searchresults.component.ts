@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ContactList } from '../../../../gamma/account/account.types';
 
 @Component({
@@ -6,17 +6,11 @@ import { ContactList } from '../../../../gamma/account/account.types';
 	templateUrl: './main-contacts-searchresults.component.html',
 	styleUrls: ['./main-contacts-searchresults.component.scss']
 })
-export class MainContactsSearchresultsComponent implements OnInit {
-
+export class MainContactsSearchresultsComponent {
 	constructor() { }
 
 	noResults: boolean;
 
-	@Input() localUser: any;
 	@Input() waiting: boolean;
 	@Input() searchResults: ContactList;
-
-	ngOnInit() {
-
-	}
 }

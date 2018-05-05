@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { matchOtherValidator } from './match-other-validator';
 import { SocketService } from '../socket.service';
 import { LogInCreds, LogInResponse, RegisterCreds, RegisterResponse, RegisterError } from '../../../../gamma/account/account.types';
+import { LocalUserService } from '../local-user.service';
 
 @Component({
 	selector: 'app-main-entry',
@@ -10,8 +11,9 @@ import { LogInCreds, LogInResponse, RegisterCreds, RegisterResponse, RegisterErr
 	styleUrls: ['./main-entry.component.scss']
 })
 export class MainEntryComponent implements OnInit {
-	constructor(private _formBuilder: FormBuilder,
-				private socketService: SocketService) {
+	constructor(private formBuilder: FormBuilder,
+				private socketService: SocketService,
+				private localUserService: LocalUserService) {
 
 		this.createForms();
 	}
@@ -22,7 +24,6 @@ export class MainEntryComponent implements OnInit {
 	@ViewChild("container") containerRef;
 	public get container(): HTMLHeadingElement { return this.containerRef.nativeElement; }
 
-	@Output() setLocalUser: EventEmitter<any> = new EventEmitter<any>();
 	@Output() logInComplete: EventEmitter<any> = new EventEmitter<any>();
 	
 	private animationDuration: number = 750;
@@ -53,12 +54,12 @@ export class MainEntryComponent implements OnInit {
 		let nameRegex: RegExp = /^([a-zA-Z0-9\-_])*$/;
 		let emailRegex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-		this.loginForm = this._formBuilder.group({
+		this.loginForm = this.formBuilder.group({
 			name: ["", Validators.required],
 			password: ["", Validators.required]
 		});
 
-		this.registerForm = this._formBuilder.group({
+		this.registerForm = this.formBuilder.group({
 			name: ["", Validators.compose([Validators.required, Validators.pattern(nameRegex)])],
 			email: ["", Validators.compose([Validators.required, Validators.pattern(emailRegex)])],
 			password: ["", Validators.compose([Validators.required, Validators.minLength(8)])],
@@ -196,7 +197,7 @@ export class MainEntryComponent implements OnInit {
 
 	finishLogIn(data: any) {
 		setTimeout(() => {
-			this.setLocalUser.emit(data.user);
+			this.localUserService.setLocalUser(data.user);
 			this.loggedIn = true;
 
 			setTimeout(() => {

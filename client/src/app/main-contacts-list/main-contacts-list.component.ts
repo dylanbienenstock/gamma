@@ -20,7 +20,6 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 	contacts: { [key: string]: Contact[] } = { };
 	onChangeSectionSubscription: Subscription;
 
-	@Input() localUser: any;
 	@Input() sections = {
 		you: false,
 		requests: false, // Received invitations

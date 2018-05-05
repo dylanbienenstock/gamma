@@ -2,6 +2,7 @@ import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@
 import { Contact, FriendInviteRequest } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
 import { ContactService } from '../contact.service';
+import { LocalUserService } from '../local-user.service';
 
 @Component({
 	selector: 'app-main-contacts-user',
@@ -11,9 +12,9 @@ import { ContactService } from '../contact.service';
 export class MainContactsUserComponent implements AfterViewInit {
 
 	constructor(private socketService: SocketService,
-				private contactService: ContactService) { }
+				private contactService: ContactService,
+				private localUserService: LocalUserService) { }
 
-	@Input() localUser: any;
 	@Input() contact: Contact;
 	@Input() section: string;
 	@Input() index: number;
@@ -34,7 +35,7 @@ export class MainContactsUserComponent implements AfterViewInit {
 		this.hidden = true;
 
 		let invite: FriendInviteRequest = {
-			authCreds: this.localUser.authCreds(),
+			authCreds: this.localUserService.authCreds(),
 			contact: this.contact
 		}
 
@@ -57,7 +58,7 @@ export class MainContactsUserComponent implements AfterViewInit {
 		this.contactService.acceptInvitation(this.contact);
 
 		this.socketService.acceptInvitation({ 
-			authCreds: this.localUser.authCreds(),
+			authCreds: this.localUserService.authCreds(),
 			contact: this.contact
 		});
 	}
@@ -69,7 +70,7 @@ export class MainContactsUserComponent implements AfterViewInit {
 		this.contactService.rejectInvitation(this.contact);		
 
 		this.socketService.rejectInvitation({
-			authCreds: this.localUser.authCreds(),
+			authCreds: this.localUserService.authCreds(),
 			contact: this.contact
 		});
 	}
