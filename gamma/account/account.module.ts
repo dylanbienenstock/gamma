@@ -205,7 +205,7 @@ export module AccountManager {
 
 	// This function doesn't authenticate requests
 	// It shouldn't be accessible by ANY client requests
-	export async function getConfirmedFriendIds(id: string): Promise<string[]> {
+	export async function getFriendIds(id: string): Promise<string[]> {
 		let friends = [];
 
 		await User.findOne({ _id: ObjectId(id) })
@@ -215,7 +215,7 @@ export module AccountManager {
 
 		return friends
 			.filter(friend => friend.confirmed)
-			.map(friend => friend.id);
+			.map(friend => friend.id.toString());
 	}
 
 
