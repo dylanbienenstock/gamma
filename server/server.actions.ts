@@ -56,18 +56,30 @@ export module Actions {
 	}
 
 	export function addFriend(socket: Socket, invite: FriendInviteRequest) {
-		AccountManager.addFriend(invite);
+		AccountManager.addFriend(invite)
+		.then((success) => {
+			
+		});
 	}
 
 	export function removeFriend(socket: Socket, invite: FriendInviteRequest) {
-		AccountManager.removeFriend(invite);
+		AccountManager.removeFriend(invite)
+		.then((success) => {
+
+		});
 	}
 
 	export function acceptInvitation(socket: Socket, invite: FriendInviteRequest) {
-		AccountManager.acceptInvitation(invite);
+		AccountManager.acceptInvitation(invite)
+		.then((success) => {
+
+		});
 	}
 
 	export function rejectInvitation(socket: Socket, invite: FriendInviteRequest) {
-		AccountManager.rejectInvitation(invite);
+		AccountManager.rejectInvitation(invite)
+		.then((success) => {
+
+		});
 	}
 }
