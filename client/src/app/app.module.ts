@@ -21,6 +21,7 @@ import { MainContactsSearchresultsComponent } from './main-contacts-searchresult
 import { MainContactsUserComponent } from './main-contacts-user/main-contacts-user.component';
 import { MainContactsListComponent } from './main-contacts-list/main-contacts-list.component';
 import { MainContactsListBannerComponent } from './main-contacts-list-banner/main-contacts-list-banner.component';
+import { ContactService } from './contact.service';
 
 @NgModule({
 	declarations: [
@@ -48,7 +49,8 @@ import { MainContactsListBannerComponent } from './main-contacts-list-banner/mai
 		ReactiveFormsModule
 	],
 	providers: [
-		SocketService
+		SocketService,
+		ContactService
 	],
 	bootstrap: [AppComponent]
 })
