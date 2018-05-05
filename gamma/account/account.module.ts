@@ -316,7 +316,7 @@ export module AccountManager {
 	}
 
 
-	export async function addFriend(invite: FriendInviteRequest): Promise<null> {
+	export async function addFriend(invite: FriendInviteRequest): Promise<boolean> {
 		let authResult: AuthResult;
 
 		await authenticate(invite.authCreds, null, "friends friends.user")
@@ -324,7 +324,7 @@ export module AccountManager {
 			authResult = _authResult;
 		});
 
-		if (!authResult.valid) return;
+		if (!authResult.valid) return false;
 
 
 		// Find our recipient
@@ -336,14 +336,14 @@ export module AccountManager {
 			.catch((error) => { recipientError = error; })
 			.then((user) => { recipient = user; })
 
-		if (recipientError || !recipient) return;
+		if (recipientError || !recipient) return false;
 
 
 		// Make sure we aren't creating a duplicate
 		let senderFriend = authResult.user.friends
 			.find(friend => friend.user.id.toString() == recipient.id);
 
-		if (senderFriend) return;
+		if (senderFriend) return false;
 
 		let recipientFriendInvite = recipient.friendInvites
 			.find(friendInvite => friendInvite.user.id.toString() == authResult.user.id);
@@ -359,10 +359,14 @@ export module AccountManager {
 		let friendInvite = { user: ObjectId(authResult.user.id) };
 		recipient.friendInvites.push(friendInvite);
 		recipient.save();
+
+
+		// Success
+		return true;
 	}
 
 
-	export async function removeFriend(invite: FriendInviteRequest): Promise<null> {
+	export async function removeFriend(invite: FriendInviteRequest): Promise<boolean> {
 		let authResult: AuthResult;
 
 		await authenticate(invite.authCreds, null, "friends friends.user")
@@ -370,7 +374,7 @@ export module AccountManager {
 			authResult = _authResult;
 		});
 
-		if (!authResult.valid) return;
+		if (!authResult.valid) return false;
 
 
 		// Remove us from their requests list
@@ -382,7 +386,7 @@ export module AccountManager {
 			.catch((error) => { recipientError = error; })
 			.then((user) => { recipient = user; })
 
-		if (recipientError || !recipient) return;
+		if (recipientError || !recipient) return false;
 
 		let friendInvite = recipient.friendInvites
 		.find(friendInvite => friendInvite.user.id == authResult.user.id);
@@ -401,10 +405,14 @@ export module AccountManager {
 			authResult.user.friends.id(ObjectId(friend.id)).remove();
 			authResult.user.save();
 		}
+
+
+		// Success
+		return true;
 	}
 
 
-	export async function acceptInvitation(invite: FriendInviteRequest): Promise<null> {
+	export async function acceptInvitation(invite: FriendInviteRequest): Promise<boolean> {
 		let authResult: AuthResult;
 		let populate = "friends friends.user friendInvites friendInvites.user";
 
@@ -413,14 +421,14 @@ export module AccountManager {
 			authResult = _authResult;
 		});
 
-		if (!authResult.valid) return;
+		if (!authResult.valid) return false;
 
 
 		// Make sure we actually have the invitation
 		let friendInviteIds = authResult.user.friendInvites
 			.map(friendInvite => friendInvite.user.id);
 			
-		if (!friendInviteIds.includes(invite.contact.id)) return;
+		if (!friendInviteIds.includes(invite.contact.id)) return false;
 
 
 		// Make sure the sender actually sent it
@@ -432,7 +440,7 @@ export module AccountManager {
 		.catch((error) => { senderError = error; })
 		.then((user) => { sender = user; });
 
-		if (senderError || !sender) return;
+		if (senderError || !sender) return false;
 		
 
 		// Add sender to our friends list
@@ -460,10 +468,14 @@ export module AccountManager {
 			sender.friends.id(ObjectId(friend.id)).confirmed = true;
 			sender.save();
 		}
+
+
+		// Success
+		return true;
 	}
 
 
-	export async function rejectInvitation(invite: FriendInviteRequest) {
+	export async function rejectInvitation(invite: FriendInviteRequest): Promise<boolean> {
 		let authResult: AuthResult;
 		let populate = "friends friends.user friendInvites friendInvites.user";
 
@@ -472,13 +484,13 @@ export module AccountManager {
 				authResult = _authResult;
 			});
 
-		if (!authResult.valid) return;
+		if (!authResult.valid) return false;
 
 		// Make sure we actually have the invitation
 		let friendInviteIds = authResult.user.friendInvites
 			.map(friendInvite => friendInvite.user.id);
 
-		if (!friendInviteIds.includes(invite.contact.id)) return;
+		if (!friendInviteIds.includes(invite.contact.id)) return false;
 
 
 		// Make sure the sender actually sent it
@@ -490,7 +502,7 @@ export module AccountManager {
 		.catch((error) => { senderError = error; })
 		.then((user) => { sender = user; });
 
-		if (senderError || !sender) return;
+		if (senderError || !sender) return false;
 
 
 		// Remove invitation
@@ -511,5 +523,9 @@ export module AccountManager {
 			sender.friends.id(ObjectId(friend.id)).remove();
 			sender.save();
 		}
+
+
+		// Success
+		return true;
 	}
 }
