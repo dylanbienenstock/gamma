@@ -50,7 +50,7 @@ export class MainContactsUserComponent implements AfterViewInit {
 		}, this.animationDelay);
 	}
 
-	acceptInvitation(contact: Contact) {
+	acceptInvitation() {
 		if (this.hidden) return;
 		this.hidden = true;	
 
@@ -62,7 +62,7 @@ export class MainContactsUserComponent implements AfterViewInit {
 		});
 	}
 
-	rejectInvitation(id: string) {
+	rejectInvitation() {
 		if (this.hidden) return;
 		this.hidden = true;
 
