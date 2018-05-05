@@ -10,5 +10,5 @@ export interface DispatchEvent {
 	from: Socket;
 	to?: string; // Recipient id
 	event: string;
-	data: string;
+	data: any;
 }
