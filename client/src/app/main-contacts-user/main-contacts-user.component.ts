@@ -34,19 +34,12 @@ export class MainContactsUserComponent implements AfterViewInit {
 		if (this.hidden) return;
 		this.hidden = true;
 
-		let invite: FriendInviteRequest = {
-			authCreds: this.localUserService.authCreds(),
-			contact: this.contact
-		}
-
 		setTimeout(() => {
 			if (this.contactService.in(this.contact, "others")) {
 				this.contactService.addFriend(this.contact);
-				this.socketService.addFriend(invite);
 			}
 			else if (this.contactService.in(this.contact, "pending")) {
 				this.contactService.removeFriend(this.contact);
-				this.socketService.removeFriend(invite);
 			}
 		}, this.animationDelay);
 	}
@@ -56,11 +49,6 @@ export class MainContactsUserComponent implements AfterViewInit {
 		this.hidden = true;	
 
 		this.contactService.acceptInvitation(this.contact);
-
-		this.socketService.acceptInvitation({ 
-			authCreds: this.localUserService.authCreds(),
-			contact: this.contact
-		});
 	}
 
 	rejectInvitation() {

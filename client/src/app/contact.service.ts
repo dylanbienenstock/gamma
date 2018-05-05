@@ -1,10 +1,13 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Contact } from '../../../gamma/account/account.types';
 import { SectionChange } from './contact.service.types';
+import { SocketService } from './socket.service';
+import { LocalUserService } from './local-user.service';
 
 @Injectable()
 export class ContactService {
-	constructor() { }
+	constructor(private socketService: SocketService,
+				private localUserService: LocalUserService) { }
 
 	// The following events return a user id
 	onAddFriend: EventEmitter<string> = new EventEmitter<string>();
@@ -46,7 +49,6 @@ export class ContactService {
 		}
 	}
 
-	// The following functions trigger the events
 	changeSection(contact: Contact, section: string) {
 		let previousSection = this.getSection(contact);
 		let sectionDefinition = this.sectionDefinitions[section];
@@ -63,23 +65,34 @@ export class ContactService {
 		});
 	}
 
+	private createInvite(contact: Contact) {
+		return {
+			authCreds: this.localUserService.authCreds(),
+			contact: contact
+		};
+	}
+
 	addFriend(contact: Contact) {
 		this.changeSection(contact, "pending");
 		this.onAddFriend.next(contact.id);
+		this.socketService.addFriend(this.createInvite(contact));
 	}
 
 	removeFriend(contact: Contact) {
 		this.changeSection(contact, "others");	
 		this.onRemoveFriend.next(contact.id);
+		this.socketService.removeFriend(this.createInvite(contact));
 	}
 
 	acceptInvitation(contact: Contact) {
 		this.changeSection(contact, "friends");			
 		this.onAcceptInvitation.next(contact.id);
+		this.socketService.acceptInvitation(this.createInvite(contact));
 	}
 
 	rejectInvitation(contact: Contact) {
 		this.changeSection(contact, "others");	
 		this.onRejectInvitation.next(contact.id);
+		this.socketService.rejectInvitation(this.createInvite(contact));
 	}
 }
