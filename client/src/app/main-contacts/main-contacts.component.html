@@ -13,7 +13,7 @@
 
 			<div class="content-view">
 				<app-main-contacts-home
-				*ngIf="!searching"
+				[hidden]="searching"
 				[localUser]="localUser">
 				</app-main-contacts-home>
 
