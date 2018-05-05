@@ -389,13 +389,13 @@ export module AccountManager {
 		let friendInviteIds = authResult.user.friendInvites
 			.map(friendInvite => friendInvite.user.id);
 			
-		if (!friendInviteIds.includes(invite.id)) return;
+		if (!friendInviteIds.includes(invite.contact.id)) return;
 
 		// Make sure the sender actually sent it
 		let sender: any;
 		let senderError: any;
 
-		await User.findOne({ _id: ObjectId(invite.id) })
+		await User.findOne({ _id: ObjectId(invite.contact.id) })
 		.catch((error) => { senderError = error; })
 		.then((user) => { sender = user; });
 
@@ -409,7 +409,7 @@ export module AccountManager {
 
 		// Remove invitation
 		for (let friendInvite of authResult.user.friendInvites) {
-			if (friendInvite.user.id == invite.id) {
+			if (friendInvite.user.id == invite.contact.id) {
 				authResult.user.friendInvites.id(ObjectId(friendInvite.id)).remove();
 
 				break;
@@ -418,7 +418,7 @@ export module AccountManager {
 
 		// Confirm friendship for sender
 		for (let friend of sender.friends) {
-			if (friend.user.id == invite.id) {
+			if (friend.user.id == invite.contact.id) {
 				sender.friends.id(ObjectId(friend.id)).confirmed = true;
 
 				break;
