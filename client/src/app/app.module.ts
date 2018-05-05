@@ -22,6 +22,7 @@ import { MainContactsUserComponent } from './main-contacts-user/main-contacts-us
 import { MainContactsListComponent } from './main-contacts-list/main-contacts-list.component';
 import { MainContactsListBannerComponent } from './main-contacts-list-banner/main-contacts-list-banner.component';
 import { ContactService } from './contact.service';
+import { LocalUserService } from './local-user.service';
 
 @NgModule({
 	declarations: [
@@ -50,7 +51,8 @@ import { ContactService } from './contact.service';
 	],
 	providers: [
 		SocketService,
-		ContactService
+		ContactService,
+		LocalUserService
 	],
 	bootstrap: [AppComponent]
 })
