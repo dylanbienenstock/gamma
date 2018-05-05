@@ -343,13 +343,32 @@ export module AccountManager {
 
 		if (!authResult.valid) return;
 
-		for (let friend of authResult.user.friends) {
-			if (friend.user.id == invite.id) {
-				authResult.user.friends.id(ObjectId(friend.id)).remove();
-				authResult.user.save();
+		// Remove us from their requests list
+		let recipientError: any;
+		let recipient: any;
 
-				break;
-			}
+		await User.findOne({ _id: ObjectId(invite.contact.id) })
+			.populate("friendInvites friendInvites.user")
+			.catch((error) => { recipientError = error; })
+			.then((user) => { recipient = user; })
+
+		if (recipientError || !recipient) return;
+
+		let friendInvite = recipient.friendInvites
+		.find(friendInvite => friendInvite.user.id == authResult.user.id);
+
+		if (friendInvite) {
+			recipient.friendInvites.id(ObjectId(friendInvite.id)).remove();
+			recipient.save();
+		}
+
+		// Remove them from our pending list
+		let friend = authResult.user.friends
+		.find(friend => friend.user.id == recipient.id);
+
+		if (friend) {
+			authResult.user.friends.id(ObjectId(friend.id)).remove();
+			authResult.user.save();
 		}
 	}
 
