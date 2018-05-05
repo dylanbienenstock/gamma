@@ -3,8 +3,14 @@
 <div *ngIf="!waiting && !noResults">
 	<app-main-contacts-list
 	[localUser]="localUser"
-	[contacts]="searchResults"
-	[sections]="{ all: true }">
+	[contactList]="searchResults"
+	[sections]="{
+	you: true,
+	requests: true,
+	pending: true,
+	friends: true,
+	others: true
+}">
 	</app-main-contacts-list>
 </div>
 
