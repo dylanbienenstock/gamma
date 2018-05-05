@@ -57,5 +57,5 @@ export interface ContactList {
 
 export interface FriendInviteRequest {
 	authCreds: AuthCreds;
-	id: string; // Recipient id
+	contact: Contact;
 }
