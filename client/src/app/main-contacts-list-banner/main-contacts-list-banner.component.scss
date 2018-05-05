@@ -1,6 +1,8 @@
 @import "~global.scss";
 
 :host {
+	@include noselect;
+
 	div {
 		display: block;
 		height: 20px;
