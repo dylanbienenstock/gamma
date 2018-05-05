@@ -203,6 +203,22 @@ export module AccountManager {
 	}
 
 
+	// This function doesn't authenticate requests
+	// It shouldn't be accessible by ANY client requests
+	export async function getConfirmedFriendIds(id: string): Promise<string[]> {
+		let friends = [];
+
+		await User.findOne({ _id: ObjectId(id) })
+		.populate("friends friends.user")
+		.catch((error) => { /* Do nothing */ })
+		.then((users) => { friends });
+
+		return friends
+			.filter(friend => friend.confirmed)
+			.map(friend => friend.id);
+	}
+
+
 	export async function getContactList(authCreds: AuthCreds) {
 		let response: ContactList = {};
 		let authResult: AuthResult;
