@@ -34,12 +34,15 @@ export module AccountManager {
 		return authToken;
 	}
 
+
 	export async function createAccount(creds: RegisterCreds): Promise<RegisterResponse> {
 		let response: RegisterResponse = {
 			success: true,
 			errors: []
 		};
 
+
+		// Make sure the password is long enough
 		if (creds.password.length < 8) {
 			response.success = false;
 			response.errors = [{
@@ -47,6 +50,7 @@ export module AccountManager {
 				text: "Password must be at least 8 characters"
 			}];
 		}
+
 
 		// Hash the password
 		await bcrypt.hash(creds.password).then((hash) => {
@@ -56,7 +60,8 @@ export module AccountManager {
 		creds.name = creds.name.toLowerCase();
 		creds.email = creds.email.toLowerCase();
 
-		// Ensure that the name is unique
+
+		// Make sure that the name is unique
 		await User.findOne({ name: creds.name }, (error, user) => {
 			if (user) {
 				response.success = false;
@@ -67,7 +72,8 @@ export module AccountManager {
 			}
 		});
 
-		// Ensure that the email address is unique
+
+		// Make sure that the email address is unique
 		await User.findOne({ email: creds.email }, (error, user) => {
 			if (user) {
 				response.success = false;
@@ -78,8 +84,9 @@ export module AccountManager {
 			}
 		});
 
+
+		// Validate and create the user
 		if (response.success) {
-			// Validate and create the user
 			let authToken = generateAuthToken();
 
 			let newUser = new User({
@@ -106,21 +113,23 @@ export module AccountManager {
 		return response;		
 	}
 
+
 	export async function logIn(creds: LogInCreds): Promise<LogInResponse> {
 		let response: LogInResponse = { success: false };
 
+
+		// Find the cooresponding user
 		let error: any;
-		let user: any;
+		let user: any;	
 
-		creds.name = creds.name.toLowerCase();		
-
-		await User.findOne({ name: creds.name }, (_error, _user) => {
-			error = _error;
-			user = _user;
-		});
+		await User.findOne({ name: creds.name.toLowerCase() })
+		.catch((_error) => { error = _error; })
+		.then((_user) => { user = _user; })
 
 		if (error || !user || creds.password.length == 0) return response;
 
+
+		// Make sure they have the right password
 		await bcrypt.compare(creds.password, user.password)
 		.then(() => {
 			// Generate a new auth token on every login
@@ -141,6 +150,7 @@ export module AccountManager {
 
 		return response;
 	}
+
 
 	export function logOut(id: string, authToken?: string): void {
 		User.findOne({ _id: ObjectId(id) })
@@ -163,18 +173,25 @@ export module AccountManager {
 		});
 	}
 
-	export async function authenticate(auth: AuthCreds, extraFields?: string, populate?: string): Promise<AuthResult> {
-		let error: any;
-		let user: any;
 
+	export async function authenticate(auth: AuthCreds, extraFields?: string, populate?: string): Promise<AuthResult> {
+		// Determine which fields to select
 		let defaultFields = "id name authToken";
 		let fields = extraFields ? `${defaultFields} ${extraFields}` : defaultFields;
+
+
+		// Find the cooresponding user
+		let error: any;
+		let user: any;
 
 		await User.findOne({ _id: ObjectId(auth.id) }, fields)
 		.populate(populate || "")
 		.catch((_error) => { error = _error; })
 		.then((_user) => { user = _user });
 
+
+		// Check the provided authToken
+		// against the stored authToken
 		if (!error && user && auth.authToken == user.authToken) {
 			return {
 				valid: true,
@@ -185,10 +202,10 @@ export module AccountManager {
 		return { valid: false };
 	}
 
+
 	export async function getContactList(authCreds: AuthCreds) {
 		let response: ContactList = {};
 		let authResult: AuthResult;
-
 		let populate = "friends friends.user friendInvites friendInvites.user";
 
 		await authenticate(authCreds, null, populate)
@@ -198,12 +215,15 @@ export module AccountManager {
 
 		if (!authResult.valid) return response;
 
+
+		// Merge friends (confirmed or pending) with requests
 		let users: any[] = authResult.user.friends.map(friend => friend.user);
 		users = users.concat(authResult.user.friendInvites.map(friend => friend.user));
 
 		return generateContactList(authResult.user, users);
 	}
 	
+
 	// Owner must populate:
 	// "friends friends.user friendInvites friendInvites.user"
 	// Users must populate:
@@ -243,10 +263,10 @@ export module AccountManager {
 		}
 	}
 
+
 	export async function search(query: SearchQuery): Promise<ContactList> {
 		let response: ContactList = {};
 		let authResult: AuthResult;
-
 		let populate = "friends friends.user friendInvites friendInvites.user";
 		
 		await authenticate(query.authCreds, null, populate)
@@ -256,10 +276,8 @@ export module AccountManager {
 
 		if (!authResult.valid) return response;
 
-		let error: any;
-		let users: any[];
 
-		// https://codereview.stackexchange.com/questions/153691/escape-user-input-for-use-in-js-regex
+		// Sanitize input
 		query.text = (function sanitize(text) {
 			var toSanitize = RegExp("[" + "{}[]-/\\()*+?.%$|"
 				.replace(RegExp(".", "g"), "\\$&") + "]", "g");
@@ -267,7 +285,11 @@ export module AccountManager {
 			return text.replace(toSanitize, "\\$&");
 		})(query.text);
 
+
 		// Find users that match query
+		let error: any;
+		let users: any[];
+
 		await User.find(
 			{ name: {
 				$regex: `.*${query.text}.*`,
@@ -279,21 +301,20 @@ export module AccountManager {
 				$limit: query.limit || 16
 			}
 		).populate("friends friends.user")
-		.catch((_error) => {
-			error = _error;
-		})
-		.then((_users) => {
-			users = _users;
-		});
+		.catch((_error) => { error = _error; })
+		.then((_users) => { users = _users; });
 
+
+		// Generate the contacts list
 		if (!error && users) {
 			response = generateContactList(authResult.user, users);
 		} else {
-			console.log(error);
+			console.error(error);
 		}
 
 		return response;
 	}
+
 
 	export async function addFriend(invite: FriendInviteRequest): Promise<null> {
 		let authResult: AuthResult;
@@ -305,25 +326,32 @@ export module AccountManager {
 
 		if (!authResult.valid) return;
 
+
+		// Find our recipient
 		let recipientError: any;
 		let recipient: any;
 
-		await User.findOne({ _id: ObjectId(invite.id) })
+		await User.findOne({ _id: ObjectId(invite.contact.id) })
 			.populate("friendInvites friendInvites.user")
 			.catch((error) => { recipientError = error; })
 			.then((user) => { recipient = user; })
 
 		if (recipientError || !recipient) return;
 
-		let senderFriendIds = authResult.user.friends
-			.map(friend => friend.user.id.toString());
 
-		let recipientFriendInviteIds = recipient.friendInvites
-			.map(friendInvite => friendInvite.user.id.toString());
+		// Make sure we aren't creating a duplicate
+		let senderFriend = authResult.user.friends
+			.find(friend => friend.user.id.toString() == recipient.id);
 
-		if (senderFriendIds.includes(recipient.id)) return;
-		if (recipientFriendInviteIds.includes(authResult.user.id)) return;
+		if (senderFriend) return;
 
+		let recipientFriendInvite = recipient.friendInvites
+			.find(friendInvite => friendInvite.user.id.toString() == authResult.user.id);
+
+		if (recipientFriendInvite) return;
+
+
+		// Create and save
 		let friend = { user: ObjectId(recipient.id) };
 		authResult.user.friends.push(friend);
 		authResult.user.save();
@@ -332,6 +360,7 @@ export module AccountManager {
 		recipient.friendInvites.push(friendInvite);
 		recipient.save();
 	}
+
 
 	export async function removeFriend(invite: FriendInviteRequest): Promise<null> {
 		let authResult: AuthResult;
@@ -342,6 +371,7 @@ export module AccountManager {
 		});
 
 		if (!authResult.valid) return;
+
 
 		// Remove us from their requests list
 		let recipientError: any;
@@ -362,6 +392,7 @@ export module AccountManager {
 			recipient.save();
 		}
 
+
 		// Remove them from our pending list
 		let friend = authResult.user.friends
 		.find(friend => friend.user.id == recipient.id);
@@ -372,10 +403,9 @@ export module AccountManager {
 		}
 	}
 
-	export async function acceptInvitation(invite: FriendInviteRequest): Promise<null> {
-		console.log("acceptInvitation")
-		let authResult: AuthResult;
 
+	export async function acceptInvitation(invite: FriendInviteRequest): Promise<null> {
+		let authResult: AuthResult;
 		let populate = "friends friends.user friendInvites friendInvites.user";
 
 		await authenticate(invite.authCreds, null, populate)
@@ -385,48 +415,50 @@ export module AccountManager {
 
 		if (!authResult.valid) return;
 
+
 		// Make sure we actually have the invitation
 		let friendInviteIds = authResult.user.friendInvites
 			.map(friendInvite => friendInvite.user.id);
 			
 		if (!friendInviteIds.includes(invite.contact.id)) return;
 
+
 		// Make sure the sender actually sent it
 		let sender: any;
 		let senderError: any;
 
 		await User.findOne({ _id: ObjectId(invite.contact.id) })
+		.populate("friends friends.user")
 		.catch((error) => { senderError = error; })
 		.then((user) => { sender = user; });
 
 		if (senderError || !sender) return;
 		
+
 		// Add sender to our friends list
 		authResult.user.friends.push({
 			user: ObjectId(sender.id),
 			confirmed: true
 		});
 
-		// Remove invitation
-		for (let friendInvite of authResult.user.friendInvites) {
-			if (friendInvite.user.id == invite.contact.id) {
-				authResult.user.friendInvites.id(ObjectId(friendInvite.id)).remove();
 
-				break;
-			}
+		// Remove invitation
+		let friendInvite = authResult.user.friendInvites
+		.find(friendInvite => friendInvite.user.id == sender.id);
+
+		if (friendInvite) {
+			authResult.user.friendInvites.id(ObjectId(friendInvite.id)).remove();
+			authResult.user.save();
 		}
+
 
 		// Confirm friendship for sender
-		for (let friend of sender.friends) {
-			if (friend.user.id == invite.contact.id) {
-				sender.friends.id(ObjectId(friend.id)).confirmed = true;
+		let friend = sender.friends
+		.find(friend => friend.user.id == authResult.user.id);
 
-				break;
-			}
+		if (friend) {
+			sender.friends.id(ObjectId(friend.id)).confirmed = true;
+			sender.save();
 		}
-
-		// Save everything
-		authResult.user.save();
-		sender.save();
 	}
 }
