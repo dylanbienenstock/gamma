@@ -49,7 +49,7 @@ export class ContactService {
 		}
 	}
 
-	changeSection(contact: Contact, section: string) {
+	changeSection(contact: Contact, section: string, suppressEvent?: boolean) {
 		let previousSection = this.getSection(contact);
 		let sectionDefinition = this.sectionDefinitions[section];
 
@@ -58,11 +58,13 @@ export class ContactService {
 		contact.isConfirmed = sectionDefinition.includes("isConfirmed");
 		contact.isRequesting = sectionDefinition.includes("isRequesting");
 		
-		this.onChangeSection.next({
-			contact: contact,
-			from: previousSection,
-			to: section
-		});
+		if (!suppressEvent) {
+			this.onChangeSection.next({
+				contact: contact,
+				from: previousSection,
+				to: section
+			});
+		}
 	}
 
 	private createInvite(contact: Contact) {
@@ -72,27 +74,39 @@ export class ContactService {
 		};
 	}
 
-	addFriend(contact: Contact) {
-		this.changeSection(contact, "pending");
-		this.onAddFriend.next(contact.id);
+	addFriend(contact: Contact, suppressEvent?: boolean) {
+		this.changeSection(contact, "pending", suppressEvent);
 		this.socketService.addFriend(this.createInvite(contact));
+		
+		if (!suppressEvent) {
+			this.onAddFriend.next(contact.id);
+		}
 	}
 
-	removeFriend(contact: Contact) {
-		this.changeSection(contact, "others");	
-		this.onRemoveFriend.next(contact.id);
+	removeFriend(contact: Contact, suppressEvent?: boolean) {
+		this.changeSection(contact, "others", suppressEvent);	
 		this.socketService.removeFriend(this.createInvite(contact));
+		
+		if (!suppressEvent) {
+			this.onRemoveFriend.next(contact.id);
+		}
 	}
 
-	acceptInvitation(contact: Contact) {
-		this.changeSection(contact, "friends");			
-		this.onAcceptInvitation.next(contact.id);
+	acceptInvitation(contact: Contact, suppressEvent?: boolean) {
+		this.changeSection(contact, "friends", suppressEvent);			
 		this.socketService.acceptInvitation(this.createInvite(contact));
+		
+		if (!suppressEvent) {
+			this.onAcceptInvitation.next(contact.id);
+		}
 	}
 
-	rejectInvitation(contact: Contact) {
-		this.changeSection(contact, "others");	
-		this.onRejectInvitation.next(contact.id);
+	rejectInvitation(contact: Contact, suppressEvent?: boolean) {
+		this.changeSection(contact, "others", suppressEvent);	
 		this.socketService.rejectInvitation(this.createInvite(contact));
+		
+		if (!suppressEvent) {
+			this.onRejectInvitation.next(contact.id);
+		}
 	}
 }
