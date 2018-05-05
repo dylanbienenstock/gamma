@@ -1,5 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Contact, ContactList } from '../../../../gamma/account/account.types';
+import { ContactService } from '../contact.service';
+import { SectionChange } from '../contact.service.types';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
 	selector: 'app-main-contacts-list',
@@ -7,85 +10,67 @@ import { Contact, ContactList } from '../../../../gamma/account/account.types';
 	styleUrls: ['./main-contacts-list.component.scss']
 })
 
-export class MainContactsListComponent {
+export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 
-	constructor() { }
+	constructor(private contactService: ContactService) { }
 
-	you: Contact[] = []; // It's only an array because I'm lazy.
-	requests: Contact[] = []; // Received invitations
-	invitations: Contact[] = []; // Send invitatons
-	friends: Contact[] = []; // Confirmed friends
-	others: Contact[] = []; // Confirmed friends
+	// $user-container-animation-duration in
+	// main-contacts-user.component.scss
+	animationDuration: number = 250;
+	contacts: { [key: string]: Contact[] } = { };
+	onChangeSectionSubscription: Subscription;
 
 	@Input() localUser: any;
-	@Input() sections: {
-		you: boolean;
-		requests: boolean;
-		invitations: boolean;
-		friends: boolean;
-		others: boolean;
-		all: boolean;
+	@Input() sections = {
+		you: false,
+		requests: false, // Received invitations
+		pending: false, // Sent invitatons
+		friends: false, // Confirmed friends
+		others: false // Strangers
 	};
 
-	@Input() set contacts(value: ContactList) {
-		if (this.sections.you || this.sections.all) {
-			this.you = value.contacts.filter(value =>
-				value.isSelf &&
-				!value.isFriend &&
-				!value.isConfirmed &&
-				!value.isRequesting
-			) || [];
-		}
-
-		if (this.sections.requests || this.sections.all) {
-			this.requests = value.contacts.filter(value =>
-				!value.isSelf &&
-				!value.isFriend &&
-				!value.isConfirmed &&
-				value.isRequesting
-			) || [];
-		}
-
-		if (this.sections.invitations || this.sections.all) {
-			this.invitations = value.contacts.filter(value =>
-				!value.isSelf &&
-				value.isFriend &&
-				!value.isConfirmed &&
-				!value.isRequesting
-			) || [];
-		}
-
-		if (this.sections.friends || this.sections.all) {
-			this.friends = value.contacts.filter(value =>
-				!value.isSelf &&
-				value.isFriend &&
-				value.isConfirmed &&
-				!value.isRequesting
-			) || [];
-		}
-
-		if (this.sections.others || this.sections.all) {
-			this.others = value.contacts.filter(value =>
-				!value.isSelf &&
-				!value.isFriend &&
-				!value.isConfirmed &&
-				!value.isRequesting
-			) || [];
+	@Input() set contactList(value: ContactList) {
+		for (let section in this.sections) {
+			if (this.sections[section]) {
+				this.contacts[section] = value.contacts.filter(contact =>
+					this.contactService.in(contact, section)
+				) || [];
+			} else {
+				this.contacts[section] = [];
+			}
 		}
 	}
 
-	onAccepted(index: number) {
-		// $user-container-animation-duration in
-		// main-contacts-user.component.scss
-		let animationDuration: number = 250;
+	ngAfterViewInit() {
+		this.onChangeSectionSubscription = 
+		this.contactService.onChangeSection
+		.subscribe((data) => {
+			this.onChangeSection(data);
+		});
+	}
 
-		setTimeout(() => {
-			this.requests[index].isFriend = true;
-			this.requests[index].isConfirmed = true;
-			this.requests[index].isRequesting = false;
+	ngOnDestroy() {
+		this.onChangeSectionSubscription.unsubscribe();
+	}
 
-			this.friends.unshift(this.requests[index]);
-			this.requests.splice(index);
-		}, animationDuration);
+	onChangeSection(sectionChange: SectionChange) {
+		let contact = this.contacts[sectionChange.from]
+		.find((contact) => {
+			// if (contact) {
+				return contact.id == sectionChange.contact.id;
+			// }
+		});
+
+		// if (!contact) return;
+
+		let index = this.contacts[sectionChange.from].indexOf(contact);
+
+		// if (index == -1) return;
+
+		if (this.sections[sectionChange.to]) {
+			this.contacts[sectionChange.to].unshift(sectionChange.contact);
+		}
+		
+		this.contacts[sectionChange.from].splice(index, 1);
 	}
 }

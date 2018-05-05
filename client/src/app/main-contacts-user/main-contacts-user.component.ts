@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { Contact, FriendInviteRequest } from '../../../../gamma/account/account.types';
 import { SocketService } from '../socket.service';
+import { ContactService } from '../contact.service';
 
 @Component({
 	selector: 'app-main-contacts-user',
@@ -9,15 +10,15 @@ import { SocketService } from '../socket.service';
 })
 export class MainContactsUserComponent implements AfterViewInit {
 
-	constructor(private socketService: SocketService) { }
+	constructor(private socketService: SocketService,
+				private contactService: ContactService) { }
 
 	@Input() localUser: any;
-	@Input() data: Contact;
+	@Input() contact: Contact;
+	@Input() section: string;
 	@Input() index: number;
 	@Input() showBanner: boolean;
 	@Input() bannerText: string;
-
-	@Output() accepted: EventEmitter<any> = new EventEmitter<any>();
 
 	hidden: boolean = true;
 	animationDelay: number = 75;
@@ -29,40 +30,47 @@ export class MainContactsUserComponent implements AfterViewInit {
 	}
 
 	toggleInvitation() {
-		this.data.isFriend = !this.data.isFriend;
+		if (this.hidden) return;
+		this.hidden = true;
 
 		let invite: FriendInviteRequest = {
 			authCreds: this.localUser.authCreds(),
-			id: this.data.id
+			contact: this.contact
 		}
 
-		if (this.data.isFriend) {
-			this.socketService.addFriend(invite);
-		} else {
-			this.socketService.removeFriend(invite);			
-		}
+		setTimeout(() => {
+			if (this.contactService.in(this.contact, "others")) {
+				this.contactService.addFriend(this.contact);
+				this.socketService.addFriend(invite);
+			}
+			else if (this.contactService.in(this.contact, "pending")) {
+				this.contactService.removeFriend(this.contact);
+				this.socketService.removeFriend(invite);
+			}
+		}, this.animationDelay);
 	}
 
-	acceptInvitation(id: string) {
+	acceptInvitation(contact: Contact) {
 		if (this.hidden) return;
+		this.hidden = true;	
 
-		this.hidden = true;
-		this.accepted.emit(null);		
+		this.contactService.acceptInvitation(this.contact);
 
 		this.socketService.acceptInvitation({ 
 			authCreds: this.localUser.authCreds(),
-			id: id
+			contact: this.contact
 		});
 	}
 
 	rejectInvitation(id: string) {
 		if (this.hidden) return;
-
 		this.hidden = true;
+
+		this.contactService.rejectInvitation(this.contact);		
 
 		this.socketService.rejectInvitation({
 			authCreds: this.localUser.authCreds(),
-			id: id
+			contact: this.contact
 		});
 	}
 }
