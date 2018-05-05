@@ -461,4 +461,55 @@ export module AccountManager {
 			sender.save();
 		}
 	}
+
+
+	export async function rejectInvitation(invite: FriendInviteRequest) {
+		let authResult: AuthResult;
+		let populate = "friends friends.user friendInvites friendInvites.user";
+
+		await authenticate(invite.authCreds, null, populate)
+			.then((_authResult: AuthResult) => {
+				authResult = _authResult;
+			});
+
+		if (!authResult.valid) return;
+
+		// Make sure we actually have the invitation
+		let friendInviteIds = authResult.user.friendInvites
+			.map(friendInvite => friendInvite.user.id);
+
+		if (!friendInviteIds.includes(invite.contact.id)) return;
+
+
+		// Make sure the sender actually sent it
+		let sender: any;
+		let senderError: any;
+
+		await User.findOne({ _id: ObjectId(invite.contact.id) })
+		.populate("friends friends.user")
+		.catch((error) => { senderError = error; })
+		.then((user) => { sender = user; });
+
+		if (senderError || !sender) return;
+
+
+		// Remove invitation
+		let friendInvite = authResult.user.friendInvites
+			.find(friendInvite => friendInvite.user.id == sender.id);
+
+		if (friendInvite) {
+			authResult.user.friendInvites.id(ObjectId(friendInvite.id)).remove();
+			authResult.user.save();
+		}
+
+
+		// Break senders heart
+		let friend = sender.friends
+			.find(friend => friend.user.id == authResult.user.id);
+
+		if (friend) {
+			sender.friends.id(ObjectId(friend.id)).remove();
+			sender.save();
+		}
+	}
 }

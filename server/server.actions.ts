@@ -68,6 +68,6 @@ export module Actions {
 	}
 
 	export function rejectInvitation(socket: Socket, invite: FriendInviteRequest) {
-		// AccountManager.rejectInvitation(invite);
+		AccountManager.rejectInvitation(invite);
 	}
 }
