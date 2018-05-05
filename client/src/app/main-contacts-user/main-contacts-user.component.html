@@ -1,4 +1,6 @@
-<div class="container" [ngStyle]="{
+<div class="container"
+*ngIf="contact"
+[ngStyle]="{
 	opacity: hidden ? 0 : 1,
 	transform: hidden ? 'translateY(18px)' : ''
 }">
@@ -6,17 +8,17 @@
 
 	<div>
 		<div class="name-and-status">
-			<p class="name">{{ data.name }}</p>
+			<p class="name">{{ contact.name }}</p>
 
 			<app-main-contacts-status
-			*ngIf="(data.isSelf || (data.isConfirmed && data.isFriend)) && !data.isRequesting"
+			*ngIf="(section == 'you' || section == 'friends')"
 			status="online">
 			</app-main-contacts-status>
 
 			<div class="invite"
-			*ngIf="!data.isSelf && !data.isConfirmed && !data.isRequesting">
+			*ngIf="(section == 'others' || section == 'pending')">
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 4.233 4.233"
-				[class.invited]="data.isFriend" 
+				[class.invited]="section == 'pending'" 
 				(click)="toggleInvitation()">
 					<g fill="#65d588">
 						<path d="M1.822 3.704h.53V.53h-.53z" paint-order="markers fill stroke" />
@@ -26,7 +28,7 @@
 			</div>
 
 			<div class="accept-or-reject"
-			*ngIf="!data.isSelf && !data.isConfirmed && !data.isFriend && data.isRequesting">
+			*ngIf="(section == 'invitations')">
 				<img class="reject"
 				src="assets/invite-reject.svg"
 				(click)="rejectInvitation(data.id)">
