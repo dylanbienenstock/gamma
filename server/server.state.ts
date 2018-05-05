@@ -3,68 +3,47 @@ import { Socket } from "socket.io";
 import { AccountManager } from "../gamma/gamma.module";
 
 export module State {
-	let userSockets: { [key: string]: string } = {}; // Key: user.id, Value: socket.id
+	// Key: user.id, Value: socket.id
+	let userSockets: { [key: string]: string } = {};
 	let userStates: UserState[] = [];
 
-	function initializeUser(socket: Socket) {
+	export function createUserState(socket: Socket, user: any) {
 		if (!userStates[socket.id]) {
+			userSockets[user.id] = socket.id;
 			userStates[socket.id] = {
-				id: null,
-				name: null,
-				loggedIn: null,
-				friendIds: []
+				id: user.id,
+				name: user.name,
+				friendIds: AccountManager.getFriendIds(user.id)
 			};
 		}
+	}
+
+	export function destroyUserState(socket: Socket) {
+		delete userSockets[getId(socket)];
+		delete userStates[socket.id];
+	}
+
+	export function userStateExists(socket: Socket) {
+		return userStates[socket.id] != undefined;
 	}
 
 	export function getSocket(id: string) {
 		return userSockets[id];
 	}
 
-	export function removeUser(socket: Socket) {
-		delete userStates[socket.id];
-	}
-
-	export function setId(socket: Socket, value: string) {
-		initializeUser(socket);
-		userSockets[value] = socket.id;
-		userStates[socket.id].id = value;
-		userStates[socket.id].confirmedFriendIds =
-			AccountManager.getConfirmedFriendIds(socket.id);
-	}
-
-	export function getId(socket: Socket): string {
-		initializeUser(socket);		
+	export function getId(socket: Socket): string {		
 		return userStates[socket.id].id;
 	}
 
-	export function setName(socket: Socket, value: string) {
-		initializeUser(socket);
-		userStates[socket.id].name = value;
-	}
-
-	export function getName(socket: Socket): string {
-		initializeUser(socket);		
+	export function getName(socket: Socket): string {		
 		return userStates[socket.id].name;
 	}
 
-	export function setLoggedIn(socket: Socket, value: boolean) {
-		initializeUser(socket);
-		userStates[socket.id].loggedIn = value;
-	}
-
-	export function getLoggedIn(socket: Socket): boolean {
-		initializeUser(socket);		
-		return userStates[socket.id].loggedIn;
-	}
-
 	export function addFriendId(socket: Socket, id: string) {
-		initializeUser(socket);
 		userStates[socket.id].friendIds.push(id);
 	}
 
 	export function getFriendIds(socket: Socket) {
-		initializeUser(socket);
 		return userStates[socket.id].friendIds;
 	}
 }

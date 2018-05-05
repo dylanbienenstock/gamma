@@ -6,7 +6,7 @@ import { State } from "./server.state";
 export module Actions {
 	export function disconnect(socket: Socket) {
 		AccountManager.logOut(State.getId(socket));
-		State.removeUser(socket);
+		State.destroyUserState(socket);
 	}
 
 	export function pong(socket: Socket, data: any) {
@@ -14,12 +14,11 @@ export module Actions {
 	}
 
 	export function logIn(socket: Socket, creds: LogInCreds) {
-		if (!State.getLoggedIn(socket)) {
+		if (!State.userStateExists(socket)) {
 			AccountManager.logIn(creds)
 			.then((response) => {
 				if (response.success) {
-					State.setLoggedIn(socket, true);
-					State.setName(socket, creds.name);
+					State.createUserState(socket, response.user);
 				}
 
 				socket.emit("login response", response);
@@ -28,12 +27,11 @@ export module Actions {
 	}
 
 	export function register(socket: Socket, creds: RegisterCreds) {
-		if (!State.getLoggedIn(socket)) {
+		if (!State.userStateExists(socket)) {
 			AccountManager.createAccount(creds)
 			.then((response) => {
 				if (response.success) {
-					State.setLoggedIn(socket, true);
-					State.setName(socket, creds.name);
+					State.createUserState(socket, response.user);
 				}
 
 				socket.emit("register response", response);
