@@ -45,10 +45,10 @@ export interface SearchQuery {
 export interface Contact {
 	id: string;
 	name: string;
-	isSelf: boolean; // It's me!
-	isFriend: boolean; // Invited to friends list
-	isConfirmed: boolean; // Accepted invitation
-	isRequesting: boolean; // Sent me an invitation
+	isSelf?: boolean; // It's me!
+	isFriend?: boolean; // Invited to friends list
+	isConfirmed?: boolean; // Accepted invitation
+	isRequesting?: boolean; // Sent me an invitation
 }
 
 export interface ContactList {
