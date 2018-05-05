@@ -2,6 +2,7 @@ import { Socket } from "socket.io";
 import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds } from "../gamma/account/account.types";
 import { AccountManager } from "../gamma/gamma.module";
 import { State } from "./server.state";
+import { Dispatch } from "./server.dispatch";
 
 export module Actions {
 	export function disconnect(socket: Socket) {
@@ -56,28 +57,29 @@ export module Actions {
 	export function addFriend(socket: Socket, invite: FriendInviteRequest) {
 		AccountManager.addFriend(invite)
 		.then((success) => {
-			
+			Dispatch.friendAdded(socket, invite.contact.id);
 		});
 	}
 
 	export function removeFriend(socket: Socket, invite: FriendInviteRequest) {
 		AccountManager.removeFriend(invite)
 		.then((success) => {
-
+			Dispatch.friendRemoved(socket, invite.contact.id);
 		});
 	}
 
 	export function acceptInvitation(socket: Socket, invite: FriendInviteRequest) {
 		AccountManager.acceptInvitation(invite)
 		.then((success) => {
-
+			Dispatch.invitationAccepted(socket, invite.contact.id);
+			State.addFriendId(socket, invite.contact.id);
 		});
 	}
 
 	export function rejectInvitation(socket: Socket, invite: FriendInviteRequest) {
 		AccountManager.rejectInvitation(invite)
 		.then((success) => {
-
+			Dispatch.invitationRejected(socket, invite.contact.id);
 		});
 	}
 }
