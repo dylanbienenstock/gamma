@@ -78,6 +78,7 @@ export module Actions {
 		});
 	}
 
+	// Send invite
 	export function addFriend(socket: Socket, invite: FriendInviteRequest) {
 		if (!State.userStateExists(socket)) return;	
 
@@ -87,6 +88,7 @@ export module Actions {
 		});
 	}
 
+	// Retract invite
 	export function removeFriend(socket: Socket, invite: FriendInviteRequest) {
 		if (!State.userStateExists(socket)) return;
 
