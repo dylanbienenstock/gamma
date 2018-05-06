@@ -1,6 +1,6 @@
 import { State } from "./server.state";
 import { Socket } from "socket.io";
-import { DispatchEvent } from "./server.types";
+import { DispatchEvent, StatusChangeDispatch } from "./server.types";
 import { Contact } from "../gamma/account/account.types";
 
 export module Dispatch {
@@ -64,6 +64,19 @@ export module Dispatch {
 			to: id,
 			event: "friend rejected",
 			data: statelessContact(socket)
+		});
+	}
+
+	export function statusChanged(socket: Socket, status: string) {
+		let data: StatusChangeDispatch = {
+			contact: statelessContact(socket),
+			status: status
+		};
+
+		batch({
+			from: socket,
+			event: "status",
+			data: data
 		});
 	}
 }
