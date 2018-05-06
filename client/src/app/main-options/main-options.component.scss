@@ -4,6 +4,7 @@
 	.container {
 		padding: $panel-spacing $panel-spacing $panel-spacing 0;	
 		width: $sidebar-width;
+		min-width: $sidebar-min-width;
 		height: 100%;
 		box-sizing: border-box;
 		white-space: nowrap;

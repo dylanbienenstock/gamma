@@ -10,6 +10,10 @@ $user-container-animation-duration: 250ms;
 		position: absolute;
 		width: calc(#{$sidebar-width} - #{$panel-spacing});
 
+		@media (max-width: $sidebar-width-breakpoint) {
+			width: calc(#{$sidebar-min-width} - #{$panel-spacing});
+		}
+
 		display: flex;
 		flex-flow: row nowrap;
 		padding: $user-container-padding $panel-padding;

@@ -6,7 +6,10 @@ $accent-color: #666;
 $gamma: #65D588;
 // $gamma: #c0d861;
 
-$sidebar-width: 20vw;
+$sidebar-width-unitless: 20;
+$sidebar-width: $sidebar-width-unitless * 1vw;
+$sidebar-min-width: 300px;
+$sidebar-width-breakpoint: (100 / $sidebar-width-unitless) * $sidebar-min-width;
 $sidebar-animation-duration: 600ms;
 
 $panel-spacing: 10px;

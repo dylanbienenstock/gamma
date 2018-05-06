@@ -4,7 +4,8 @@
 ></app-main-entry>
 
 <app-main-contacts
-[class.visible]="sidebars.contacts.visible && sidebars.contacts.previouslyHidden"
+[class.animating]="sidebars.contacts.animating"
+[class.visible]="sidebars.contacts.visible"
 [class.hidden]="!sidebars.contacts.visible"
 *ngIf="localUserService.valid">
 </app-main-contacts>
@@ -15,6 +16,7 @@
 </app-main-chat>
 
 <app-main-options
-[class.visible]="sidebars.options.visible && sidebars.options.previouslyHidden"
+[class.animating]="sidebars.options.animating"
+[class.visible]="sidebars.options.visible"
 [class.hidden]="!sidebars.options.visible">
 </app-main-options>
