@@ -1,14 +1,15 @@
 <div class="container"
 *ngIf="contact"
+[class.animated]="animated"
 [ngStyle]="{
-	opacity: hidden ? 0 : 1,
-	transform: 'translateY(' + ( 16 + ((38 + 10) * index) + (hidden ? -18 : 0) ) + 'px)'
+	opacity: (hidden && animated) ? 0 : 1,
+	transform: 'translateY(' + ( 16 + ((38 + 10) * index) + ((hidden && animated) ? -18 : 0) ) + 'px)'
 }">
 	<img class="avatar" src="assets/contacts.svg">
 
 	<div>
 		<div class="name-and-status">
-			<p class="name">{{ index }} {{ contact.name }}</p>
+			<p class="name">{{ contact.name }}</p>
 
 			<app-main-contacts-status
 			*ngIf="(section == 'you' || section == 'friends')"

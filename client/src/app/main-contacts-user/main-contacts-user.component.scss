@@ -13,8 +13,11 @@ $user-container-animation-duration: 250ms;
 		padding: 0 $panel-padding;
 		box-sizing: border-box;
 		height: $user-container-height;
-		transition: opacity 250ms ease,
-					transform 250ms ease;
+
+		&.animated {
+			transition: opacity 250ms ease,
+						transform 250ms ease;
+		}
 
 		.avatar {
 			min-width: $user-container-height;
@@ -73,7 +76,7 @@ $user-container-animation-duration: 250ms;
 				.invite {					
 					svg {
 						g {
-							transition: all 200ms ease;
+							transition: all 200ms ease !important;
 							transform-origin: 50% 50% !important;
 						}
 

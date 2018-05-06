@@ -2,14 +2,14 @@
 
 :host {
 	display: block;
-	transition: height 250ms ease;
 
 	.container {
 		@include noselect;
 
-		box-sizing: border-box;
 		transition: height 250ms ease;
 		overflow: hidden;
+
+		&.animated .banner { transition: all 250ms ease; }
 
 		.banner {
 			display: block;
@@ -18,14 +18,13 @@
 			overflow: hidden;
 			width: 100%;
 			padding: 0 6px;
+			box-sizing: border-box;			
 
 			background-color: $background-tertiary-color;
 			color: $text-color;
 			font-size: 12px;
 			text-align: center;
 			text-transform: capitalize;
-
-			transition: all 250ms ease;
 		}
 	}
 }

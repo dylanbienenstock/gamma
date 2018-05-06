@@ -1,15 +1,18 @@
-<div class="container" [ngStyle]="{
-	height: hidden ? '0px' : (20 + 16 + (38 * contacts.length) + (10 * (contacts.length - 1)) + 16) + 'px'
+<div class="container"
+[class.animated]="animated"
+[ngStyle]="{
+	height: (hidden && animated) ? '0px' : (20 + 16 + (38 * contacts.length) + (10 * (contacts.length - 1)) + 16) + 'px'
 }">
 	<div class="banner" [ngStyle]="{
-		opacity: hidden ? 0 : 1
+		opacity: (hidden && animated) ? 0 : 1
 	}">
-		{{ section }} ({{ contacts.length }}) {{ hidden }}
+		{{ section }}
 	</div>
 
 	<div class="contents">
 		<app-main-contacts-user
 		*ngFor="let contact of contacts; index as i"
+		[animated]="animated"
 		[contact]="contact"
 		[hideContact]="hideContact"
 		[section]="section"
