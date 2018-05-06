@@ -1,6 +1,7 @@
 import { UserState } from "./server.types";
 import { Socket } from "socket.io";
 import { AccountManager } from "../gamma/gamma.module";
+import { ContactList } from "../gamma/account/account.types";
 
 export module State {
 	// Key: user.id, Value: socket.id
@@ -79,6 +80,10 @@ export module State {
 	export function getFriendIds(socket: Socket): string[] {
 		return userStates[socket.id].friendIds;
 	}
+
+	export function userIsFriendsWith(socket, id: string) {
+		return State.getFriendIds(socket).includes(id);
+	}
 	
 	export function setStatus(socket: Socket, status: string): boolean {
 		if (!validStatuses.includes(status)) return false;
@@ -90,5 +95,21 @@ export module State {
 	
 	export function getStatus(socket: Socket): string {
 		return userStates[socket.id].status;
+	}
+
+	export function insertStatusIntoContacts(socket: Socket, contactList: ContactList) {
+		let myId = State.getId(socket);
+
+		for (let contact of contactList.contacts) {
+			contact.status = "offline";
+
+			if (contact.id == myId || !userIsFriendsWith(socket, contact.id)) continue;
+
+			let contactSocket = State.getSocket(contact.id);
+
+			if (!contactSocket) continue;
+
+			contact.status = State.getStatus(contactSocket);
+		}
 	}
 }

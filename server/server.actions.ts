@@ -55,15 +55,7 @@ export module Actions {
 
 		AccountManager.getContactList(authCreds)
 		.then((response) => {
-			response.contacts.forEach((contact) => {
-				let contactSocket = State.getSocket(contact.id);
-
-				if (contactSocket) {
-					contact.status = State.getStatus(socket);
-				} else {
-					contact.status = "offline";
-				}
-			});
+			State.insertStatusIntoContacts(socket, response);
 
 			socket.emit("contacts response", response);
 		});
@@ -74,6 +66,8 @@ export module Actions {
 
 		AccountManager.search(query)
 		.then((response) => {
+			State.insertStatusIntoContacts(socket, response);			
+
 			socket.emit("search response", response);
 		});
 	}
