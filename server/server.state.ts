@@ -57,6 +57,17 @@ export module State {
 		userStates[socket.id].friendIds.push(id);
 	}
 
+	// Note: Nothing is actually being "exchanged" here.
+	export function exchangeFriendId(socket: Socket, id: string) {
+		let socket2: Socket = State.getSocket(id);
+		let id2: string = State.getId(socket);
+
+		if (!socket2 || !id2) return;
+
+		State.addFriendId(socket, id);
+		State.addFriendId(socket2, id2);
+	}
+
 	export function removeFriendId(socket: Socket, id: string) {
 		let index = userStates[socket.id].friendIds.indexOf(id);
 
@@ -72,7 +83,9 @@ export module State {
 	export function setStatus(socket: Socket, status: string): boolean {
 		if (!validStatuses.includes(status)) return false;
 		
-		userStates[socket.id].status = status
+		userStates[socket.id].status = status;
+
+		return true;
 	}
 	
 	export function getStatus(socket: Socket): string {
