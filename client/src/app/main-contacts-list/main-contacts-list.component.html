@@ -4,6 +4,7 @@
 	section="you"
 	[contacts]="contacts.you"
 	[hideContact]="hideContact"
+	[animated]="animated.you"
 	index="0">
 	</app-main-contacts-list-banner>
 </div>
@@ -14,6 +15,7 @@
 	section="requests"
 	[contacts]="contacts.requests"
 	[hideContact]="hideContact"
+	[animated]="animated.requests"
 	[index]="contacts.you.length">
 	</app-main-contacts-list-banner>
 </div>
@@ -24,6 +26,7 @@
 	section="pending"
 	[contacts]="contacts.pending"
 	[hideContact]="hideContact"
+	[animated]="animated.pending"
 	[index]="contacts.you.length +
 	contacts.requests.length">
 	</app-main-contacts-list-banner>
@@ -35,6 +38,7 @@
 	section="friends"
 	[contacts]="contacts.friends"
 	[hideContact]="hideContact"
+	[animated]="animated.friends"	
 	[index]="contacts.you.length +
 	contacts.requests.length + 
 	contacts.pending.length">
@@ -47,6 +51,7 @@
 	section="others"
 	[contacts]="contacts.others"
 	[hideContact]="hideContact"
+	[animated]="animated.others"	
 	[index]="contacts.you.length +
 	contacts.requests.length + 
 	contacts.pending.length +
