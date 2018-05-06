@@ -6,18 +6,27 @@ export module State {
 	// Key: user.id, Value: socket.id
 	let userSockets: { [key: string]: Socket } = {};
 	let userStates: UserState[] = [];
+	let validStatuses = [ "online", "away", "busy", "offline" ];
 
-	export function createUserState(socket: Socket, user: any): void {
+	export async function createUserState(socket: Socket, user: any) {
 		if (!userStates[socket.id]) {
+			let friendIds: string[];
+
+			await AccountManager.getFriendIds(user.id)
+			.then((_friendIds) => {
+				friendIds = _friendIds;
+			});
+
 			userSockets[user.id] = socket;
 			userStates[socket.id] = {
 				id: user.id,
 				name: user.name,
-				friendIds: AccountManager.getFriendIds(user.id)
+				status: "online",
+				friendIds: friendIds
 			};
 		}
 	}
-
+	
 	export function destroyUserState(socket: Socket): void {
 		delete userSockets[getId(socket)];
 		delete userStates[socket.id];
@@ -32,7 +41,8 @@ export module State {
 	}
 
 	export function getFriendSockets(socket: Socket): Socket[] {
-		return getFriendIds(socket).map(id => getSocket(id));
+		let friendIds = getFriendIds(socket);
+		return friendIds.map(id => getSocket(id));
 	}
 
 	export function getId(socket: Socket): string {		
@@ -54,8 +64,18 @@ export module State {
 			userStates[socket.id].friendIds.splice(index);
 		}
 	}
-
+	
 	export function getFriendIds(socket: Socket): string[] {
 		return userStates[socket.id].friendIds;
+	}
+	
+	export function setStatus(socket: Socket, status: string): boolean {
+		if (!validStatuses.includes(status)) return false;
+		
+		userStates[socket.id].status = status
+	}
+	
+	export function getStatus(socket: Socket): string {
+		return userStates[socket.id].status;
 	}
 }
