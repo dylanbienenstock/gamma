@@ -79,4 +79,35 @@ export module Dispatch {
 			data: data
 		});
 	}
+
+	export function exchangeStatus(socket: Socket, id: string) {
+		let socket2: Socket = State.getSocket(id);
+		let id2: string = State.getId(socket);
+
+		if (!socket2 || !id2) return;
+
+		let data: StatusChangeDispatch = {
+			contact: statelessContact(socket),
+			status: State.getStatus(socket)
+		};
+
+		let data2: StatusChangeDispatch = {
+			contact: statelessContact(socket2),
+			status: State.getStatus(socket2)
+		};
+
+		direct({
+			from: socket,
+			to: id,
+			event: "status",
+			data: data
+		});
+
+		direct({
+			from: socket2,
+			to: id2,
+			event: "status",
+			data: data2
+		});
+	}
 }

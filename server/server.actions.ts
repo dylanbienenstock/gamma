@@ -102,6 +102,7 @@ export module Actions {
 		AccountManager.acceptInvitation(invite)
 		.then((success) => {
 			Dispatch.invitationAccepted(socket, invite.contact.id);
+			Dispatch.exchangeStatus(socket, invite.contact.id);
 			State.addFriendId(socket, invite.contact.id);
 		});
 	}
