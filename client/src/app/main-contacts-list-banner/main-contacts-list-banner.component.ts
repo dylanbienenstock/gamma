@@ -12,19 +12,23 @@ export class MainContactsListBannerComponent implements AfterViewInit, OnDestroy
 
 	constructor() { }
 
+	@Input() animated: boolean;
 	@Input() section: string;
 	@Input() index: number;
 	@Input() contacts: Contact[];
 	@Input() hideContact: EventEmitter<string>;
 
 	hidden: boolean = true;
-	animationDelay: number = 75;
 	hideContactSubscription: Subscription;
+
+	get animationDelay() {
+		return this.animated ? 75 : 0;
+	}
 
 	ngAfterViewInit() {
 		setTimeout(() => {
 			this.hidden = false;
-		}, (this.index + 1) * this.animationDelay)
+		}, this.animationDelay)
 
 		this.hideContactSubscription = 
 		this.hideContact.subscribe((id) => {

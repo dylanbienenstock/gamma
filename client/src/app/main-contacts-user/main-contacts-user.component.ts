@@ -17,6 +17,7 @@ export class MainContactsUserComponent implements AfterViewInit, OnDestroy {
 				private localUserService: LocalUserService) { }
 
 	@Input() contact: Contact;
+	@Input() animated: boolean;
 	@Input() hideContact: EventEmitter<string>;
 	@Input() section: string;
 	@Input() index: number;
@@ -24,8 +25,12 @@ export class MainContactsUserComponent implements AfterViewInit, OnDestroy {
 	@Input() bannerText: string;
 
 	hidden: boolean = true;
-	animationDelay: number = 75;
 	hideContactSubscription: Subscription;
+
+	get animationDelay() {
+		return this.animated ? 75 : 0;
+	}
+
 
 	ngAfterViewInit() {
 		setTimeout(() => {
