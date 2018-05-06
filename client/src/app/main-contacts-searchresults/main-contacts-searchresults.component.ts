@@ -9,8 +9,10 @@ import { ContactList } from '../../../../gamma/account/account.types';
 export class MainContactsSearchresultsComponent {
 	constructor() { }
 
-	noResults: boolean;
-
 	@Input() waiting: boolean;
 	@Input() searchResults: ContactList;
+
+	get noResults() {
+		return !this.searchResults.contacts || this.searchResults.contacts.length == 0;
+	}
 }
