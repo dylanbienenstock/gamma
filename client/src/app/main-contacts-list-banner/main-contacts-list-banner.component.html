@@ -1,1 +1,19 @@
-<div [ngStyle]="{ opacity: hidden ? 0 : 1 }">{{ text }}</div>
+<div class="container" [ngStyle]="{
+	height: hidden ? '0px' : (20 + 16 + (38 * contacts.length) + (10 * (contacts.length - 1)) + 16) + 'px'
+}">
+	<div class="banner" [ngStyle]="{
+		opacity: hidden ? 0 : 1
+	}">
+		{{ section }} ({{ contacts.length }}) {{ hidden }}
+	</div>
+
+	<div class="contents">
+		<app-main-contacts-user
+		*ngFor="let contact of contacts; index as i"
+		[contact]="contact"
+		[hideContact]="hideContact"
+		[section]="section"
+		[index]="i">
+		</app-main-contacts-user>
+	</div>
+</div>

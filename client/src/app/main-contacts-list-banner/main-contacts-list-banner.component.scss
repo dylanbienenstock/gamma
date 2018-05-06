@@ -1,25 +1,31 @@
 @import "~global.scss";
 
 :host {
-	@include noselect;
+	display: block;
+	transition: height 250ms ease;
 
-	div {
-		display: block;
-		height: 20px;
-		line-height: 20px;
-		width: 100%;
-		padding: 0 6px;
+	.container {
+		@include noselect;
 
-		margin: $panel-padding 0;
 		box-sizing: border-box;
+		transition: height 250ms ease;
+		overflow: hidden;
 
-		background-color: $background-tertiary-color;
-		color: $text-color;
-		font-size: 12px;
-		text-align: center;
+		.banner {
+			display: block;
+			height: 20px;
+			line-height: 20px;
+			overflow: hidden;
+			width: 100%;
+			padding: 0 6px;
 
-		transition: all 250ms ease;
+			background-color: $background-tertiary-color;
+			color: $text-color;
+			font-size: 12px;
+			text-align: center;
+			text-transform: capitalize;
+
+			transition: all 250ms ease;
+		}
 	}
-
-	&:first-child div { margin-top: 0; }
 }

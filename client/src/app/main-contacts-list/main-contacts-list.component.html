@@ -1,117 +1,55 @@
-<ng-container *ngIf="sections.you">
+<div class="section" *ngIf="sections.you">
 	<app-main-contacts-list-banner
 	*ngIf="contacts.you.length != 0"
-	text="You"
+	section="you"
 	[contacts]="contacts.you"
 	[hideContact]="hideContact"
 	index="0">
 	</app-main-contacts-list-banner>
+</div>
 
-	<app-main-contacts-user
-	*ngFor="let contact of contacts.you; index as index"
-	[contact]="contact"
-	[hideContact]="hideContact"
-	section="you"
-	[index]="index">
-	</app-main-contacts-user>
-</ng-container>
-
-
-<ng-container *ngIf="sections.requests">
+<div class="section" *ngIf="sections.requests">
 	<app-main-contacts-list-banner
 	*ngIf="contacts.requests.length != 0"
-	text="Requests"
+	section="requests"
 	[contacts]="contacts.requests"
 	[hideContact]="hideContact"
 	[index]="contacts.you.length">
 	</app-main-contacts-list-banner>
+</div>
 
-	<app-main-contacts-user
-	*ngFor="let contact of contacts.requests; index as index"
-	[contact]="contact"
-	[hideContact]="hideContact"
-	section="requests"	
-	[index]="
-		index +
-		contacts.you.length"
-	(accepted)="onAccepted(index)">
-	</app-main-contacts-user>
-</ng-container>
-
-
-<ng-container *ngIf="sections.pending">
+<div class="section" *ngIf="sections.pending">
 	<app-main-contacts-list-banner
 	*ngIf="contacts.pending.length != 0"
-	text="Pending"
+	section="pending"
 	[contacts]="contacts.pending"
 	[hideContact]="hideContact"
-	[index]="
-		contacts.you.length +
-		contacts.requests.length">
+	[index]="contacts.you.length +
+	contacts.requests.length">
 	</app-main-contacts-list-banner>
+</div>
 
-	<app-main-contacts-user
-	*ngFor="let contact of contacts.pending; index as index"
-	[contact]="contact"
-	[hideContact]="hideContact"
-	section="pending"
-	[index]="
-		index +
-		contacts.you.length +
-		contacts.requests.length">
-	</app-main-contacts-user>
-</ng-container>
-
-
-<ng-container *ngIf="sections.friends">
+<div class="section" *ngIf="sections.friends">
 	<app-main-contacts-list-banner
 	*ngIf="contacts.friends.length != 0"
-	text="Friends"
+	section="friends"
 	[contacts]="contacts.friends"
 	[hideContact]="hideContact"
-	[index]="
-		contacts.you.length +
-		contacts.requests.length +
-		contacts.pending.length">
+	[index]="contacts.you.length +
+	contacts.requests.length + 
+	contacts.pending.length">
 	</app-main-contacts-list-banner>
+</div>
 
-	<app-main-contacts-user
-	*ngFor="let contact of contacts.friends; index as index"
-	[contact]="contact"
-	[hideContact]="hideContact"
-	section="friends"	
-	[index]="
-		index +
-		contacts.you.length +
-		contacts.requests.length +
-		contacts.pending.length">
-	</app-main-contacts-user>
-</ng-container>
-
-
-<ng-container *ngIf="sections.others">
+<div class="section" *ngIf="sections.others">
 	<app-main-contacts-list-banner
 	*ngIf="contacts.others.length != 0"
-	text="Others"
+	section="others"
 	[contacts]="contacts.others"
 	[hideContact]="hideContact"
-	[index]="
-		contacts.you.length +
-		contacts.requests.length +
-		contacts.pending.length +
-		contacts.friends.length">
+	[index]="contacts.you.length +
+	contacts.requests.length + 
+	contacts.pending.length +
+	contacts.friends.length">
 	</app-main-contacts-list-banner>
-
-	<app-main-contacts-user
-	*ngFor="let contact of contacts.others; index as index"
-	[contact]="contact"
-	[hideContact]="hideContact"
-	section="others"
-	[index]="
-		index +
-		contacts.you.length +
-		contacts.requests.length +
-		contacts.pending.length +
-		contacts.friends.length">
-	</app-main-contacts-user>
-</ng-container>
+</div>

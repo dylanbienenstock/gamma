@@ -4,21 +4,21 @@ $user-container-height: 38px;
 $user-container-animation-duration: 250ms;
 
 :host {
-	&:last-child .container { margin-bottom: 0; }
-
 	.container {
+		position: absolute;
+		width: calc(#{$sidebar-width} - #{$panel-spacing});
+
 		display: flex;
 		flex-flow: row nowrap;
 		padding: 0 $panel-padding;
 		box-sizing: border-box;
-		margin-bottom: 10px;
 		height: $user-container-height;
-		width: 100%;
-		transition: all 250ms ease;
+		transition: opacity 250ms ease,
+					transform 250ms ease;
 
 		.avatar {
-			width: $user-container-height;
-			height: $user-container-height;
+			min-width: $user-container-height;
+			min-height: $user-container-height;
 			margin-right: $panel-padding;
 		}
 

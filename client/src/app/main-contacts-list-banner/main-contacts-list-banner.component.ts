@@ -12,7 +12,7 @@ export class MainContactsListBannerComponent implements AfterViewInit, OnDestroy
 
 	constructor() { }
 
-	@Input() text: string;
+	@Input() section: string;
 	@Input() index: number;
 	@Input() contacts: Contact[];
 	@Input() hideContact: EventEmitter<string>;
@@ -28,8 +28,10 @@ export class MainContactsListBannerComponent implements AfterViewInit, OnDestroy
 
 		this.hideContactSubscription = 
 		this.hideContact.subscribe((id) => {
-			if (this.contacts.length == 1) {
-				this.hidden = (this.contacts[0].id == id);
+			if (this.contacts.length == 1 &&
+				this.contacts[0].id == id) {
+
+				this.hidden = true;
 			}
 		});
 	}
