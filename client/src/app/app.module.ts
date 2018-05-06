@@ -20,7 +20,7 @@ import { MainContactsStatusComponent } from './main-contacts-status/main-contact
 import { MainContactsSearchresultsComponent } from './main-contacts-searchresults/main-contacts-searchresults.component';
 import { MainContactsUserComponent } from './main-contacts-user/main-contacts-user.component';
 import { MainContactsListComponent } from './main-contacts-list/main-contacts-list.component';
-import { MainContactsListBannerComponent } from './main-contacts-list-banner/main-contacts-list-banner.component';
+import { MainContactsListSectionComponent } from './main-contacts-list-section/main-contacts-list-section.component';
 import { ContactService } from './contact.service';
 import { LocalUserService } from './local-user.service';
 
@@ -41,7 +41,7 @@ import { LocalUserService } from './local-user.service';
 		MainContactsSearchresultsComponent,
 		MainContactsUserComponent,
 		MainContactsListComponent,
-		MainContactsListBannerComponent
+		MainContactsListSectionComponent
 	],
 	imports: [
 		BrowserModule,

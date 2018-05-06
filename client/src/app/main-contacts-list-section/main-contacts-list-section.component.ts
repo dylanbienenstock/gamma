@@ -3,12 +3,12 @@ import { Contact } from '../../../../gamma/account/account.types';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-	selector: 'app-main-contacts-list-banner',
-	templateUrl: './main-contacts-list-banner.component.html',
-	styleUrls: ['./main-contacts-list-banner.component.scss']
+	selector: 'app-main-contacts-list-section',
+	templateUrl: './main-contacts-list-section.component.html',
+	styleUrls: ['./main-contacts-list-section.component.scss']
 })
 
-export class MainContactsListBannerComponent implements AfterViewInit, OnDestroy {
+export class MainContactsListSectionComponent implements AfterViewInit, OnDestroy {
 
 	constructor() { }
 

@@ -1,27 +1,27 @@
 <div class="section" *ngIf="sections.you">
-	<app-main-contacts-list-banner
+	<app-main-contacts-list-section
 	*ngIf="contacts.you.length != 0"
 	section="you"
 	[contacts]="contacts.you"
 	[hideContact]="hideContact"
 	[animated]="animated.you"
 	index="0">
-	</app-main-contacts-list-banner>
+	</app-main-contacts-list-section>
 </div>
 
 <div class="section" *ngIf="sections.requests">
-	<app-main-contacts-list-banner
+	<app-main-contacts-list-section
 	*ngIf="contacts.requests.length != 0"
 	section="requests"
 	[contacts]="contacts.requests"
 	[hideContact]="hideContact"
 	[animated]="animated.requests"
 	[index]="contacts.you.length">
-	</app-main-contacts-list-banner>
+	</app-main-contacts-list-section>
 </div>
 
 <div class="section" *ngIf="sections.pending">
-	<app-main-contacts-list-banner
+	<app-main-contacts-list-section
 	*ngIf="contacts.pending.length != 0"
 	section="pending"
 	[contacts]="contacts.pending"
@@ -29,11 +29,11 @@
 	[animated]="animated.pending"
 	[index]="contacts.you.length +
 	contacts.requests.length">
-	</app-main-contacts-list-banner>
+	</app-main-contacts-list-section>
 </div>
 
 <div class="section" *ngIf="sections.friends">
-	<app-main-contacts-list-banner
+	<app-main-contacts-list-section
 	*ngIf="contacts.friends.length != 0"
 	section="friends"
 	[contacts]="contacts.friends"
@@ -42,11 +42,11 @@
 	[index]="contacts.you.length +
 	contacts.requests.length + 
 	contacts.pending.length">
-	</app-main-contacts-list-banner>
+	</app-main-contacts-list-section>
 </div>
 
 <div class="section" *ngIf="sections.others">
-	<app-main-contacts-list-banner
+	<app-main-contacts-list-section
 	*ngIf="contacts.others.length != 0"
 	section="others"
 	[contacts]="contacts.others"
@@ -56,5 +56,5 @@
 	contacts.requests.length + 
 	contacts.pending.length +
 	contacts.friends.length">
-	</app-main-contacts-list-banner>
+	</app-main-contacts-list-section>
 </div>
