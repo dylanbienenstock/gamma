@@ -1,11 +1,15 @@
 import { Socket } from "socket.io";
-import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds } from "../gamma/account/account.types";
+import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds, AuthResult } from "../gamma/account/account.types";
 import { AccountManager } from "../gamma/gamma.module";
 import { State } from "./server.state";
 import { Dispatch } from "./server.dispatch";
+import { StatusChangeRequest } from "./server.types";
 
 export module Actions {
 	export function disconnect(socket: Socket) {
+		if (!State.userStateExists(socket)) return;
+
+		Dispatch.statusChanged(socket, "offline");
 		AccountManager.logOut(State.getId(socket));
 		State.destroyUserState(socket);
 	}
@@ -20,7 +24,10 @@ export module Actions {
 		AccountManager.logIn(creds)
 		.then((response) => {
 			if (response.success) {
-				State.createUserState(socket, response.user);
+				State.createUserState(socket, response.user)
+				.then(() => {
+					Dispatch.statusChanged(socket, "online");
+				});
 			}
 
 			socket.emit("login response", response);
@@ -33,7 +40,10 @@ export module Actions {
 		AccountManager.createAccount(creds)
 		.then((response) => {
 			if (response.success) {
-				State.createUserState(socket, response.user);
+				State.createUserState(socket, response.user)
+				.then(() => {
+					Dispatch.statusChanged(socket, "online");
+				});
 			}
 
 			socket.emit("register response", response);
@@ -45,6 +55,16 @@ export module Actions {
 
 		AccountManager.getContactList(authCreds)
 		.then((response) => {
+			response.contacts.forEach((contact) => {
+				let contactSocket = State.getSocket(contact.id);
+
+				if (contactSocket) {
+					contact.status = State.getStatus(socket);
+				} else {
+					contact.status = "offline";
+				}
+			});
+
 			socket.emit("contacts response", response);
 		});
 	}
@@ -92,6 +112,21 @@ export module Actions {
 		AccountManager.rejectInvitation(invite)
 		.then((success) => {
 			Dispatch.invitationRejected(socket, invite.contact.id);
+		});
+	}
+
+	export function changeStatus(socket: Socket, statusChange: StatusChangeRequest) {
+		if (!State.userStateExists(socket)) return;
+
+		AccountManager.authenticate(statusChange.authCreds)
+		.then((authResult) => {
+			if (!authResult.valid) return;
+
+			let success = State.setStatus(socket, statusChange.status);
+
+			if (!success) return;
+			
+			Dispatch.statusChanged(socket, statusChange.status);
 		});
 	}
 }
