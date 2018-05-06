@@ -24,6 +24,14 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 	hideContact: EventEmitter<string> = new EventEmitter<string>();
 	subscriptions: Subscription[];
 
+	animated = {
+		you: true,
+		requests: true,
+		pending: true,
+		friends: true,
+		others: true
+	};
+
 	@Input() sections = {
 		you: false,
 		requests: false, // Received invitations
