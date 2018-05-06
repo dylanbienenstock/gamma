@@ -15,32 +15,34 @@ export module Actions {
 	}
 
 	export function logIn(socket: Socket, creds: LogInCreds) {
-		if (!State.userStateExists(socket)) {
-			AccountManager.logIn(creds)
-			.then((response) => {
-				if (response.success) {
-					State.createUserState(socket, response.user);
-				}
+		if (State.userStateExists(socket)) return;
 
-				socket.emit("login response", response);
-			});
-		}
+		AccountManager.logIn(creds)
+		.then((response) => {
+			if (response.success) {
+				State.createUserState(socket, response.user);
+			}
+
+			socket.emit("login response", response);
+		});
 	}
 
 	export function register(socket: Socket, creds: RegisterCreds) {
-		if (!State.userStateExists(socket)) {
-			AccountManager.createAccount(creds)
-			.then((response) => {
-				if (response.success) {
-					State.createUserState(socket, response.user);
-				}
+		if (State.userStateExists(socket)) return;
 
-				socket.emit("register response", response);
-			});
-		}
+		AccountManager.createAccount(creds)
+		.then((response) => {
+			if (response.success) {
+				State.createUserState(socket, response.user);
+			}
+
+			socket.emit("register response", response);
+		});
 	}
 
 	export function getContactList(socket: Socket, authCreds: AuthCreds) {
+		if (!State.userStateExists(socket)) return;
+
 		AccountManager.getContactList(authCreds)
 		.then((response) => {
 			socket.emit("contacts response", response);
@@ -48,6 +50,8 @@ export module Actions {
 	}
 
 	export function search(socket: Socket, query: SearchQuery) {
+		if (!State.userStateExists(socket)) return;
+
 		AccountManager.search(query)
 		.then((response) => {
 			socket.emit("search response", response);
@@ -55,6 +59,8 @@ export module Actions {
 	}
 
 	export function addFriend(socket: Socket, invite: FriendInviteRequest) {
+		if (!State.userStateExists(socket)) return;	
+
 		AccountManager.addFriend(invite)
 		.then((success) => {
 			Dispatch.friendAdded(socket, invite.contact.id);
@@ -62,6 +68,8 @@ export module Actions {
 	}
 
 	export function removeFriend(socket: Socket, invite: FriendInviteRequest) {
+		if (!State.userStateExists(socket)) return;
+
 		AccountManager.removeFriend(invite)
 		.then((success) => {
 			Dispatch.friendRemoved(socket, invite.contact.id);
@@ -69,6 +77,8 @@ export module Actions {
 	}
 
 	export function acceptInvitation(socket: Socket, invite: FriendInviteRequest) {
+		if (!State.userStateExists(socket)) return;
+
 		AccountManager.acceptInvitation(invite)
 		.then((success) => {
 			Dispatch.invitationAccepted(socket, invite.contact.id);
@@ -77,6 +87,8 @@ export module Actions {
 	}
 
 	export function rejectInvitation(socket: Socket, invite: FriendInviteRequest) {
+		if (!State.userStateExists(socket)) return;
+
 		AccountManager.rejectInvitation(invite)
 		.then((success) => {
 			Dispatch.invitationRejected(socket, invite.contact.id);
