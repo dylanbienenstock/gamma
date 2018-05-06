@@ -13,6 +13,7 @@
 </div>
 
 <div class="status"
+*ngIf="status && status != 'offline'"
 [class.disabled]="selectorOpen"
 [class.selectable]="selectable"
 (click)="openSelector()">

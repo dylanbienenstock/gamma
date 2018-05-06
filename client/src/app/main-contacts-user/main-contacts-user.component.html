@@ -13,7 +13,7 @@
 
 			<app-main-contacts-status
 			*ngIf="(section == 'you' || section == 'friends')"
-			status="online">
+			[status]="contact.status || 'offline'">
 			</app-main-contacts-status>
 
 			<div class="invite"
