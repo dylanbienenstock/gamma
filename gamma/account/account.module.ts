@@ -211,11 +211,11 @@ export module AccountManager {
 		await User.findOne({ _id: ObjectId(id) })
 		.populate("friends friends.user")
 		.catch((error) => { /* Do nothing */ })
-		.then((users) => { friends });
+		.then((user) => { friends = user.friends; });
 
 		return friends
 			.filter(friend => friend.confirmed)
-			.map(friend => friend.id.toString());
+			.map(friend => friend.user.id.toString());
 	}
 
 
