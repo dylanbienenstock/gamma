@@ -108,6 +108,48 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 		this.subscriptions.forEach(sub => sub.unsubscribe());
 	}
 
+	suppressAnimation(suppressSections: string[]) {
+		suppressSections.forEach(section => this.animated[section] = false);
+
+		setTimeout(() => {
+			suppressSections.forEach(section => this.animated[section] = true);			
+		});
+	}
+
+	sectionsAdjacent(a, b) {
+		let index = this.sectionOrder.indexOf(a);
+
+		if (index == -1) return false;
+
+		let adjacentLeft = (function checkLeft() {
+			let i = index - 1;
+
+			while (this.sectionOrder[i]) {
+				if (this.sectionOrder[i] == b) return true;
+				if (this.contacts[this.sectionOrder[i]].length != 0) return false;
+
+				i--;
+			}
+
+			return false;
+		}.bind(this))();
+
+		if (adjacentLeft) return true;
+
+		return (function checkRight() {
+			let i = index + 1;
+
+			while (this.sectionOrder[i]) {
+				if (this.sectionOrder[i] == b) return true;
+				if (this.contacts[this.sectionOrder[i]].length != 0) return false;
+
+				i++;
+			}
+
+			return false;
+		}.bind(this))();
+	}
+
 	onChangeSection(sectionChange: SectionChange) {
 		this.contacts[sectionChange.to].unshift(sectionChange.contact);
 
