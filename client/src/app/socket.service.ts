@@ -4,13 +4,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
 import * as io from "socket.io-client";
+import { LocalUserService } from "./local-user.service";
 
 @Injectable()
 export class SocketService {
 
 	private socket;
 
-	constructor() {
+	constructor(private localUserService: LocalUserService) {
 		this.socket = io({ transports: ["websocket"] });
 	}
 
@@ -72,6 +73,13 @@ export class SocketService {
 
 	rejectInvitation(invite: FriendInviteRequest) {
 		this.socket.emit("friend invite reject", invite);
+	}
+
+	changeStatus(status: string) {
+		this.socket.emit("status", {
+			authCreds: this.localUserService.authCreds(),
+			status: status
+		});
 	}
 
 	onFriendAdded(): Observable<Contact> {

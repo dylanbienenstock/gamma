@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SocketService } from '../socket.service';
 
 @Component({
 	selector: 'app-main-contacts-status',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MainContactsStatusComponent implements OnInit {
 
-	constructor() { }
+	constructor(private socketService: SocketService) { }
 
 	@Input() selectable: boolean;
 	@Input() status: string;
@@ -30,5 +31,7 @@ export class MainContactsStatusComponent implements OnInit {
 	selectStatus(statusOption: string) {
 		this.status = statusOption;
 		this.closeSelector();
+
+		this.socketService.changeStatus(statusOption);
 	}
 }
