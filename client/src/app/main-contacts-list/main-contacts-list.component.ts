@@ -40,6 +40,8 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 		others: false // Strangers
 	};
 
+	sectionOrder = ["you", "requests", "pending", "friends", "others"];
+
 	@Input() set contactList(value: ContactList) {
 		for (let section in this.sections) {
 			if (this.sections[section]) {
@@ -174,9 +176,21 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 				if (index != -1) {
 					this.hideContact.next(contact.id);
 
-					setTimeout(() => {
-						this.contacts[sectionChange.from].splice(index, 1);						
-					}, this.animationDuration);
+					if (this.allContacts.length == 1) {
+						let adjacent = this.sectionsAdjacent(sectionChange.from, sectionChange.to);
+
+						if (adjacent) {
+							this.suppressAnimation([sectionChange.from, sectionChange.to]);
+						}
+					}
+
+					if (this.animated[sectionChange.from]) {
+						setTimeout(() => {
+							this.contacts[sectionChange.from].splice(index, 1);						
+						}, this.animationDuration);
+					} else {
+						this.contacts[sectionChange.from].splice(index, 1);	
+					}
 				}
 			}
 		}
