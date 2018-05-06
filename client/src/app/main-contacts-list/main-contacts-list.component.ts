@@ -4,6 +4,7 @@ import { ContactService } from '../contact.service';
 import { SectionChange } from '../contact.service.types';
 import { Subscription } from 'rxjs/Subscription';
 import { SocketService } from '../socket.service';
+import { StatusChangeDispatch } from '../../../../server/server.types';
 
 @Component({
 	selector: 'app-main-contacts-list',
@@ -95,6 +96,16 @@ export class MainContactsListComponent implements AfterViewInit, OnDestroy {
 		.subscribe((statelessContact) => {
 			let contact = this.getContactById(statelessContact.id) || statelessContact;
 			this.contactService.changeSection(contact, "others");
+		});
+
+		let onStatusChanged = 
+		this.socketService.onStatusChanged()
+		.subscribe((statusChange: StatusChangeDispatch) => {
+			let contact = this.getContactById(statusChange.contact.id);
+
+			if (!contact) return;
+
+			contact.status = statusChange.status;
 		});
 
 		this.subscriptions = [
