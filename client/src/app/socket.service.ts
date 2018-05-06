@@ -12,7 +12,7 @@ export class SocketService {
 	private socket;
 
 	constructor(private localUserService: LocalUserService) {
-		this.socket = io({ transports: ["websocket"] });
+		this.socket = io("http://localhost:8000/", { transports: ["websocket"] });
 	}
 
 	sendPing() {
