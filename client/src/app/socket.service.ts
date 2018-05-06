@@ -1,4 +1,5 @@
 import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest, AuthCreds, Contact } from "../../../gamma/account/account.types";
+import { StatusChangeDispatch } from "../../../server/server.types";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
@@ -75,7 +76,7 @@ export class SocketService {
 
 	onFriendAdded(): Observable<Contact> {
 		return new Observable<Contact>((observer) => {
-			this.socket.on("dispatch friend added", (data) => {
+			this.socket.on("dispatch friend added", (data: Contact) => {
 				observer.next(data);
 			});
 		});
@@ -83,7 +84,7 @@ export class SocketService {
 
 	onFriendRemoved(): Observable<Contact> {
 		return new Observable<Contact>((observer) => {
-			this.socket.on("dispatch friend removed", (data) => {
+			this.socket.on("dispatch friend removed", (data: Contact) => {
 				observer.next(data);
 			});
 		});
@@ -91,7 +92,7 @@ export class SocketService {
 
 	onInvitationAccepted(): Observable<Contact> {
 		return new Observable<Contact>((observer) => {
-			this.socket.on("dispatch friend accepted", (data) => {
+			this.socket.on("dispatch friend accepted", (data: Contact) => {
 				observer.next(data);
 			});
 		});
@@ -99,7 +100,15 @@ export class SocketService {
 
 	onInvitationRejected(): Observable<Contact> {
 		return new Observable<Contact>((observer) => {
-			this.socket.on("dispatch friend rejected", (data) => {
+			this.socket.on("dispatch friend rejected", (data: Contact) => {
+				observer.next(data);
+			});
+		});
+	}
+
+	onStatusChanged(): Observable<StatusChangeDispatch> {
+		return new Observable<StatusChangeDispatch>((observer) => {
+			this.socket.on("dispatch status", (data: StatusChangeDispatch) => {
 				observer.next(data);
 			});
 		});
