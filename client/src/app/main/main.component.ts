@@ -24,12 +24,10 @@ export class MainComponent {
 		animationDuration: 600,
 		contacts: {
 			visible: true,
-			previouslyHidden: false,
 			animating: false
 		},
 		options: {
 			visible: true,
-			previouslyHidden: false,
 			animating: false			
 		}
 	}
@@ -39,10 +37,6 @@ export class MainComponent {
 	}
 
 	private showSidebar(sidebar: string) {
-		if (!this.sidebars[sidebar].visible) {
-			this.sidebars[sidebar].previouslyHidden = true;
-		}
-
 		this.sidebars[sidebar].visible = true;
 	}
 
