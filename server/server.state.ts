@@ -103,7 +103,7 @@ export module State {
 		for (let contact of contactList.contacts) {
 			contact.status = "offline";
 
-			if (contact.id == myId || !userIsFriendsWith(socket, contact.id)) continue;
+			if (contact.id != myId && !userIsFriendsWith(socket, contact.id)) continue;
 
 			let contactSocket = State.getSocket(contact.id);
 
