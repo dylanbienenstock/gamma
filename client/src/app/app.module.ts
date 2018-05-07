@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { ScrollbarModule } from 'ngx-scrollbar';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -47,7 +48,8 @@ import { LocalUserService } from './local-user.service';
 		BrowserModule,
 		AppRoutingModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		ScrollbarModule
 	],
 	providers: [
 		SocketService,
