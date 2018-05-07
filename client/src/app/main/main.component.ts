@@ -27,7 +27,7 @@ export class MainComponent {
 			animating: false
 		},
 		options: {
-			visible: true,
+			visible: false,
 			animating: false			
 		}
 	}
