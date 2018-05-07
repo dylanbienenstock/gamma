@@ -1,26 +1,28 @@
 <div class="container">
-	<div class="container-inner">
-		<div class="topbar">
+	<div class="container-inner" #container>
+		<div class="topbar" #topbar>
 			<h1>Contacts</h1>
 		</div>
 
-		<div class="content">
-			<app-main-contacts-search
-			(setSearching)="onSetSearching($event)"
-			(displaySearchResults)="onDisplaySearchResults($event)">
-			</app-main-contacts-search>
+		<ng-scrollbar [trackY]="scroll" autoHide="true" #scrollbar>
+			<div class="content" #content (mouseenter)="onMouseEnter()">
+				<app-main-contacts-search
+				(setSearching)="onSetSearching($event)"
+				(displaySearchResults)="onDisplaySearchResults($event)">
+				</app-main-contacts-search>
 
-			<div class="content-view">
-				<app-main-contacts-home
-				[hidden]="searching">
-				</app-main-contacts-home>
+				<div class="content-view">
+					<app-main-contacts-home
+					[hidden]="searching">
+					</app-main-contacts-home>
 
-				<app-main-contacts-searchresults
-				*ngIf="searching"
-				[waiting]="waiting"
-				[searchResults]="searchResults">
-				</app-main-contacts-searchresults>
+					<app-main-contacts-searchresults
+					*ngIf="searching"
+					[waiting]="waiting"
+					[searchResults]="searchResults">
+					</app-main-contacts-searchresults>
+				</div>
 			</div>
-		</div>
+		</ng-scrollbar>
 	</div>
 </div>
