@@ -2,7 +2,15 @@
 	<app-main-chat-tabs
 	[sidebars]="sidebars"
 	(toggleContacts)="onToggleContacts()"
-	(toggleOptions)="onToggleOptions()">
+	(toggleOptions)="onToggleOptions()"
+	(tabClicked)="onTabClicked($event)">
 	</app-main-chat-tabs>
-	<app-main-chat-message-container></app-main-chat-message-container>
+
+	<app-main-chat-message-container
+	[conversation]="currentConversation">
+	</app-main-chat-message-container>
+
+	<app-main-chat-input
+	[conversation]="currentConversation">
+	</app-main-chat-input>
 </div>
