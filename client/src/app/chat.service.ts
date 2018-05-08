@@ -27,23 +27,17 @@ export class ChatService {
 	}
 
 	_onMessageReceived(message: Message) {
-		console.log("_onMessageReceived")
-
 		let conversation = this.conversations
 		.find((conversation) => {
 			return conversation.withId == message.senderId;
 		});
 
 		if (!conversation) {
-			console.log("!conversation")
-			
 			conversation = this._openNewConversation(message, false);
 		}
 		
 		conversation.messages.push(message);
 		this.onMessageReceived.next(message);
-
-		console.log("message:", message)
 	}
 
 	_openNewConversation(firstMessage: Message, startedByLocalUser: boolean) {
