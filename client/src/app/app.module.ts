@@ -24,6 +24,7 @@ import { MainContactsListComponent } from './main-contacts-list/main-contacts-li
 import { MainContactsListSectionComponent } from './main-contacts-list-section/main-contacts-list-section.component';
 import { ContactService } from './contact.service';
 import { LocalUserService } from './local-user.service';
+import { MainChatInputComponent } from './main-chat-input/main-chat-input.component';
 import { ChatService } from './chat.service';
 
 @NgModule({
@@ -43,7 +44,8 @@ import { ChatService } from './chat.service';
 		MainContactsSearchresultsComponent,
 		MainContactsUserComponent,
 		MainContactsListComponent,
-		MainContactsListSectionComponent
+		MainContactsListSectionComponent,
+		MainChatInputComponent
 	],
 	imports: [
 		BrowserModule,
@@ -55,7 +57,7 @@ import { ChatService } from './chat.service';
 	providers: [
 		SocketService,
 		ContactService,
-		LocalUserService
+		LocalUserService,
 		ChatService
 	],
 	bootstrap: [AppComponent]

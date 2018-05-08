@@ -1,0 +1,7 @@
+<form (submit)="sendMessage($event)">
+	<input type="text"
+	[(ngModel)]="input"
+	[ngModelOptions]="{ standalone: true }">
+</form>
+
+{{ input }}
