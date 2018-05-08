@@ -24,3 +24,9 @@ export interface StatusChangeDispatch {
 	contact: Contact;
 	status: string;
 }
+
+export interface Message {
+	text: string;
+	senderId?: string;
+	recipientId?: string;
+}
