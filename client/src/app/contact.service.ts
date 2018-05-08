@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Contact } from '../../../gamma/account/account.types';
+import { Contact, ContactList } from '../../../gamma/account/account.types';
 import { SectionChange } from './contact.service.types';
 import { SocketService } from './socket.service';
 import { LocalUserService } from './local-user.service';
@@ -26,6 +26,9 @@ export class ContactService {
 		"friends": [ "isFriend", "isConfirmed" ],
 		"others": []
 	};
+
+	// Key: id
+	friendNames: { [key: string]: string } = { };
 
 	// Returns true if the contact
 	// is in the specified section
@@ -74,6 +77,24 @@ export class ContactService {
 		};
 	}
 
+	getFriendName(id: string) {
+		if (id == this.localUserService.id) {
+			return this.localUserService.name;
+		}
+
+		return this.friendNames[id];
+	}
+
+	saveFriendName(contact: Contact) {
+		this.friendNames[contact.id] = contact.name;
+	}
+
+	saveFriendNames(contactList: ContactList) {
+		for (let contact of contactList.contacts) {
+			this.saveFriendName(contact);
+		}
+	}
+
 	addFriend(contact: Contact, suppressEvent?: boolean) {
 		this.changeSection(contact, "pending", suppressEvent);
 		this.socketService.addFriend(this.createInvite(contact));
@@ -95,6 +116,7 @@ export class ContactService {
 	acceptInvitation(contact: Contact, suppressEvent?: boolean) {
 		this.changeSection(contact, "friends", suppressEvent);			
 		this.socketService.acceptInvitation(this.createInvite(contact));
+		this.saveFriendName(contact);		
 		
 		if (!suppressEvent) {
 			this.onAcceptInvitation.next(contact.id);
