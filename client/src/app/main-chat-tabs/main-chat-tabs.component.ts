@@ -1,5 +1,8 @@
 import { Component, HostListener, OnInit, ViewChild, Output, EventEmitter, Input, ElementRef } from '@angular/core';
 import { ChatTab } from "./main-chat-tabs.types";
+import { ChatService } from '../chat.service';
+import { Conversation } from '../chat.service.types';
+import { ContactService } from '../contact.service';
 
 @Component({
 	selector: 'app-main-chat-tabs',
@@ -8,11 +11,13 @@ import { ChatTab } from "./main-chat-tabs.types";
 })
 export class MainChatTabsComponent implements OnInit {
 
-	constructor() { }
+	constructor(private chatService: ChatService,
+				private contactService: ContactService) { }
 
 	@Input() sidebars;
 	@Output() toggleContacts: EventEmitter<any> = new EventEmitter<any>();
 	@Output() toggleOptions: EventEmitter<any> = new EventEmitter<any>();
+	@Output() tabClicked: EventEmitter<Conversation> = new EventEmitter<Conversation>();
 
 	onToggleContacts() {
 		this.toggleContacts.emit(null);
@@ -29,17 +34,19 @@ export class MainChatTabsComponent implements OnInit {
 	public get container(): HTMLElement { return this.containerRef.nativeElement; }
 
 	ngOnInit() {
-		this.addTab("Dylan");
-		this.addTab("Dylan");
-		this.addTab("Dylan");
-		this.addTab("Dylan");
-
 		this.listenForResize();
+
+		this.chatService.onNewConversation
+		.subscribe((conversation) => {
+			this.addTab(conversation);
+		});
 	}
 
-	addTab(title: string) {
+	// Interface stuff
+
+	addTab(conversation: Conversation) {
 		let tab: ChatTab = {
-			title: title,
+			conversation: conversation,
 			flashing: false,
 			offsetX: this.tabWidth * this.tabs.length,
 			order: this.tabs.length
@@ -47,6 +54,7 @@ export class MainChatTabsComponent implements OnInit {
 
 		if (this.tabs.length == 0) {
 			this.selectedTab = tab;
+			this.tabClicked.emit(conversation);
 		}
 
 		this.tabs.push(tab);
@@ -96,6 +104,8 @@ export class MainChatTabsComponent implements OnInit {
 		this.dragStartX = e.screenX - tab.offsetX;
 
 		this.selectedTab = tab;
+
+		this.tabClicked.emit(tab.conversation);		
 	}
 
 	@HostListener("document:mouseup", ["$event"])
