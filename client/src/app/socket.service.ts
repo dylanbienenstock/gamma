@@ -121,4 +121,12 @@ export class SocketService {
 			});
 		});
 	}
+
+	onMessageReceived(): Observable<Message> {
+		return new Observable<Message>((observer) => {
+			this.socket.on("dispatch message", (data: Message) => {
+				observer.next(data);
+			});
+		});
+	}
 }
