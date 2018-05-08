@@ -4,6 +4,7 @@ import { SocketService } from '../socket.service';
 import { ContactService } from '../contact.service';
 import { LocalUserService } from '../local-user.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ChatService } from '../chat.service';
 
 @Component({
 	selector: 'app-main-contacts-user',
@@ -14,7 +15,8 @@ export class MainContactsUserComponent implements AfterViewInit, OnDestroy {
 
 	constructor(private socketService: SocketService,
 				private contactService: ContactService,
-				private localUserService: LocalUserService) { }
+				private localUserService: LocalUserService,
+				private chatService: ChatService) { }
 
 	@Input() contact: Contact;
 	@Input() animated: boolean;
@@ -72,5 +74,12 @@ export class MainContactsUserComponent implements AfterViewInit, OnDestroy {
 		if (this.hidden) return;
 
 		this.contactService.rejectInvitation(this.contact);
+	}
+
+	openNewConversation() {
+		if (this.hidden) return;
+		if (this.contact.status == "offline") return;
+
+		this.chatService.openNewConversation(this.contact.id);
 	}
 }
