@@ -1,6 +1,6 @@
 import { State } from "./server.state";
 import { Socket } from "socket.io";
-import { DispatchEvent, StatusChangeDispatch } from "./server.types";
+import { DispatchEvent, StatusChangeDispatch, Message } from "./server.types";
 import { Contact } from "../gamma/account/account.types";
 
 export module Dispatch {
@@ -108,6 +108,20 @@ export module Dispatch {
 			to: id2,
 			event: "status",
 			data: data2
+		});
+	}
+
+	export function messageSent(socket: Socket, message: Message) {
+		message.senderId = State.getId(socket);
+
+		direct({
+			from: socket,
+			to: message.recipientId,
+			event: "message",
+			data: {
+				text: message.text,
+				senderId: message.senderId
+			}
 		});
 	}
 }
