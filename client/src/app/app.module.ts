@@ -24,6 +24,7 @@ import { MainContactsListComponent } from './main-contacts-list/main-contacts-li
 import { MainContactsListSectionComponent } from './main-contacts-list-section/main-contacts-list-section.component';
 import { ContactService } from './contact.service';
 import { LocalUserService } from './local-user.service';
+import { ChatService } from './chat.service';
 
 @NgModule({
 	declarations: [
@@ -55,6 +56,7 @@ import { LocalUserService } from './local-user.service';
 		SocketService,
 		ContactService,
 		LocalUserService
+		ChatService
 	],
 	bootstrap: [AppComponent]
 })
