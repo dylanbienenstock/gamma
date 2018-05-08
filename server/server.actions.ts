@@ -3,7 +3,7 @@ import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds,
 import { AccountManager } from "../gamma/gamma.module";
 import { State } from "./server.state";
 import { Dispatch } from "./server.dispatch";
-import { StatusChangeRequest } from "./server.types";
+import { StatusChangeRequest, Message } from "./server.types";
 
 export module Actions {
 	export function disconnect(socket: Socket) {
@@ -125,5 +125,13 @@ export module Actions {
 			
 			Dispatch.statusChanged(socket, statusChange.status);
 		});
+	}
+
+	export function sendMessage(socket: Socket, message: Message) {
+
+		if (!State.getSocket(message.recipientId)) return;
+		if (!State.userIsFriendsWith(socket, message.recipientId)) return;
+
+		Dispatch.messageSent(socket, message);
 	}
 }
