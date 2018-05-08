@@ -17,7 +17,7 @@
 		}">
 			<div class="tab-roundout left"></div>
 			<div class="tab-inner" [ngStyle]="{ width: tabWidth + 'px' }">
-				<span>{{ tab.order }} {{ tab.title }}</span>
+				<span>{{ tab.order }} {{ contactService.getFriendName(tab.conversation.withId) }}</span>
 				<div class="tab-close"></div>
 			</div>
 			<div class="tab-roundout right"></div>	
