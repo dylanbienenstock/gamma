@@ -1,3 +1,9 @@
 <div class="container">
+	<pre>conversation: {{ conversation | json }}</pre>
 
+	<ng-container *ngIf="conversation">
+		<p *ngFor="let message of conversation.messages">
+			{{ contactService.getFriendName(message.senderId) }}: {{ message.text }}
+		</p>
+	</ng-container>
 </div>
