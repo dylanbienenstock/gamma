@@ -1,5 +1,7 @@
+import { Conversation } from "../chat.service.types";
+
 export interface ChatTab {
-	title: string;
+	conversation: Conversation;
 	flashing?: boolean;
 	offsetX?: number;
 	order?: number;
