@@ -10,7 +10,7 @@
 		[class.selected]="selectedTab == tab" 
 		[class.flashing]="tab.flashing"
 		[ngStyle]="{ 
-			transform: 'translateX(' + (tab.offsetX - tab.order) + 'px)',
+			transform: 'translateX(' + tab.offsetX + 'px)',
 			transition: (tab != draggingTab && !resizing) ? 'transform 300ms ease' : null,
 			width: tabWidth + 'px'
 		}">
