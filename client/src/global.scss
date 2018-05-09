@@ -12,12 +12,8 @@ $sidebar-min-width: 300px;
 $sidebar-width-breakpoint: (100 / $sidebar-width-unitless) * $sidebar-min-width;
 $sidebar-animation-duration: 600ms;
 
-$panel-spacing: 10px;
 $panel-padding: 16px;
-$panel-border-radius: 12px;
-
 $top-bar-height: 40px;
-$top-bar-padding: $panel-spacing;
 
 $chat-tabs-border-radius: 0;
 $chat-tabs-height: $top-bar-height;
@@ -32,7 +28,6 @@ $chat-tabs-transition-function: ease;
 @mixin topbar {
 	width: 100%;
 	height: $top-bar-height + 1;
-	padding: 0 $top-bar-padding;
 	background-color: $background-tertiary-color;
 	font-size: 0;
 	box-sizing: border-box;
