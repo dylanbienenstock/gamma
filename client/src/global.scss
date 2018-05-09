@@ -25,7 +25,7 @@ $chat-tabs-transition-function: ease;
 
 @mixin topbar {
 	width: 100%;
-	height: $top-bar-height + 1;
+	height: $top-bar-height;
 	background-color: $background-tertiary-color;
 	font-size: 0;
 	box-sizing: border-box;
