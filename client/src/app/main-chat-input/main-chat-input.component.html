@@ -1,0 +1,18 @@
+<div class="container">
+	<form (submit)="sendMessage($event)">
+		<div class="form-input">
+			<input type="text"
+			[(ngModel)]="input"
+			[ngModelOptions]="{ standalone: true }"
+			placeholder="Type your message...">
+			
+			<div class="underline"></div>
+		</div>
+	</form>
+
+	<div class="buttons" [class.disabled]="input.length == 0">
+		<svg (click)="sendMessage($event)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 8.4667 8.4667">
+			<path fill="#333" d="M8.4667 4.2333L0 1.0583l.5292 2.6459 4.2333.5291-4.2333.5292L0 7.4083z" />
+		</svg>
+	</div>
+</div>

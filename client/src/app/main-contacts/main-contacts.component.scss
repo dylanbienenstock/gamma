@@ -2,8 +2,8 @@
 
 :host {
 	.container {
-		padding: $panel-spacing 0 $panel-spacing $panel-spacing;		
 		width: $sidebar-width;
+		min-width: $sidebar-min-width;
 		height: 100%;
 		box-sizing: border-box;		
 		float: right;
@@ -15,7 +15,6 @@
 
 			height: 100%;
 			background-color: $background-secondary-color;
-			border-radius: $panel-border-radius;
 			overflow: hidden;
 
 			.topbar {

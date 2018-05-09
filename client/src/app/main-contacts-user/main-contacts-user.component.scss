@@ -1,21 +1,36 @@
 @import "~global.scss";
 
 $user-container-height: 38px;
+$user-container-padding: 5px;
 $user-container-animation-duration: 250ms;
 
 :host {
 	.container {
 		position: absolute;
-		width: calc(#{$sidebar-width} - #{$panel-spacing});
+		width: calc(#{$sidebar-width});
+
+		@media (max-width: $sidebar-width-breakpoint) {
+			width: calc(#{$sidebar-min-width});
+		}
 
 		display: flex;
 		flex-flow: row nowrap;
-		padding: 0 $panel-padding;
+		padding: $user-container-padding $panel-padding;
 		box-sizing: border-box;
-		height: $user-container-height;
+		height: $user-container-height + $user-container-padding * 2;
+		transition: background-color 200ms ease;
+
+		&.clickable {
+			cursor: pointer;
+			
+			&:hover {
+				background-color: $background-tertiary-color;
+			}
+		}
 
 		&.animated {
-			transition: opacity 250ms ease,
+			transition: background-color 200ms ease,
+						opacity 250ms ease,
 						transform 250ms ease;
 		}
 

@@ -14,35 +14,25 @@
 	app-main-contacts,
 	app-main-options {
 		width: $sidebar-width;
+
+		@media (max-width: $sidebar-width-breakpoint) {
+			width: $sidebar-min-width;
+		}
+	}
+
+	.animating {
+		transition: width 600ms ease;
 	}
 
 	.visible {
-		animation: "visible" $sidebar-animation-duration;
 		width: $sidebar-width;
 
-		@keyframes visible {
-			0% {
-				width: 0;
-			}
-
-			100% {
-				width: $sidebar-width;
-			}
+		@media (max-width: $sidebar-width-breakpoint) {
+			width: $sidebar-min-width;
 		}
 	}
 
 	.hidden {
-		animation: "hidden" $sidebar-animation-duration;
-		width: 0;
-
-		@keyframes hidden {
-			0% {
-				width: $sidebar-width;
-			}
-
-			100% {
-				width: 0;
-			}
-		}
+		width: 0;	
 	}
 }

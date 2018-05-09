@@ -1,0 +1,21 @@
+<div class="container"
+[class.local-user]="messageCluster.sentByLocalUser">
+	<div class="content">
+		<div class="sender">
+			<img src="assets/contacts.svg">
+			<p>{{ contactService.getFriendName(messageCluster.senderId) }}</p>			
+		</div>
+
+		<div class="message-container"
+		[class.local-user]="messageCluster.sentByLocalUser">
+			<div class="message"
+			*ngFor="let message of messageCluster.messages">
+				<div class="message-inner">
+					<p class="message-text">{{ message.text }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="spacer"></div>
+</div>

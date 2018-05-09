@@ -1,0 +1,131 @@
+@import "~global.scss";
+
+$side-padding: 100px;
+$message-min-height: 64px;
+$message-padding: 8px;
+
+:host {
+	display: block;
+	margin-bottom: 32px;
+
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+
+	.container {
+		display: flex;
+		flex-flow: row nowrap;
+		font-size: 0;
+		padding: 0 32px;
+		box-sizing: border-box;
+		
+		.spacer {
+			flex: 1;
+		}
+
+		&.local-user {
+			flex-flow: row-reverse nowrap;
+			text-align: right;
+
+			.content {
+				.sender {
+					flex-flow: row-reverse nowrap;
+
+					p {
+						margin-right: 8px;
+					}
+				}
+			}
+		}
+
+		.content {
+			.sender {
+				display: flex;
+				flex-flow: row nowrap;
+				height: 38px;
+				margin-bottom: 12px;
+
+				p {
+					display: inline-block;
+					font-size: 18px;
+					line-height: 38px;
+					vertical-align: top;
+					margin-left: 8px;									
+				}
+
+				img {
+					width: 38px;
+				}
+			}
+
+			.message-container {
+				display: flex;
+				flex-flow: column nowrap;
+
+				.message {
+					margin-bottom: 4px;
+
+					.message-inner {
+						display: inline-block;						
+						background-color: $background-tertiary-color;
+						color: $text-color;
+						font-size: 16px;
+						border-radius: 6px;
+						padding: 6px;
+
+						border-top-left-radius: 6px;
+						border-bottom-left-radius: 6px;
+						border-top-right-radius: 12px;
+						border-bottom-right-radius: 12px;
+
+						.message-text {
+							display: inline-block;
+						}
+					}
+
+					&:first-child {
+						.message-text {
+							border-top-left-radius: 12px;
+						}
+					}
+
+					&:last-child {
+						.message-text {
+							border-bottom-left-radius: 12px;
+						}
+
+						margin-bottom: 0;						
+					}	
+				}
+
+				&.local-user {
+					.message {
+						.message-inner {
+							color: $background-color;
+							background-color: $gamma;
+
+							border-top-left-radius: 12px;
+							border-bottom-left-radius: 12px;
+							border-top-right-radius: 6px;
+							border-bottom-right-radius: 6px;
+						}
+
+						&:first-child {
+							.message-text {
+								border-top-right-radius: 12px;
+							}
+						}
+
+						&:last-child {
+							.message-text {
+								border-bottom-right-radius: 12px;
+							}
+
+							margin-bottom: 0;						
+						}	
+					}
+				}
+			}
+		}
+	}
+}

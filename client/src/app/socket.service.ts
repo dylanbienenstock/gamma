@@ -1,10 +1,11 @@
 import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest, AuthCreds, Contact } from "../../../gamma/account/account.types";
-import { StatusChangeDispatch } from "../../../server/server.types";
+import { StatusChangeDispatch, Message } from "../../../server/server.types";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
 import * as io from "socket.io-client";
 import { LocalUserService } from "./local-user.service";
+import { ContactService } from "./contact.service";
 
 @Injectable()
 export class SocketService {
@@ -120,5 +121,17 @@ export class SocketService {
 				observer.next(data);
 			});
 		});
+	}
+
+	onMessageReceived(): Observable<Message> {
+		return new Observable<Message>((observer) => {
+			this.socket.on("dispatch message", (data: Message) => {
+				observer.next(data);
+			});
+		});
+	}
+
+	sendMessage(message: Message) {
+		this.socket.emit("message", message);
 	}
 }

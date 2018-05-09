@@ -3,7 +3,7 @@ import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds,
 import { AccountManager } from "../gamma/gamma.module";
 import { State } from "./server.state";
 import { Dispatch } from "./server.dispatch";
-import { StatusChangeRequest } from "./server.types";
+import { StatusChangeRequest, Message } from "./server.types";
 
 export module Actions {
 	export function disconnect(socket: Socket) {
@@ -55,15 +55,7 @@ export module Actions {
 
 		AccountManager.getContactList(authCreds)
 		.then((response) => {
-			response.contacts.forEach((contact) => {
-				let contactSocket = State.getSocket(contact.id);
-
-				if (contactSocket) {
-					contact.status = State.getStatus(socket);
-				} else {
-					contact.status = "offline";
-				}
-			});
+			State.insertStatusIntoContacts(socket, response);
 
 			socket.emit("contacts response", response);
 		});
@@ -74,6 +66,8 @@ export module Actions {
 
 		AccountManager.search(query)
 		.then((response) => {
+			State.insertStatusIntoContacts(socket, response);			
+
 			socket.emit("search response", response);
 		});
 	}
@@ -131,5 +125,13 @@ export module Actions {
 			
 			Dispatch.statusChanged(socket, statusChange.status);
 		});
+	}
+
+	export function sendMessage(socket: Socket, message: Message) {
+
+		if (!State.getSocket(message.recipientId)) return;
+		if (!State.userIsFriendsWith(socket, message.recipientId)) return;
+
+		Dispatch.messageSent(socket, message);
 	}
 }

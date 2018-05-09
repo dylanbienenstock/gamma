@@ -1,6 +1,8 @@
 <div class="container"
+(dblclick)="openNewConversation()"
 *ngIf="contact"
 [class.animated]="animated"
+[class.clickable]="(section == 'friends' && contact.status != 'offline')"
 [ngStyle]="{
 	opacity: (hidden && animated) ? 0 : 1,
 	transform: 'translateY(' + ( 16 + ((38 + 10) * index) + ((hidden && animated) ? -18 : 0) ) + 'px)'

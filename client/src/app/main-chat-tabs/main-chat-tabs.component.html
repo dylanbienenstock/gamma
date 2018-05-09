@@ -10,17 +10,14 @@
 		[class.selected]="selectedTab == tab" 
 		[class.flashing]="tab.flashing"
 		[ngStyle]="{ 
-			transform: 'translate(' + (tab.offsetX - tab.order) + 'px, ' + (selectedTab == tab ? 6 : 7) + 'px)',
-			zIndex: 16 - tab.order,
+			transform: 'translateX(' + tab.offsetX + 'px)',
 			transition: (tab != draggingTab && !resizing) ? 'transform 300ms ease' : null,
 			width: tabWidth + 'px'
 		}">
-			<div class="tab-roundout left"></div>
 			<div class="tab-inner" [ngStyle]="{ width: tabWidth + 'px' }">
-				<span>{{ tab.order }} {{ tab.title }}</span>
+				<span>{{ contactService.getFriendName(tab.conversation.withId) }}</span>
 				<div class="tab-close"></div>
 			</div>
-			<div class="tab-roundout right"></div>	
 		</div>
 	</div>
 

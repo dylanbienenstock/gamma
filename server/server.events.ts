@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds } from "../gamma/account/account.types";
 import { Actions } from "./server.actions";
-import { StatusChangeRequest } from "./server.types";
+import { StatusChangeRequest, Message } from "./server.types";
 
 export module Events {
 	export function configure(socket: Socket) {
@@ -47,6 +47,10 @@ export module Events {
 
 		socket.on("status", (statusChange: StatusChangeRequest) => {
 			Actions.changeStatus(socket, statusChange);
+		});
+
+		socket.on("message", (message: Message) => {
+			Actions.sendMessage(socket, message);
 		});
 	}
 }

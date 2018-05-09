@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { ScrollbarModule } from 'ngx-scrollbar';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -23,6 +24,9 @@ import { MainContactsListComponent } from './main-contacts-list/main-contacts-li
 import { MainContactsListSectionComponent } from './main-contacts-list-section/main-contacts-list-section.component';
 import { ContactService } from './contact.service';
 import { LocalUserService } from './local-user.service';
+import { MainChatInputComponent } from './main-chat-input/main-chat-input.component';
+import { ChatService } from './chat.service';
+import { MainChatMessageclusterComponent } from './main-chat-messagecluster/main-chat-messagecluster.component';
 
 @NgModule({
 	declarations: [
@@ -41,18 +45,22 @@ import { LocalUserService } from './local-user.service';
 		MainContactsSearchresultsComponent,
 		MainContactsUserComponent,
 		MainContactsListComponent,
-		MainContactsListSectionComponent
+		MainContactsListSectionComponent,
+		MainChatInputComponent,
+		MainChatMessageclusterComponent
 	],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		ScrollbarModule
 	],
 	providers: [
 		SocketService,
 		ContactService,
-		LocalUserService
+		LocalUserService,
+		ChatService
 	],
 	bootstrap: [AppComponent]
 })
