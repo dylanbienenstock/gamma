@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MessageCluster } from '../main-chat-message-container/main-chat-message-container.types';
+import { ContactService } from '../contact.service';
 
 @Component({
 	selector: 'app-main-chat-messagecluster',
@@ -7,7 +8,7 @@ import { MessageCluster } from '../main-chat-message-container/main-chat-message
 	styleUrls: ['./main-chat-messagecluster.component.scss']
 })
 export class MainChatMessageclusterComponent {
-	constructor() { }
+	constructor(private contactService: ContactService) { }
 
 	@Input() messageCluster: MessageCluster;
 }

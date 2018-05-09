@@ -16,64 +16,116 @@ $message-padding: 8px;
 		display: flex;
 		flex-flow: row nowrap;
 		font-size: 0;
+		padding: 0 32px;
+		box-sizing: border-box;
+		
+		.spacer {
+			flex: 1;
+		}
 
 		&.local-user {
 			flex-flow: row-reverse nowrap;
-		}
+			text-align: right;
 
-		.profile-pic {
-			width: $side-padding;
-			height: $message-min-height;
-			vertical-align: bottom;
+			.content {
+				.sender {
+					flex-flow: row-reverse nowrap;
 
-			transition: transform 350ms ease;
-
-			img {
-				@include center-both;
-
-				width: 38px;
+					p {
+						margin-right: 8px;
+					}
+				}
 			}
 		}
 
-		.message-container {
-			flex: 1;
+		.content {
+			.sender {
+				display: flex;
+				flex-flow: row nowrap;
+				height: 38px;
+				margin-bottom: 12px;
 
-			.message {
-				// min-height: $message-min-height;
-				margin-bottom: 4px;
-				background-color: $background-tertiary-color;
-				color: $text-color;
-				font-size: 16px;
-				border-radius: 6px;
-
-				&:first-child {
-					border-top-left-radius: 12px;
-					border-top-right-radius: 12px;
-				}
-
-				&:last-child {
-					border-bottom-left-radius: 12px;
-					border-bottom-right-radius: 12px;
-
-					margin-bottom: 0;
-				}
-
-				.message-text {
-					@include center-vertical;
+				p {
 					display: inline-block;
+					font-size: 18px;
+					line-height: 38px;
+					vertical-align: top;
+					margin-left: 8px;									
+				}
+
+				img {
+					width: 38px;
 				}
 			}
 
-			&.local-user {
+			.message-container {
+				display: flex;
+				flex-flow: column nowrap;
+
 				.message {
-					background-color: $gamma;
-					color: $background-color;
+					margin-bottom: 4px;
+
+					.message-inner {
+						display: inline-block;						
+						background-color: $background-tertiary-color;
+						color: $text-color;
+						font-size: 16px;
+						border-radius: 6px;
+						padding: 6px;
+
+						border-top-left-radius: 6px;
+						border-bottom-left-radius: 6px;
+						border-top-right-radius: 12px;
+						border-bottom-right-radius: 12px;
+
+						.message-text {
+							display: inline-block;
+						}
+					}
+
+					&:first-child {
+						.message-text {
+							border-top-left-radius: 12px;
+						}
+					}
+
+					&:last-child {
+						.message-text {
+							border-bottom-left-radius: 12px;
+						}
+
+						margin-bottom: 0;						
+					}	
+				}
+
+				&.local-user {
+					.message {
+						.message-inner {
+							color: $background-color;
+							background-color: $gamma;
+
+							border-top-left-radius: 12px;
+							border-bottom-left-radius: 12px;
+							border-top-right-radius: 6px;
+							border-bottom-right-radius: 6px;
+						}
+
+						&:first-child {
+							.message-text {
+								border-top-right-radius: 12px;
+							}
+						}
+
+						&:last-child {
+							.message-text {
+								border-bottom-right-radius: 12px;
+							}
+
+							margin-bottom: 0;						
+						}	
+					}
 				}
 			}
-		}
-
-		.spacer {
-			width: $side-padding;
 		}
 	}
 }
