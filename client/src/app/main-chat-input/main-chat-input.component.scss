@@ -1,7 +1,71 @@
 @import "~global.scss";
 
+$spacing: 32px;
+
 :host {
-	form {
+	.container {
+		display: flex;
+		flex-flow: row nowrap;
+
 		width: 100%;
+		height: 100px;
+		padding: 0 $spacing;
+		box-sizing: border-box;
+
+		background-color: #2b2b2b;
+
+		form {			
+			flex: 1;
+			display: inline-block;
+			margin-right: $spacing;
+			font-size: 0;
+
+			.form-input {
+				@include center-vertical;
+
+				input {
+					display: block;
+					width: 100%;
+					border: 0;
+					outline: 0;
+					box-sizing: border-box;
+					background: none;
+					font-size: 22px;
+					color: $text-color;
+					margin-bottom: 4px;
+
+					&::placeholder {
+						color: $background-tertiary-color;						
+					}
+				}
+
+				.underline {
+					width: 100%;
+					height: 4px;
+					border-radius: 2px;
+
+					background-color: $background-tertiary-color;
+				}
+			}
+		}
+
+		.buttons {
+			svg {
+				@include center-vertical;
+				
+				cursor: pointer;
+				width: 32px;
+
+				path {
+					transition: fill 300ms ease;
+					fill: $gamma;
+				}
+			}
+			
+			&.disabled svg path {
+				cursor: default;
+				fill: #444;
+			}
+		}
 	}
 }

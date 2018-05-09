@@ -12,7 +12,7 @@ export class MainChatInputComponent {
 	constructor(private chatService: ChatService) { }
 
 	@Input() conversation: Conversation;	
-	input: string;
+	input: string = "";
 
 	sendMessage(e) {
 		e.preventDefault();
