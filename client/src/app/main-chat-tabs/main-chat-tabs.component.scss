@@ -94,7 +94,13 @@
 
 						span {
 							color: $text-color;
-							transition: unset !important;					
+							transition: unset !important;
+							
+							&:before {
+								content: "@";
+								margin-right: 2px;
+								opacity: 0.5;
+							}
 						}
 					}
 				}
