@@ -8,10 +8,10 @@ $user-container-animation-duration: 250ms;
 	.container {
 		cursor: pointer;
 		position: absolute;
-		width: calc(#{$sidebar-width} - #{$panel-spacing});
+		width: calc(#{$sidebar-width});
 
 		@media (max-width: $sidebar-width-breakpoint) {
-			width: calc(#{$sidebar-min-width} - #{$panel-spacing});
+			width: calc(#{$sidebar-min-width});
 		}
 
 		display: flex;

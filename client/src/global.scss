@@ -19,13 +19,13 @@ $panel-border-radius: 12px;
 $top-bar-height: 40px;
 $top-bar-padding: $panel-spacing;
 
-$chat-tabs-border-radius: 10px;
-$chat-tabs-height: $top-bar-height - 8px;
-$chat-tabs-background-color: $background-color;
-$chat-tabs-hovered-background-color: lighten($background-color, 25%);
-$chat-tabs-selected-background-color: $background-secondary-color;
-$chat-tabs-border-color: $background-tertiary-color;
-$chat-tabs-selected-border-color: $accent-color;
+$chat-tabs-border-radius: 0;
+$chat-tabs-height: $top-bar-height;
+$chat-tabs-background-color: transparent;
+$chat-tabs-hovered-background-color: lighten($background-tertiary-color, 10%);
+$chat-tabs-selected-background-color: $background-color;
+$chat-tabs-border-color: transparent;
+$chat-tabs-selected-border-color: transparent;
 $chat-tabs-transition-duration: 250ms;
 $chat-tabs-transition-function: ease;
 
@@ -34,7 +34,6 @@ $chat-tabs-transition-function: ease;
 	height: $top-bar-height + 1;
 	padding: 0 $top-bar-padding;
 	background-color: $background-tertiary-color;
-	border-bottom: 1px solid $accent-color;
 	font-size: 0;
 	box-sizing: border-box;
 
