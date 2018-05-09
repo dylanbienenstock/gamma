@@ -6,7 +6,6 @@ $user-container-animation-duration: 250ms;
 
 :host {
 	.container {
-		cursor: pointer;
 		position: absolute;
 		width: calc(#{$sidebar-width});
 
@@ -21,8 +20,12 @@ $user-container-animation-duration: 250ms;
 		height: $user-container-height + $user-container-padding * 2;
 		transition: background-color 200ms ease;
 
-		&:hover {
-			background-color: $background-tertiary-color;
+		&.clickable {
+			cursor: pointer;
+			
+			&:hover {
+				background-color: $background-tertiary-color;
+			}
 		}
 
 		&.animated {
