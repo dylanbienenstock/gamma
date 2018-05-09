@@ -1,0 +1,79 @@
+@import "~global.scss";
+
+$side-padding: 100px;
+$message-min-height: 64px;
+$message-padding: 8px;
+
+:host {
+	display: block;
+	margin-bottom: 32px;
+
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+
+	.container {
+		display: flex;
+		flex-flow: row nowrap;
+		font-size: 0;
+
+		&.local-user {
+			flex-flow: row-reverse nowrap;
+		}
+
+		.profile-pic {
+			width: $side-padding;
+			height: $message-min-height;
+			vertical-align: bottom;
+
+			transition: transform 350ms ease;
+
+			img {
+				@include center-both;
+
+				width: 38px;
+			}
+		}
+
+		.message-container {
+			flex: 1;
+
+			.message {
+				// min-height: $message-min-height;
+				margin-bottom: 4px;
+				background-color: $background-tertiary-color;
+				color: $text-color;
+				font-size: 16px;
+				border-radius: 6px;
+
+				&:first-child {
+					border-top-left-radius: 12px;
+					border-top-right-radius: 12px;
+				}
+
+				&:last-child {
+					border-bottom-left-radius: 12px;
+					border-bottom-right-radius: 12px;
+
+					margin-bottom: 0;
+				}
+
+				.message-text {
+					@include center-vertical;
+					display: inline-block;
+				}
+			}
+
+			&.local-user {
+				.message {
+					background-color: $gamma;
+					color: $background-color;
+				}
+			}
+		}
+
+		.spacer {
+			width: $side-padding;
+		}
+	}
+}

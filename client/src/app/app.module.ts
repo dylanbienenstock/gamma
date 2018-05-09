@@ -26,6 +26,7 @@ import { ContactService } from './contact.service';
 import { LocalUserService } from './local-user.service';
 import { MainChatInputComponent } from './main-chat-input/main-chat-input.component';
 import { ChatService } from './chat.service';
+import { MainChatMessageclusterComponent } from './main-chat-messagecluster/main-chat-messagecluster.component';
 
 @NgModule({
 	declarations: [
@@ -45,7 +46,8 @@ import { ChatService } from './chat.service';
 		MainContactsUserComponent,
 		MainContactsListComponent,
 		MainContactsListSectionComponent,
-		MainChatInputComponent
+		MainChatInputComponent,
+		MainChatMessageclusterComponent
 	],
 	imports: [
 		BrowserModule,

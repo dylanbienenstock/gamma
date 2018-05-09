@@ -1,5 +1,6 @@
 <div class="container">
-	<p *ngFor="let message of conversation.messages">
-		{{ contactService.getFriendName(message.senderId) }}: {{ message.text }}
-	</p>
+	<app-main-chat-messagecluster
+	*ngFor="let messageCluster of messageClusters"
+	[messageCluster]="messageCluster">
+	</app-main-chat-messagecluster>
 </div>

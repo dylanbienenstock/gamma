@@ -15,7 +15,7 @@ export class ChatService {
 	}
 
 	onNewConversation: EventEmitter<Conversation> = new EventEmitter<Conversation>();
-	onMessageReceived: EventEmitter<Message> = new EventEmitter<Message>();
+	onMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
 	conversations: Conversation[] = [];
 
@@ -37,7 +37,7 @@ export class ChatService {
 		}
 		
 		conversation.messages.push(message);
-		this.onMessageReceived.next(message);
+		this.onMessage.next(message);
 	}
 
 	_openNewConversation(firstMessage: Message, startedByLocalUser: boolean) {
@@ -74,10 +74,21 @@ export class ChatService {
 	}
 
 	sendMessage(text: string, toId: string) {
-		this.socketService.sendMessage({
-			text: text,
-			// senderId is set by the server
-			recipientId: toId
+		let conversation = this.conversations
+		.find((conversation) => {
+			return conversation.withId == toId;
 		});
+
+		if (!conversation) return;
+
+		let message = {
+			text: text,
+			senderId: this.localUserService.id,
+			recipientId: toId
+		};
+
+		conversation.messages.push(message);
+		this.onMessage.next(message);
+		this.socketService.sendMessage(message);
 	}
 }
