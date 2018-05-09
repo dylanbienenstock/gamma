@@ -5,7 +5,6 @@
 		display: flex;
 		flex-flow: row nowrap;
 		height: $top-bar-height;
-		padding: 0 $chat-tabs-border-radius;
 		background-color: $background-tertiary-color;
 		font-size: 0;
 
@@ -17,9 +16,6 @@
 			display: inline-block;
 			width: 25px;
 			margin: 0 8px;
-
-			// &.left { margin-right: 16px; }
-			// &.right { margin-left: 16px; }
 		}
 
 		.container-inner {
@@ -38,14 +34,10 @@
 					flex-flow: row nowrap;
 					height: $chat-tabs-height;
 					line-height: $chat-tabs-height;
-					border-top-left-radius: $chat-tabs-border-radius;
-					border-top-right-radius: $chat-tabs-border-radius;
 
 					padding: 0 10px 0 12px;
 					background-color: $chat-tabs-background-color;
-					transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function;					
-					border: 1px solid $chat-tabs-border-color;
-					border-bottom: 0;
+					transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function;
 
 					overflow: hidden;
 
@@ -94,13 +86,10 @@
 				}
 
 				&.selected {
-					z-index: 17 !important;
-					border-left: 0;
-
+					z-index: 2 !important;
+					
 					.tab-inner {
 						background-color: $chat-tabs-selected-background-color;
-						border: 1px solid $chat-tabs-selected-border-color;
-						border-bottom: 0;
 						transition: unset !important;
 
 						span {
@@ -108,40 +97,14 @@
 							transition: unset !important;					
 						}
 					}
-
-					.tab-roundout {
-						border-color: $chat-tabs-selected-border-color !important;
-						transition: unset !important;				
-					}
-
-					.tab-roundout.left {
-						z-index: 2;
-						box-shadow: 4px 4px 0 $chat-tabs-selected-background-color !important;
-					}
-
-					.tab-roundout.right {
-						box-shadow: -4px 4px 0 $chat-tabs-selected-background-color !important;
-					}
 				}
 
 				&.flashing {
-					.tab-inner { animation: "tab-inner-flash" 4s $chat-tabs-transition-function 0s infinite; }
-					.tab-roundout.left { animation: "tab-roundout-left-flash" 4s $chat-tabs-transition-function 0s infinite; }
-					.tab-roundout.right { animation: "tab-roundout-right-flash" 4s $chat-tabs-transition-function 0s infinite; }
-
-					@keyframes tab-inner-flash {
+					.tab-inner { animation: "flash" 4s $chat-tabs-transition-function 0s infinite; }
+					
+					@keyframes flash {
 						0% { background-color: $chat-tabs-hovered-background-color; }
 						25%, 100% { background-color: $chat-tabs-background-color; }
-					}
-
-					@keyframes tab-roundout-left-flash {
-						0% { box-shadow: 2px 2px 0 $chat-tabs-hovered-background-color; }
-						25%, 100% { box-shadow: 2px 2px 0 $chat-tabs-background-color; }
-					}
-
-					@keyframes tab-roundout-right-flash {
-						0% { box-shadow: -2px 2px 0 $chat-tabs-hovered-background-color; }
-						25%, 100% { box-shadow: -2px 2px 0 $chat-tabs-background-color; }
 					}
 				}
 			}

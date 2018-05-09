@@ -15,12 +15,10 @@ $sidebar-animation-duration: 600ms;
 $panel-padding: 16px;
 $top-bar-height: 40px;
 
-$chat-tabs-border-radius: 0;
 $chat-tabs-height: $top-bar-height;
 $chat-tabs-background-color: transparent;
 $chat-tabs-hovered-background-color: lighten($background-tertiary-color, 10%);
 $chat-tabs-selected-background-color: $background-color;
-$chat-tabs-border-color: transparent;
 $chat-tabs-selected-border-color: transparent;
 $chat-tabs-transition-duration: 250ms;
 $chat-tabs-transition-function: ease;
