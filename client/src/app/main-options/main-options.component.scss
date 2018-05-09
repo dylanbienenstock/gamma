@@ -12,6 +12,13 @@
 			height: 100%;
 			background-color: $background-secondary-color;
 			overflow: hidden;
+
+			.topbar {
+				@include topbar;
+				@include noselect;
+
+				text-align: center;
+			}
 		}
 	}
 }
