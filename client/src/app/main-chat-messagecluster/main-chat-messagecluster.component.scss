@@ -3,10 +3,16 @@
 $side-padding: 100px;
 $message-min-height: 64px;
 $message-padding: 8px;
+$message-border-radius-large: 12px;
+$message-border-radius-small: 4px;
 
 :host {
 	display: block;
 	margin-bottom: 32px;
+
+	&:first-of-type {
+		margin-top: 32px;
+	}
 
 	&:last-of-type {
 		margin-bottom: 0;
@@ -63,20 +69,20 @@ $message-padding: 8px;
 				flex-flow: column nowrap;
 
 				.message {
-					margin-bottom: 4px;
+					margin-bottom: 3px;
 
 					.message-inner {
 						display: inline-block;						
 						background-color: $background-tertiary-color;
 						color: $text-color;
 						font-size: 16px;
-						border-radius: 6px;
+						border-radius: $message-border-radius-small;
 						padding: 6px;
 
-						border-top-left-radius: 6px;
-						border-bottom-left-radius: 6px;
-						border-top-right-radius: 12px;
-						border-bottom-right-radius: 12px;
+						border-top-left-radius: $message-border-radius-small;
+						border-bottom-left-radius: $message-border-radius-small;
+						border-top-right-radius: $message-border-radius-large;
+						border-bottom-right-radius: $message-border-radius-large;
 
 						.message-text {
 							display: inline-block;
@@ -84,14 +90,14 @@ $message-padding: 8px;
 					}
 
 					&:first-child {
-						.message-text {
-							border-top-left-radius: 12px;
+						.message-inner {
+							border-top-left-radius: $message-border-radius-large;
 						}
 					}
 
 					&:last-child {
-						.message-text {
-							border-bottom-left-radius: 12px;
+						.message-inner {
+							border-bottom-left-radius: $message-border-radius-large;
 						}
 
 						margin-bottom: 0;						
@@ -104,21 +110,21 @@ $message-padding: 8px;
 							color: $background-color;
 							background-color: $gamma;
 
-							border-top-left-radius: 12px;
-							border-bottom-left-radius: 12px;
-							border-top-right-radius: 6px;
-							border-bottom-right-radius: 6px;
+							border-top-left-radius: $message-border-radius-large;
+							border-bottom-left-radius: $message-border-radius-large;
+							border-top-right-radius: $message-border-radius-small;
+							border-bottom-right-radius: $message-border-radius-small;
 						}
 
 						&:first-child {
-							.message-text {
-								border-top-right-radius: 12px;
+							.message-inner {
+								border-top-right-radius: $message-border-radius-large;
 							}
 						}
 
 						&:last-child {
-							.message-text {
-								border-bottom-right-radius: 12px;
+							.message-inner {
+								border-bottom-right-radius: $message-border-radius-large;
 							}
 
 							margin-bottom: 0;						
