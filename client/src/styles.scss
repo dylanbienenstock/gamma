@@ -17,7 +17,7 @@ html, body {
 }
 
 .ng-scrollbar-thumb {
-	$scrollbar-color: rgba($background-color, 0.7);
+	$scrollbar-color: lighten($background-tertiary-color, 5%);
 
 	background-color: $scrollbar-color !important;
 	cursor: default !important;
