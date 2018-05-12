@@ -26,4 +26,12 @@ html, body {
 	&:hover {
 		background-color: $scrollbar-color !important;
 	}
+
+	@include mobile {
+		background-color: transparent !important;
+
+		&:hover {
+			background-color: transparent !important;
+		}
+	}
 }
