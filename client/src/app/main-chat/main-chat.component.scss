@@ -24,7 +24,7 @@
 			}
 
 			&.animated {
-				transition: opacity 600ms ease;
+				transition: opacity $sidebar-animation-duration ease;
 			}
 		}
 	}
