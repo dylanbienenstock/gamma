@@ -27,6 +27,7 @@ import { LocalUserService } from './local-user.service';
 import { MainChatInputComponent } from './main-chat-input/main-chat-input.component';
 import { ChatService } from './chat.service';
 import { MainChatMessageclusterComponent } from './main-chat-messagecluster/main-chat-messagecluster.component';
+import { ScreenSizeService } from './screen-size.service';
 
 @NgModule({
 	declarations: [
@@ -60,7 +61,8 @@ import { MainChatMessageclusterComponent } from './main-chat-messagecluster/main
 		SocketService,
 		ContactService,
 		LocalUserService,
-		ChatService
+		ChatService,
+		ScreenSizeService
 	],
 	bootstrap: [AppComponent]
 })

@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { AuthCreds } from '../../../../gamma/account/account.types';
 import { LocalUserService } from '../local-user.service';
+import { ScreenSizeService } from '../screen-size.service';
 
 @Component({
 	selector: 'app-main',
@@ -10,7 +11,8 @@ import { LocalUserService } from '../local-user.service';
 
 export class MainComponent {
 
-	constructor(private localUserService: LocalUserService) { }
+	constructor(private localUserService: LocalUserService,
+				private screenSizeService: ScreenSizeService) { }
 
 	public loggedIn: boolean = false;
 
@@ -95,14 +97,14 @@ export class MainComponent {
 
 	@HostListener("window:resize", ["$event"])
 	onResize() {
-		let mobile = (window.innerWidth <= 768);
-
-		if (!this.mobile && mobile) {
+		this.screenSizeService.resize(window.innerWidth);
+		
+		if (!this.mobile && this.screenSizeService.mobile) {
 			this.hideSidebar("contacts");
 			this.hideSidebar("options");
 		}
 
-		this.mobile = mobile;
+		this.mobile = this.screenSizeService.mobile;
 	}
 
 	@HostListener("touchmove", ["$event"])
