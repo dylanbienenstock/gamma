@@ -37,6 +37,12 @@ $chat-tabs-transition-function: ease;
 	}
 }
 
+@mixin mobile {
+	@media (max-width: 768px) {
+		@content;
+	}
+}
+
 @mixin center-vertical {
 	position: relative;
 	top: 50%;
