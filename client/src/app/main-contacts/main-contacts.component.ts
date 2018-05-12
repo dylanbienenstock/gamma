@@ -1,6 +1,7 @@
 import { Component, Input, ViewChild, ElementRef, HostListener, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { ContactList } from '../../../../gamma/account/account.types';
 import { ScrollbarComponent } from 'ngx-scrollbar';
+import { ScreenSizeService } from '../screen-size.service';
 
 @Component({
 	selector: 'app-main-contacts',
@@ -8,7 +9,7 @@ import { ScrollbarComponent } from 'ngx-scrollbar';
 	styleUrls: ['./main-contacts.component.scss']
 })
 export class MainContactsComponent {
-	constructor() { }
+	constructor(private screenSizeService: ScreenSizeService) { }
 
 	@Input() shadowOpacity: number;
 	@Output() cancelDrag: EventEmitter<null> = new EventEmitter<null>();
@@ -45,7 +46,8 @@ export class MainContactsComponent {
 	calculateShouldScroll() {
 		this.scrollCalculated = true;
 
-		let containerHeight = this.container.clientHeight - this.topbar.clientHeight;
+		let containerHeight = this.container.clientHeight;
+		containerHeight -= this.screenSizeService.mobile ? 0 : this.topbar.clientHeight;
 		this.scroll = this.content.clientHeight > containerHeight;
 
 		setTimeout(() => {

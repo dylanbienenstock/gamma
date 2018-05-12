@@ -2,7 +2,7 @@
 	boxShadow: shadowOpacity ? ('0 0 20px 0px rgba(0, 0, 0, ' + shadowOpacity + ')') : ''
 }">
 	<div class="container-inner" #container>
-		<div class="topbar" #topbar>
+		<div class="topbar" *ngIf="!screenSizeService.mobile" #topbar>
 			<h1>Contacts</h1>
 		</div>
 
