@@ -1,4 +1,4 @@
-$background-color: #222;
+$background-color: #262626;
 $background-secondary-color: #333;
 $background-tertiary-color: #444;
 $text-color: #DDD;
@@ -34,6 +34,14 @@ $chat-tabs-transition-function: ease;
 		display: inline-block;
 		font-size: 16px;
 		line-height: $top-bar-height;
+	}
+}
+
+@mixin contact-name {
+	&:before {
+		content: "@";
+		margin-right: 2px;
+		opacity: 0.5;
 	}
 }
 
