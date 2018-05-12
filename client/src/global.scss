@@ -10,7 +10,7 @@ $sidebar-width-unitless: 20;
 $sidebar-width: $sidebar-width-unitless * 1vw;
 $sidebar-min-width: 300px;
 $sidebar-width-breakpoint: (100 / $sidebar-width-unitless) * $sidebar-min-width;
-$sidebar-animation-duration: 600ms;
+$sidebar-animation-duration: 400ms;
 
 $panel-padding: 16px;
 $top-bar-height: 40px;
