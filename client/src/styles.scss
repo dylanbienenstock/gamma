@@ -10,6 +10,7 @@ html, body {
 	font-family: 'Noto Sans', sans-serif;
 
 	overflow-x: hidden;
+	overscroll-behavior: none;
 
 	h1, h2, h3, h4, p {
 		margin: 0;
