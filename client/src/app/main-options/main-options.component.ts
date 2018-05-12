@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-main-options',
-  templateUrl: './main-options.component.html',
-  styleUrls: ['./main-options.component.scss']
+	selector: 'app-main-options',
+	templateUrl: './main-options.component.html',
+	styleUrls: ['./main-options.component.scss']
 })
-export class MainOptionsComponent implements OnInit {
+export class MainOptionsComponent {
 
-  constructor() { }
+	constructor() { }
 
-  ngOnInit() {
-  }
-
+	@Input() shadowOpacity: number;
 }

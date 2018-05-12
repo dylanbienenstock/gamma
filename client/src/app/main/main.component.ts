@@ -23,22 +23,26 @@ export class MainComponent {
 	public sidebars = {
 		// animationDuration must match
 		// $sidebar-animation-duration in global.scss
-		animationDuration: 600,
+		animationDuration: 400,
 		minWidth: 300,
+		dragLock: false,
+
 		contacts: {
 			visible: (!this.mobile),
 			animating: false,
-			animationDuration: 600,
+			animationDuration: 400,
 			progress: (this.mobile ? 0 : 1),
 			dragging: false,
+			draggingOut: false,
 			dragStartX: 0
 		},
 		options: {
 			visible: false,
 			animating: false,
-			animationDuration: 600,
+			animationDuration: 400,
 			progress: 0,
 			dragging: false,
+			draggingOut: false,
 			dragStartX: 0
 		}
 	}
@@ -103,7 +107,7 @@ export class MainComponent {
 
 	@HostListener("touchmove", ["$event"])
 	onTouchMove(e) {
-		if (!this.mobile) return;
+		if (!this.mobile || this.sidebars.dragLock) return;
 
 		let touch = e.touches.item(0);
 
@@ -120,10 +124,10 @@ export class MainComponent {
 				this.sidebars.contacts.progress = progress;
 			} else if (touch.pageX <= this.sidebars.minWidth) {
 				this.sidebars.contacts.dragging = true;
+				this.sidebars.contacts.draggingOut = false;
 				this.sidebars.contacts.dragStartX = touch.pageX;
 			}
-		}
-		else if (this.sidebars.options.visible) {
+		} else if (this.sidebars.options.visible) {
 			if (this.sidebars.options.dragging) {
 				let progress = touch.pageX;
 				progress -= this.sidebars.options.dragStartX;
@@ -134,7 +138,27 @@ export class MainComponent {
 				this.sidebars.options.progress = progress;
 			} else if (touch.pageX >= (window.innerWidth - this.sidebars.minWidth)) {
 				this.sidebars.options.dragging = true;
+				this.sidebars.options.draggingOut = false;
 				this.sidebars.options.dragStartX = touch.pageX;
+			}
+		} else {
+			let handleWidth = 64;
+
+			let startDrag = (sidebar: string) => {
+				let dragStartX = (sidebar == "contacts") ?
+					this.sidebars.minWidth : window.innerWidth - this.sidebars.minWidth;
+
+				this.sidebars[sidebar].visible = true;
+				this.sidebars[sidebar].dragging = true;
+				this.sidebars[sidebar].draggingOut = true;
+				this.sidebars[sidebar].dragStartX = dragStartX;
+				this.sidebars[sidebar].progress = 0;
+			}
+
+			if (touch.pageX <= handleWidth) {
+				startDrag('contacts');
+			} else if (touch.pageX >= window.innerWidth - handleWidth) {
+				startDrag('options');
 			}
 		}
 	}
@@ -152,15 +176,23 @@ export class MainComponent {
 		if (sidebar) {
 			this.sidebars[sidebar].dragging = false;
 			
-			if (this.sidebars[sidebar].progress < 0.5) {
-				this.animateSidebar(sidebar, this.sidebars[sidebar].progress * 600);
+			let threshold = this.sidebars[sidebar].draggingOut ? 0.25 : 0.75;
+
+			if (this.sidebars[sidebar].progress < threshold) {
+				this.animateSidebar(sidebar, this.sidebars[sidebar].progress * this.sidebars.animationDuration);
 				this.sidebars[sidebar].visible = false;				
 				this.sidebars[sidebar].progress = 0;
 			} else {
-				this.animateSidebar(sidebar, (1 - this.sidebars[sidebar].progress) * 600);
+				this.animateSidebar(sidebar, (1 - this.sidebars[sidebar].progress) * this.sidebars.animationDuration);
 				this.sidebars[sidebar].visible = true;
 				this.sidebars[sidebar].progress = 1;
 			}
 		}
+
+		this.sidebars.dragLock = false;
+	}
+
+	onCancelDrag() {
+		this.sidebars.dragLock = true;		
 	}
 }

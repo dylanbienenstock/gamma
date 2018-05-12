@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, HostListener, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { ContactList } from '../../../../gamma/account/account.types';
 import { ScrollbarComponent } from 'ngx-scrollbar';
 
@@ -9,6 +9,9 @@ import { ScrollbarComponent } from 'ngx-scrollbar';
 })
 export class MainContactsComponent {
 	constructor() { }
+
+	@Input() shadowOpacity: number;
+	@Output() cancelDrag: EventEmitter<null> = new EventEmitter<null>();
 
 	waiting: boolean;
 	searching: boolean = false;
@@ -61,5 +64,9 @@ export class MainContactsComponent {
 	onDisplaySearchResults(searchResults: ContactList) {
 		this.searchResults = searchResults;
 		this.waiting = false;
+	}
+
+	onScrollState(e) {
+		if (e) this.cancelDrag.emit(null);
 	}
 }
