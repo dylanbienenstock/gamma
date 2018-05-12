@@ -14,6 +14,7 @@ export class MainChatComponent {
 
 	@Input() sidebars;
 	@Output() toggleSidebar: EventEmitter<string> = new EventEmitter<string>();
+	@Output() hideSidebars: EventEmitter<null> = new EventEmitter<null>();
 
 	currentConversation: Conversation;
 
@@ -27,5 +28,9 @@ export class MainChatComponent {
 
 	onTabClicked(conversation: Conversation) {
 		this.currentConversation = conversation;
+	}
+
+	onHideSidebars() {
+		this.hideSidebars.emit(null);
 	}
 }

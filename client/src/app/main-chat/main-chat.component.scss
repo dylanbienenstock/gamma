@@ -1,6 +1,34 @@
 @import "~global.scss";
 
 :host {
+	.curtain {
+		display: none;
+		will-change: opacity;
+
+		@include mobile {
+			display: initial;
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: rgba(black, 0.4);
+			opacity: 0;
+			pointer-events: none;
+
+			z-index: 31;
+			
+			&.visible {
+				opacity: 1;
+				pointer-events: all;			
+			}
+
+			&.animated {
+				transition: opacity 600ms ease;
+			}
+		}
+	}
+
 	.container {
 		display: flex;
 		flex-flow: column nowrap;

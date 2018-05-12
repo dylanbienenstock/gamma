@@ -4,19 +4,28 @@
 ></app-main-entry>
 
 <app-main-contacts
-[class.animating]="sidebars.contacts.animating"
-[class.visible]="sidebars.contacts.visible"
-[class.hidden]="!sidebars.contacts.visible"
+[class.animating]="!mobile && sidebars.contacts.animating"
+[class.visible]="!mobile && sidebars.contacts.visible"
+[class.hidden]="!mobile && !sidebars.contacts.visible"
+[ngStyle]="{
+	width: mobile ? (sidebars.minWidth * sidebars.contacts.progress) + 'px' : '',
+	transition: (mobile && sidebars.contacts.animating) ? ('width ' + sidebars.contacts.animationDuration + 'ms ease') : ''
+}"
 *ngIf="localUserService.valid">
 </app-main-contacts>
 
 <app-main-chat 
 (toggleSidebar)="onToggleSidebar($event)"
+(hideSidebars)="hideSidebar('contacts', true); hideSidebar('options', true);"
 [sidebars]="sidebars">
 </app-main-chat>
 
 <app-main-options
-[class.animating]="sidebars.options.animating"
-[class.visible]="sidebars.options.visible"
-[class.hidden]="!sidebars.options.visible">
+[class.animating]="!mobile && sidebars.options.animating"
+[class.visible]="!mobile && sidebars.options.visible"
+[class.hidden]="!mobile && !sidebars.options.visible"
+[ngStyle]="{
+	width: mobile ? (sidebars.minWidth * sidebars.options.progress) + 'px' : '',
+	transition: (mobile && sidebars.options.animating) ? ('width ' + sidebars.options.animationDuration + 'ms ease') : ''
+}">
 </app-main-options>

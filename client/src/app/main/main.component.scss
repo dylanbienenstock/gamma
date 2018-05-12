@@ -14,9 +14,14 @@
 	app-main-contacts,
 	app-main-options {
 		width: $sidebar-width;
+		will-change: width;
 
 		@media (max-width: $sidebar-width-breakpoint) {
 			width: $sidebar-min-width;
+		}
+
+		@include mobile {
+			box-shadow: 0 0 20px 0px black;
 		}
 	}
 
@@ -34,5 +39,28 @@
 
 	.hidden {
 		width: 0;	
+	}
+
+	@include mobile {
+		display: block;
+
+		app-main-contacts,
+		app-main-options {
+			position: absolute;
+			height: 100vh;
+			z-index: 32;
+		}
+
+		app-main-contacts {
+			left: 0;
+			top: 0;
+		}
+
+		app-main-options {
+			right: 0;
+			top: 0;
+		}
+		
+		app-main-chat { width: 100vw; }
 	}
 }

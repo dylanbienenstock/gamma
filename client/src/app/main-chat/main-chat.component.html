@@ -1,3 +1,12 @@
+<div class="curtain"
+[class.visible]="sidebars.contacts.visible || sidebars.options.visible"
+[class.animated]="sidebars.contacts.animating || sidebars.options.animating"
+[ngStyle]="{
+	opacity: sidebars.contacts.visible ? (sidebars.contacts.progress) :
+			(sidebars.options.visible ? sidebars.options.progress : '')
+}"
+(click)="onHideSidebars()"></div>
+
 <div class="container">
 	<app-main-chat-tabs
 	[sidebars]="sidebars"
