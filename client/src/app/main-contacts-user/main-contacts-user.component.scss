@@ -55,18 +55,14 @@ $user-container-animation-duration: 250ms;
 				}
 
 				.name {
+					@include contact-name;
+
 					flex-grow: 1;
 					width: 0;
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					font-size: 16px;
-
-					&:before {
-						content: "@";
-						margin-right: 2px;
-						opacity: 0.5;						
-					}
 				}
 
 				.invite,

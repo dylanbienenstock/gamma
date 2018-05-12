@@ -2,6 +2,7 @@
 
 :host {
 	.container {
+		position: relative;		
 		display: flex;
 		flex-flow: row nowrap;
 		height: $top-bar-height;
@@ -43,6 +44,7 @@
 
 					span {
 						@include noselect;
+						@include contact-name;
 
 						white-space: nowrap;
 						overflow: hidden;
@@ -52,7 +54,7 @@
 						flex: 1;
 						font-size: 14px;
 						color: rgba($text-color, 0.6);
-						transition: color $chat-tabs-transition-duration $chat-tabs-transition-function;			
+						transition: color $chat-tabs-transition-duration $chat-tabs-transition-function;
 					}
 
 					.tab-close {
@@ -95,12 +97,6 @@
 						span {
 							color: $text-color;
 							transition: unset !important;
-							
-							&:before {
-								content: "@";
-								margin-right: 2px;
-								opacity: 0.5;
-							}
 						}
 					}
 				}
