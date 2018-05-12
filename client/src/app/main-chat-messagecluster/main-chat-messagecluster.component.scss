@@ -38,7 +38,8 @@ $message-border-radius-small: 4px;
 					flex-flow: row-reverse nowrap;
 
 					p {
-						margin-right: 8px;
+						margin-left: 0;
+						margin-right: 16px;
 					}
 				}
 			}
@@ -52,15 +53,31 @@ $message-border-radius-small: 4px;
 				margin-bottom: 12px;
 
 				p {
+					@include contact-name;					
+
 					display: inline-block;
-					font-size: 18px;
+					font-size: 16px;
 					line-height: 38px;
 					vertical-align: top;
-					margin-left: 8px;									
+					margin-left: 16px;									
 				}
 
 				img {
 					width: 38px;
+					border-radius: 50%;
+				}
+			}
+
+			@media (max-width: 1000px) {
+				.sender {
+					height: 32px;
+
+					img { width: 32px; }					
+
+					p {
+						font-size: 14px;
+						line-height: 32px;
+					}
 				}
 			}
 
@@ -86,6 +103,13 @@ $message-border-radius-small: 4px;
 
 						.message-text {
 							display: inline-block;
+							word-wrap: break-word;
+							word-break: break-word;
+							hyphens: auto;
+						}
+
+						@media (max-width: 1000px) {
+							font-size: 14px;
 						}
 					}
 
