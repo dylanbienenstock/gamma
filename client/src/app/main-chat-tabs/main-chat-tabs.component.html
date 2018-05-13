@@ -10,14 +10,22 @@
 		[class.selected]="selectedTab == tab" 
 		[class.flashing]="tab.flashing"
 		[ngStyle]="{ 
-			transform: 'translateX(' + tab.offsetX + 'px)',
-			transition: (tab != draggingTab && !resizing) ? 'transform 300ms ease' : null,
+			transform: 'translateX(' + floor(tab.offsetX) + 'px)',
+			transition: (tab != draggingTab && !resizing) ? 'transform 175ms ease' : null,
 			width: tabWidth + 'px'
 		}">
-			<div class="tab-inner" [ngStyle]="{ width: tabWidth + 'px' }">
+			<div class="tab-inner" 
+			[ngStyle]="{
+				backgroundColor: selectedTab == tab ? '' : getTabColor(tab),
+				width: tabWidth + 'px'
+			}">
 				<span>{{ contactService.getFriendName(tab.conversation.withId) }}</span>
-				<div class="tab-close"></div>
+				<div class="tab-close"
+				[ngStyle]="{ backgroundColor: selectedTab == tab ? '' : getTabCloseColor(tab) }">
+				</div>
 			</div>
+
+			<div class="shadow-cover"></div>
 		</div>
 	</div>
 
