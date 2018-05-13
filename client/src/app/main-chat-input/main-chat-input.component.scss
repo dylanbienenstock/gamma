@@ -1,16 +1,25 @@
 @import "~global.scss";
 
-$spacing: 32px;
+$spacing: 14px;
 
 :host {
+	display: block;
+    height: 84px;
+	padding: $spacing;
+	box-sizing: border-box;
+
 	.container {
 		display: flex;
 		flex-flow: row nowrap;
 
 		width: 100%;
-		height: 100px;
+		height: 100%;
 		padding: 0 $spacing;
 		box-sizing: border-box;
+
+		background-color: $background-secondary-color;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
 		form {			
 			flex: 1;
@@ -28,21 +37,13 @@ $spacing: 32px;
 					outline: 0;
 					box-sizing: border-box;
 					background: none;
-					font-size: 22px;
+					font-size: 18px;
 					color: $text-color;
-					margin-bottom: 4px;
 
 					&::placeholder {
-						color: $background-tertiary-color;						
+						color: $background-tertiary-color;
+						font-size: 22px;										
 					}
-				}
-
-				.underline {
-					width: 100%;
-					height: 4px;
-					border-radius: 2px;
-
-					background-color: $background-tertiary-color;
 				}
 			}
 		}
