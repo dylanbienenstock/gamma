@@ -22,6 +22,9 @@ $chat-tabs-selected-background-color: $background-color;
 $chat-tabs-selected-border-color: transparent;
 $chat-tabs-transition-duration: 250ms;
 $chat-tabs-transition-function: ease;
+$chat-tabs-shadow-opacity: 0.4;
+$chat-tabs-shadow-blur: 10px;
+$chat-tabs-shadow-offset: 5px;
 
 @mixin topbar {
 	width: 100%;
