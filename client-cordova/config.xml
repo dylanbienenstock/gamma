@@ -23,5 +23,6 @@
     </platform>
     <hook src="ng-build.js" type="before_prepare" />
     <plugin name="cordova-plugin-dialogs" spec="^2.0.1" />
+    <preference name="DisallowOverscroll" value="true" />
     <engine name="android" spec="^7.1.0" />
 </widget>
