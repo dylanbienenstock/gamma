@@ -1,3 +1,5 @@
+import { environment } from '../environments/environment';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,6 +30,7 @@ import { MainChatInputComponent } from './main-chat-input/main-chat-input.compon
 import { ChatService } from './chat.service';
 import { MainChatMessageclusterComponent } from './main-chat-messagecluster/main-chat-messagecluster.component';
 import { ScreenSizeService } from './screen-size.service';
+import { NativeService } from './native.service';
 
 @NgModule({
 	declarations: [
@@ -62,7 +65,8 @@ import { ScreenSizeService } from './screen-size.service';
 		ContactService,
 		LocalUserService,
 		ChatService,
-		ScreenSizeService
+		ScreenSizeService,
+		{ provide: "NativeService", useClass: environment.nativeService }
 	],
 	bootstrap: [AppComponent]
 })

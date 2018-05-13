@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { matchOtherValidator } from './match-other-validator';
 import { SocketService } from '../socket.service';
 import { LogInCreds, LogInResponse, RegisterCreds, RegisterResponse, RegisterError } from '../../../../gamma/account/account.types';
 import { LocalUserService } from '../local-user.service';
+import { NativeService } from '../native.service';
 
 @Component({
 	selector: 'app-main-entry',
