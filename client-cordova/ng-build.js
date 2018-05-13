@@ -3,7 +3,7 @@ const execSync = require("child_process").execSync;
 
 module.exports = function(context) {
 	const target = "production";
-	const environment = "prod";
+	const environment = "cordova";
 	const baseHref = ".";
 	
 	const basePath = context.opts.projectRoot;
@@ -13,7 +13,7 @@ module.exports = function(context) {
 	const command = [
 		"ng build",
 		// "--target=" + target,
-		// "--environment=" + environment,
+		"--environment=" + environment,
 		"--output-path " + outputPath,
 		"--base-href " + baseHref
 	].join(" ");
