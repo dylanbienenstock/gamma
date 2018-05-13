@@ -12,12 +12,14 @@
     "dependencies": {
         "cordova-android": "^7.1.0",
         "cordova-browser": "^5.0.3",
-        "path": "^0.12.7",
-        "cordova-plugin-whitelist": "1"
+        "cordova-plugin-dialogs": "^2.0.1",
+        "cordova-plugin-whitelist": "1",
+        "path": "^0.12.7"
     },
     "cordova": {
         "plugins": {
-            "cordova-plugin-whitelist": {}
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-dialogs": {}
         },
         "platforms": [
             "android"
