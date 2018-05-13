@@ -29,17 +29,26 @@
 				position: absolute;
 				vertical-align: top;
 				font-size: 0;
-				
+
+				.shadow-cover {
+					position: absolute;
+					width: 180px;
+					height: $chat-tabs-shadow-blur;
+					transform: translateY($chat-tabs-height);
+					background: $background-color;
+				}
+
 				.tab-inner {
 					display: flex;
 					flex-flow: row nowrap;
-					height: $chat-tabs-height;
-					line-height: $chat-tabs-height;
+					height: $chat-tabs-height + $chat-tabs-shadow-blur * 2;
+					line-height: $chat-tabs-height + $chat-tabs-shadow-blur * 2;
+					transform: translateY(-$chat-tabs-shadow-blur);
 
 					padding: 0 10px 0 12px;
 					background-color: $chat-tabs-background-color;
-					transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function;
-
+					transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function,
+								box-shadow $chat-tabs-transition-duration $chat-tabs-transition-function;
 					overflow: hidden;
 
 					span {
@@ -55,6 +64,8 @@
 						font-size: 14px;
 						color: rgba($text-color, 0.6);
 						transition: color $chat-tabs-transition-duration $chat-tabs-transition-function;
+
+						text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 					}
 
 					.tab-close {
@@ -69,17 +80,17 @@
 						margin-left: 12px;
 
 						transition: background-color $chat-tabs-transition-duration $chat-tabs-transition-function;				
-						background-color: $background-tertiary-color;				
+						background-color: $background-secondary-color;			
 
 						&:hover {
-							background-color: rgb(224, 72, 72);
+							background-color: #e04848 !important;
 						}
 					}
 				}
 
 				&:hover:not(.selected) {
 					.tab-inner {
-						background-color: $chat-tabs-hovered-background-color;
+						// background-color: $chat-tabs-hovered-background-color !important;
 
 						span {
 							color: $text-color;
@@ -91,6 +102,8 @@
 					z-index: 2 !important;
 					
 					.tab-inner {
+						box-shadow: inset 0px 0px $chat-tabs-shadow-blur rgba(black, $chat-tabs-shadow-opacity);
+
 						background-color: $chat-tabs-selected-background-color;
 						transition: unset !important;
 
@@ -98,17 +111,21 @@
 							color: $text-color;
 							transition: unset !important;
 						}
+
+						.tab-close {
+							background-color: $background-tertiary-color;
+						}
 					}
 				}
 
-				&.flashing {
-					.tab-inner { animation: "flash" 4s $chat-tabs-transition-function 0s infinite; }
+				// &.flashing {
+				// 	.tab-inner { animation: "flash" 4s $chat-tabs-transition-function 0s infinite; }
 					
-					@keyframes flash {
-						0% { background-color: $chat-tabs-hovered-background-color; }
-						25%, 100% { background-color: $chat-tabs-background-color; }
-					}
-				}
+				// 	@keyframes flash {
+				// 		0% { background-color: $chat-tabs-hovered-background-color; }
+				// 		25%, 100% { background-color: $chat-tabs-background-color; }
+				// 	}
+				// }
 			}
 		}
 	}

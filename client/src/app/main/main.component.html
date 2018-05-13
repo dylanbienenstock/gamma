@@ -6,7 +6,7 @@
 <ng-container *ngIf="localUserService.valid">
 	<app-main-contacts
 	(cancelDrag)="onCancelDrag()"
-	[shadowOpacity]="mobile ? sidebars.contacts.progress : 0.5"
+	[shadowOpacity]="mobile ? sidebars.contacts.progress * 0.4 : 0.2"
 	[class.animating]="!mobile && sidebars.contacts.animating"
 	[class.visible]="!mobile && sidebars.contacts.visible"
 	[class.hidden]="!mobile && !sidebars.contacts.visible"
@@ -24,8 +24,7 @@
 	</app-main-chat>
 
 	<app-main-options
-	[hidden]="sidebars.options.progress == 0"
-	[shadowOpacity]="mobile ? sidebars.options.progress : 0.5"
+	[shadowOpacity]="mobile ? sidebars.options.progress * 0.4 : 0.2"
 	[class.animating]="!mobile && sidebars.options.animating"
 	[class.visible]="!mobile && sidebars.options.visible"
 	[class.hidden]="!mobile && !sidebars.options.visible"

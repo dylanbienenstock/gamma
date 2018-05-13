@@ -7,6 +7,6 @@ import { NativePseudoService } from "../app/native.pseudo.service";
 
 export const environment = {
 	production: false,
-	serverURL: "http://localhost/",
+	serverURL: "http://localhost:8000/",
 	nativeService: NativePseudoService
 };

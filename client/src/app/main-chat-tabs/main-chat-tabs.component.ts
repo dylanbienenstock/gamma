@@ -33,6 +33,8 @@ export class MainChatTabsComponent implements OnInit {
 	@ViewChild("container") private containerRef: ElementRef;
 	public get container(): HTMLElement { return this.containerRef.nativeElement; }
 
+	public floor: Function = Math.floor;
+
 	ngOnInit() {
 		this.listenForResize();
 
@@ -177,5 +179,27 @@ export class MainChatTabsComponent implements OnInit {
 				tab.offsetX = tab.order * this.tabWidth;
 			}
 		}
+	}
+
+	getTabBrightness(tab: ChatTab) {
+		let brightness = 68;
+		let increment = 7;
+		let distance = Math.abs(tab.order - this.selectedTab.order);
+
+		brightness += increment * distance;
+
+		return brightness;
+	}
+
+	getTabColor(tab: ChatTab) {
+		let brightness = this.getTabBrightness(tab);
+
+		return `rgb(${brightness}, ${brightness}, ${brightness})`;
+	}
+
+	getTabCloseColor(tab: ChatTab) {
+		let brightness = this.getTabBrightness(tab) - 20;
+
+		return `rgb(${brightness}, ${brightness}, ${brightness})`;
 	}
 }
