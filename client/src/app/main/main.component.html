@@ -3,34 +3,36 @@
 (logInComplete)="onLogInComplete($event)"
 ></app-main-entry>
 
-<app-main-contacts
-*ngIf="localUserService.valid"
-(cancelDrag)="onCancelDrag()"
-[shadowOpacity]="mobile ? sidebars.contacts.progress : 0.5"
-[class.animating]="!mobile && sidebars.contacts.animating"
-[class.visible]="!mobile && sidebars.contacts.visible"
-[class.hidden]="!mobile && !sidebars.contacts.visible"
-[ngStyle]="{
-	width: mobile ? 0 : '',
-	transform: mobile ? 'translateX(' + (sidebars.minWidth * sidebars.contacts.progress) + 'px)' : '',
-	transition: (mobile && sidebars.contacts.animating) ? ('transform ' + sidebars.contacts.animationDuration + 'ms ease') : ''
-}">
-</app-main-contacts>
+<ng-container *ngIf="localUserService.valid">
+	<app-main-contacts
+	(cancelDrag)="onCancelDrag()"
+	[shadowOpacity]="mobile ? sidebars.contacts.progress : 0.5"
+	[class.animating]="!mobile && sidebars.contacts.animating"
+	[class.visible]="!mobile && sidebars.contacts.visible"
+	[class.hidden]="!mobile && !sidebars.contacts.visible"
+	[ngStyle]="{
+		width: mobile ? 0 : '',
+		transform: mobile ? 'translateX(' + (sidebars.minWidth * sidebars.contacts.progress) + 'px)' : '',
+		transition: (mobile && sidebars.contacts.animating) ? ('transform ' + sidebars.contacts.animationDuration + 'ms ease') : ''
+	}">
+	</app-main-contacts>
 
-<app-main-chat 
-(toggleSidebar)="onToggleSidebar($event)"
-(hideSidebars)="hideSidebar('contacts', true); hideSidebar('options', true);"
-[sidebars]="sidebars">
-</app-main-chat>
+	<app-main-chat
+	(toggleSidebar)="onToggleSidebar($event)"
+	(hideSidebars)="hideSidebar('contacts', true); hideSidebar('options', true);"
+	[sidebars]="sidebars">
+	</app-main-chat>
 
-<app-main-options
-[shadowOpacity]="mobile ? sidebars.options.progress : 0.5"
-[class.animating]="!mobile && sidebars.options.animating"
-[class.visible]="!mobile && sidebars.options.visible"
-[class.hidden]="!mobile && !sidebars.options.visible"
-[ngStyle]="{
-	width: mobile ? 0 : '',
-	transform: mobile ? 'translateX(-' + (sidebars.minWidth * sidebars.options.progress) + 'px)' : '',
-	transition: (mobile && sidebars.options.animating) ? ('transform ' + sidebars.options.animationDuration + 'ms ease') : ''
-}">
-</app-main-options>
+	<app-main-options
+	[hidden]="sidebars.options.progress == 0"
+	[shadowOpacity]="mobile ? sidebars.options.progress : 0.5"
+	[class.animating]="!mobile && sidebars.options.animating"
+	[class.visible]="!mobile && sidebars.options.visible"
+	[class.hidden]="!mobile && !sidebars.options.visible"
+	[ngStyle]="{
+		width: mobile ? 0 : '',
+		transform: mobile ? 'translateX(-' + (sidebars.minWidth * sidebars.options.progress) + 'px)' : '',
+		transition: (mobile && sidebars.options.animating) ? ('transform ' + sidebars.options.animationDuration + 'ms ease') : ''
+	}">
+	</app-main-options>
+</ng-container>
