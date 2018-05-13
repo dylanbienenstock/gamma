@@ -1,0 +1,10 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Gamma",
+  "short_name": "Gamma",
+  "version": "com.dylanbienenstock.gamma",
+  "author": "Dylan Bienenstock",
+  "icons": [],
+  "start_url": "index.html"
+}
