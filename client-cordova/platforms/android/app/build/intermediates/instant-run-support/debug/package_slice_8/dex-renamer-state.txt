@@ -1,0 +1,4 @@
+#Sat May 12 19:25:46 PDT 2018
+base.0=/Users/dylanbienenstock/Projects/gamma/client-cordova/platforms/android/app/build/intermediates/transforms/dexMerger/debug/9
+path.0=classes.dex
+renamed.0=classes.dex

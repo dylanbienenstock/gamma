@@ -9,6 +9,9 @@
   "installed_plugins": {
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "gamma"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.dylanbienenstock.gamma"
     }
   },
   "dependent_plugins": {}

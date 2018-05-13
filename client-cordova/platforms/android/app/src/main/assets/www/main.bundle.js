@@ -110,34 +110,35 @@ var AppComponent = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_routing_module__ = __webpack_require__("./src/app/app-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_scrollbar__ = __webpack_require__("./node_modules/ngx-scrollbar/esm5/ngx-scrollbar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__("./src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__main_main_component__ = __webpack_require__("./src/app/main/main.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__main_contacts_main_contacts_component__ = __webpack_require__("./src/app/main-contacts/main-contacts.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__main_chat_main_chat_component__ = __webpack_require__("./src/app/main-chat/main-chat.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__main_options_main_options_component__ = __webpack_require__("./src/app/main-options/main-options.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__main_chat_tabs_main_chat_tabs_component__ = __webpack_require__("./src/app/main-chat-tabs/main-chat-tabs.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__main_chat_message_container_main_chat_message_container_component__ = __webpack_require__("./src/app/main-chat-message-container/main-chat-message-container.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__main_entry_main_entry_component__ = __webpack_require__("./src/app/main-entry/main-entry.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__socket_service__ = __webpack_require__("./src/app/socket.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__main_contacts_search_main_contacts_search_component__ = __webpack_require__("./src/app/main-contacts-search/main-contacts-search.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__main_contacts_home_main_contacts_home_component__ = __webpack_require__("./src/app/main-contacts-home/main-contacts-home.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__main_contacts_home_you_main_contacts_home_you_component__ = __webpack_require__("./src/app/main-contacts-home-you/main-contacts-home-you.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__main_contacts_status_main_contacts_status_component__ = __webpack_require__("./src/app/main-contacts-status/main-contacts-status.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__main_contacts_searchresults_main_contacts_searchresults_component__ = __webpack_require__("./src/app/main-contacts-searchresults/main-contacts-searchresults.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__main_contacts_user_main_contacts_user_component__ = __webpack_require__("./src/app/main-contacts-user/main-contacts-user.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__main_contacts_list_main_contacts_list_component__ = __webpack_require__("./src/app/main-contacts-list/main-contacts-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__main_contacts_list_section_main_contacts_list_section_component__ = __webpack_require__("./src/app/main-contacts-list-section/main-contacts-list-section.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__contact_service__ = __webpack_require__("./src/app/contact.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__local_user_service__ = __webpack_require__("./src/app/local-user.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__main_chat_input_main_chat_input_component__ = __webpack_require__("./src/app/main-chat-input/main-chat-input.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__chat_service__ = __webpack_require__("./src/app/chat.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__main_chat_messagecluster_main_chat_messagecluster_component__ = __webpack_require__("./src/app/main-chat-messagecluster/main-chat-messagecluster.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__screen_size_service__ = __webpack_require__("./src/app/screen-size.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__environments_environment__ = __webpack_require__("./src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_routing_module__ = __webpack_require__("./src/app/app-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_scrollbar__ = __webpack_require__("./node_modules/ngx-scrollbar/esm5/ngx-scrollbar.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__("./src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__main_main_component__ = __webpack_require__("./src/app/main/main.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__main_contacts_main_contacts_component__ = __webpack_require__("./src/app/main-contacts/main-contacts.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__main_chat_main_chat_component__ = __webpack_require__("./src/app/main-chat/main-chat.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__main_options_main_options_component__ = __webpack_require__("./src/app/main-options/main-options.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__main_chat_tabs_main_chat_tabs_component__ = __webpack_require__("./src/app/main-chat-tabs/main-chat-tabs.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__main_chat_message_container_main_chat_message_container_component__ = __webpack_require__("./src/app/main-chat-message-container/main-chat-message-container.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__main_entry_main_entry_component__ = __webpack_require__("./src/app/main-entry/main-entry.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__socket_service__ = __webpack_require__("./src/app/socket.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__main_contacts_search_main_contacts_search_component__ = __webpack_require__("./src/app/main-contacts-search/main-contacts-search.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__main_contacts_home_main_contacts_home_component__ = __webpack_require__("./src/app/main-contacts-home/main-contacts-home.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__main_contacts_home_you_main_contacts_home_you_component__ = __webpack_require__("./src/app/main-contacts-home-you/main-contacts-home-you.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__main_contacts_status_main_contacts_status_component__ = __webpack_require__("./src/app/main-contacts-status/main-contacts-status.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__main_contacts_searchresults_main_contacts_searchresults_component__ = __webpack_require__("./src/app/main-contacts-searchresults/main-contacts-searchresults.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__main_contacts_user_main_contacts_user_component__ = __webpack_require__("./src/app/main-contacts-user/main-contacts-user.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__main_contacts_list_main_contacts_list_component__ = __webpack_require__("./src/app/main-contacts-list/main-contacts-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__main_contacts_list_section_main_contacts_list_section_component__ = __webpack_require__("./src/app/main-contacts-list-section/main-contacts-list-section.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__contact_service__ = __webpack_require__("./src/app/contact.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__local_user_service__ = __webpack_require__("./src/app/local-user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__main_chat_input_main_chat_input_component__ = __webpack_require__("./src/app/main-chat-input/main-chat-input.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__chat_service__ = __webpack_require__("./src/app/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__main_chat_messagecluster_main_chat_messagecluster_component__ = __webpack_require__("./src/app/main-chat-messagecluster/main-chat-messagecluster.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__screen_size_service__ = __webpack_require__("./src/app/screen-size.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -172,46 +173,48 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__main_main_component__["a" /* MainComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__main_contacts_main_contacts_component__["a" /* MainContactsComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__main_chat_main_chat_component__["a" /* MainChatComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__main_options_main_options_component__["a" /* MainOptionsComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__main_chat_tabs_main_chat_tabs_component__["a" /* MainChatTabsComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__main_chat_message_container_main_chat_message_container_component__["a" /* MainChatMessageContainerComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__main_entry_main_entry_component__["a" /* MainEntryComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__main_contacts_search_main_contacts_search_component__["a" /* MainContactsSearchComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__main_contacts_home_main_contacts_home_component__["a" /* MainContactsHomeComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__main_contacts_home_you_main_contacts_home_you_component__["a" /* MainContactsHomeYouComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__main_contacts_status_main_contacts_status_component__["a" /* MainContactsStatusComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__main_contacts_searchresults_main_contacts_searchresults_component__["a" /* MainContactsSearchresultsComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__main_contacts_user_main_contacts_user_component__["a" /* MainContactsUserComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__main_contacts_list_main_contacts_list_component__["a" /* MainContactsListComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__main_contacts_list_section_main_contacts_list_section_component__["a" /* MainContactsListSectionComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__main_chat_input_main_chat_input_component__["a" /* MainChatInputComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__main_chat_messagecluster_main_chat_messagecluster_component__["a" /* MainChatMessageclusterComponent */]
+                __WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__main_main_component__["a" /* MainComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__main_contacts_main_contacts_component__["a" /* MainContactsComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__main_chat_main_chat_component__["a" /* MainChatComponent */],
+                __WEBPACK_IMPORTED_MODULE_10__main_options_main_options_component__["a" /* MainOptionsComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__main_chat_tabs_main_chat_tabs_component__["a" /* MainChatTabsComponent */],
+                __WEBPACK_IMPORTED_MODULE_12__main_chat_message_container_main_chat_message_container_component__["a" /* MainChatMessageContainerComponent */],
+                __WEBPACK_IMPORTED_MODULE_13__main_entry_main_entry_component__["a" /* MainEntryComponent */],
+                __WEBPACK_IMPORTED_MODULE_15__main_contacts_search_main_contacts_search_component__["a" /* MainContactsSearchComponent */],
+                __WEBPACK_IMPORTED_MODULE_16__main_contacts_home_main_contacts_home_component__["a" /* MainContactsHomeComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__main_contacts_home_you_main_contacts_home_you_component__["a" /* MainContactsHomeYouComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__main_contacts_status_main_contacts_status_component__["a" /* MainContactsStatusComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__main_contacts_searchresults_main_contacts_searchresults_component__["a" /* MainContactsSearchresultsComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__main_contacts_user_main_contacts_user_component__["a" /* MainContactsUserComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__main_contacts_list_main_contacts_list_component__["a" /* MainContactsListComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__main_contacts_list_section_main_contacts_list_section_component__["a" /* MainContactsListSectionComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__main_chat_input_main_chat_input_component__["a" /* MainChatInputComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__main_chat_messagecluster_main_chat_messagecluster_component__["a" /* MainChatMessageclusterComponent */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_3__app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
-                __WEBPACK_IMPORTED_MODULE_4_ngx_scrollbar__["b" /* ScrollbarModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
+                __WEBPACK_IMPORTED_MODULE_4__app_routing_module__["a" /* AppRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["c" /* ReactiveFormsModule */],
+                __WEBPACK_IMPORTED_MODULE_5_ngx_scrollbar__["b" /* ScrollbarModule */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_13__socket_service__["a" /* SocketService */],
-                __WEBPACK_IMPORTED_MODULE_22__contact_service__["a" /* ContactService */],
-                __WEBPACK_IMPORTED_MODULE_23__local_user_service__["a" /* LocalUserService */],
-                __WEBPACK_IMPORTED_MODULE_25__chat_service__["a" /* ChatService */],
-                __WEBPACK_IMPORTED_MODULE_27__screen_size_service__["a" /* ScreenSizeService */]
+                __WEBPACK_IMPORTED_MODULE_14__socket_service__["a" /* SocketService */],
+                __WEBPACK_IMPORTED_MODULE_23__contact_service__["a" /* ContactService */],
+                __WEBPACK_IMPORTED_MODULE_24__local_user_service__["a" /* LocalUserService */],
+                __WEBPACK_IMPORTED_MODULE_26__chat_service__["a" /* ChatService */],
+                __WEBPACK_IMPORTED_MODULE_28__screen_size_service__["a" /* ScreenSizeService */],
+                { provide: "NativeService", useClass: __WEBPACK_IMPORTED_MODULE_0__environments_environment__["a" /* environment */].nativeService }
             ],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -2317,7 +2320,7 @@ var MainOptionsComponent = /** @class */ (function () {
 /***/ "./src/app/main/main.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-main-entry *ngIf=\"!loggedIn\"\n(setLocalUser)=\"onSetLocalUser($event)\"\n(logInComplete)=\"onLogInComplete($event)\"\n></app-main-entry>\n\n<app-main-contacts\n*ngIf=\"localUserService.valid\"\n(cancelDrag)=\"onCancelDrag()\"\n[shadowOpacity]=\"mobile ? sidebars.contacts.progress : 0.5\"\n[class.animating]=\"!mobile && sidebars.contacts.animating\"\n[class.visible]=\"!mobile && sidebars.contacts.visible\"\n[class.hidden]=\"!mobile && !sidebars.contacts.visible\"\n[ngStyle]=\"{\n\twidth: mobile ? 0 : '',\n\ttransform: mobile ? 'translateX(' + (sidebars.minWidth * sidebars.contacts.progress) + 'px)' : '',\n\ttransition: (mobile && sidebars.contacts.animating) ? ('transform ' + sidebars.contacts.animationDuration + 'ms ease') : ''\n}\">\n</app-main-contacts>\n\n<app-main-chat \n(toggleSidebar)=\"onToggleSidebar($event)\"\n(hideSidebars)=\"hideSidebar('contacts', true); hideSidebar('options', true);\"\n[sidebars]=\"sidebars\">\n</app-main-chat>\n\n<app-main-options\n[shadowOpacity]=\"mobile ? sidebars.options.progress : 0.5\"\n[class.animating]=\"!mobile && sidebars.options.animating\"\n[class.visible]=\"!mobile && sidebars.options.visible\"\n[class.hidden]=\"!mobile && !sidebars.options.visible\"\n[ngStyle]=\"{\n\twidth: mobile ? 0 : '',\n\ttransform: mobile ? 'translateX(-' + (sidebars.minWidth * sidebars.options.progress) + 'px)' : '',\n\ttransition: (mobile && sidebars.options.animating) ? ('transform ' + sidebars.options.animationDuration + 'ms ease') : ''\n}\">\n</app-main-options>\n"
+module.exports = "<app-main-entry *ngIf=\"!loggedIn\"\n(setLocalUser)=\"onSetLocalUser($event)\"\n(logInComplete)=\"onLogInComplete($event)\"\n></app-main-entry>\n\n<ng-container *ngIf=\"localUserService.valid\">\n\t<app-main-contacts\n\t(cancelDrag)=\"onCancelDrag()\"\n\t[shadowOpacity]=\"mobile ? sidebars.contacts.progress : 0.5\"\n\t[class.animating]=\"!mobile && sidebars.contacts.animating\"\n\t[class.visible]=\"!mobile && sidebars.contacts.visible\"\n\t[class.hidden]=\"!mobile && !sidebars.contacts.visible\"\n\t[ngStyle]=\"{\n\t\twidth: mobile ? 0 : '',\n\t\ttransform: mobile ? 'translateX(' + (sidebars.minWidth * sidebars.contacts.progress) + 'px)' : '',\n\t\ttransition: (mobile && sidebars.contacts.animating) ? ('transform ' + sidebars.contacts.animationDuration + 'ms ease') : ''\n\t}\">\n\t</app-main-contacts>\n\n\t<app-main-chat\n\t(toggleSidebar)=\"onToggleSidebar($event)\"\n\t(hideSidebars)=\"hideSidebar('contacts', true); hideSidebar('options', true);\"\n\t[sidebars]=\"sidebars\">\n\t</app-main-chat>\n\n\t<app-main-options\n\t[hidden]=\"sidebars.options.progress == 0\"\n\t[shadowOpacity]=\"mobile ? sidebars.options.progress : 0.5\"\n\t[class.animating]=\"!mobile && sidebars.options.animating\"\n\t[class.visible]=\"!mobile && sidebars.options.visible\"\n\t[class.hidden]=\"!mobile && !sidebars.options.visible\"\n\t[ngStyle]=\"{\n\t\twidth: mobile ? 0 : '',\n\t\ttransform: mobile ? 'translateX(-' + (sidebars.minWidth * sidebars.options.progress) + 'px)' : '',\n\t\ttransition: (mobile && sidebars.options.animating) ? ('transform ' + sidebars.options.animationDuration + 'ms ease') : ''\n\t}\">\n\t</app-main-options>\n</ng-container>"
 
 /***/ }),
 
@@ -2547,6 +2550,40 @@ var MainComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/native.cordova.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NativeCordovaService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var NativeCordovaService = /** @class */ (function () {
+    function NativeCordovaService() {
+        this.platform = "cordova";
+    }
+    NativeCordovaService.prototype.promptServerURL = function (callback) {
+        navigator.notification.prompt("Please specify a server URL", callback, "Failed to connect", ["CONNECT"]);
+    };
+    NativeCordovaService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], NativeCordovaService);
+    return NativeCordovaService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/screen-size.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2597,6 +2634,7 @@ var ScreenSizeService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client__ = __webpack_require__("./node_modules/socket.io-client/lib/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_socket_io_client__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__local_user_service__ = __webpack_require__("./src/app/local-user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment__ = __webpack_require__("./src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2606,14 +2644,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
 
 
 
 
 var SocketService = /** @class */ (function () {
-    function SocketService(localUserService) {
+    function SocketService(localUserService, nativeService) {
         this.localUserService = localUserService;
-        this.socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client__({ transports: ["websocket"] });
+        this.nativeService = nativeService;
+        this.socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client__(__WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].serverURL);
+        document.addEventListener('deviceready', function () {
+            this.socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client__(__WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].serverURL);
+        });
     }
     SocketService.prototype.sendPing = function () {
         this.socket.emit("ping", { data: 1 });
@@ -2725,7 +2771,8 @@ var SocketService = /** @class */ (function () {
     };
     SocketService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__local_user_service__["a" /* LocalUserService */]])
+        __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Inject */])("NativeService")),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__local_user_service__["a" /* LocalUserService */], Object])
     ], SocketService);
     return SocketService;
 }());
@@ -2739,12 +2786,12 @@ var SocketService = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_native_cordova_service__ = __webpack_require__("./src/app/native.cordova.service.ts");
+
 var environment = {
-    production: false
+    production: false,
+    serverURL: "https://honest-duck-35.localtunnel.me/",
+    nativeService: __WEBPACK_IMPORTED_MODULE_0__app_native_cordova_service__["a" /* NativeCordovaService */]
 };
 
 

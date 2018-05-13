@@ -4,6 +4,9 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
     <name>Gamma</name>
     <description />
     <author email="db@dylanbienenstock.com" href="http://dylanbienenstock.com">
@@ -20,4 +23,5 @@
     <hook src="ng-build.js" type="before_prepare" />
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
+    <preference name="DisallowOverscroll" value="true" />
 </widget>
