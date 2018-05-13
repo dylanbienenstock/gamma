@@ -3,7 +3,7 @@
 $side-padding: 100px;
 $message-min-height: 64px;
 $message-padding: 8px;
-$message-border-radius-large: 12px;
+$message-border-radius-large: 16px;
 $message-border-radius-small: 4px;
 
 :host {
@@ -50,7 +50,6 @@ $message-border-radius-small: 4px;
 				display: flex;
 				flex-flow: row nowrap;
 				height: 38px;
-				margin-bottom: 12px;
 
 				p {
 					@include contact-name;					
@@ -68,6 +67,20 @@ $message-border-radius-small: 4px;
 				}
 			}
 
+			.tail {
+				width: 12px;
+				height: 12px;
+				transform: translateX(13px);
+
+				path { fill: $background-tertiary-color; }
+
+				&.local-user {
+					transform: translateX(-13px);
+
+					path { fill: $gamma; }
+				}
+			}
+
 			@media (max-width: 1000px) {
 				.sender {
 					height: 32px;
@@ -78,6 +91,12 @@ $message-border-radius-small: 4px;
 						font-size: 14px;
 						line-height: 32px;
 					}
+				}
+
+				.tail {
+					transform: translateX(10px);
+
+					&.local-user {  transform: translateX(-10px); }
 				}
 			}
 
@@ -90,6 +109,7 @@ $message-border-radius-small: 4px;
 
 					.message-inner {
 						display: inline-block;						
+						min-width: 26px;
 						background-color: $background-tertiary-color;
 						color: $text-color;
 						font-size: 16px;
@@ -115,13 +135,13 @@ $message-border-radius-small: 4px;
 
 					&:first-child {
 						.message-inner {
-							border-top-left-radius: $message-border-radius-large;
+							border-top-left-radius: 10px;
 						}
 					}
 
 					&:last-child {
 						.message-inner {
-							border-bottom-left-radius: $message-border-radius-large;
+							border-bottom-left-radius: 10px;
 						}
 
 						margin-bottom: 0;						
@@ -142,13 +162,13 @@ $message-border-radius-small: 4px;
 
 						&:first-child {
 							.message-inner {
-								border-top-right-radius: $message-border-radius-large;
+								border-top-right-radius: 10px;
 							}
 						}
 
 						&:last-child {
 							.message-inner {
-								border-bottom-right-radius: $message-border-radius-large;
+								border-bottom-right-radius: 10px;
 							}
 
 							margin-bottom: 0;						
