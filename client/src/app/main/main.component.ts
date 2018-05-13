@@ -33,6 +33,7 @@ export class MainComponent {
 			visible: (!this.mobile),
 			animating: false,
 			animationDuration: 400,
+			animationTimeout: null,
 			progress: (this.mobile ? 0 : 1),
 			dragging: false,
 			draggingOut: false,
@@ -42,6 +43,7 @@ export class MainComponent {
 			visible: false,
 			animating: false,
 			animationDuration: 400,
+			animationTimeout: null,			
 			progress: 0,
 			dragging: false,
 			draggingOut: false,
@@ -54,7 +56,9 @@ export class MainComponent {
 		this.sidebars[sidebar].animationDuration = 
 			duration || this.sidebars.animationDuration;
 		
-		setTimeout(() => {
+		clearTimeout(this.sidebars[sidebar].animationTimeout);
+
+		this.sidebars[sidebar].animationTimeout = setTimeout(() => {
 			this.sidebars[sidebar].animating = false;
 		}, this.sidebars[sidebar].animationDuration);
 	}
