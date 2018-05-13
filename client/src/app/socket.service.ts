@@ -1,20 +1,28 @@
 import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest, AuthCreds, Contact } from "../../../gamma/account/account.types";
 import { StatusChangeDispatch, Message } from "../../../server/server.types";
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
 import * as io from "socket.io-client";
 import { LocalUserService } from "./local-user.service";
 import { ContactService } from "./contact.service";
+import { NativeService } from "./native.service";
+
+import { environment } from "../environments/environment"
 
 @Injectable()
 export class SocketService {
 
 	private socket;
 
-	constructor(private localUserService: LocalUserService) {
+	constructor(private localUserService: LocalUserService,
+		@Inject("NativeService") private nativeService: NativeService) {
 
-		this.socket = io({ transports: ["websocket"] });
+		this.socket = io(environment.serverURL);
+
+		document.addEventListener('deviceready', function () {
+			this.socket = io(environment.serverURL);
+		});
 	}
 
 	sendPing() {
