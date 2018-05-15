@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Conversation } from '../chat.service.types';
 import { ChatService } from '../chat.service';
 import { Message } from '../../../../server/server.types';
@@ -13,33 +13,23 @@ import { Subscription } from 'rxjs/Subscription';
 	styleUrls: ['./main-chat-message-container.component.scss']
 })
 
-export class MainChatMessageContainerComponent implements AfterViewInit, OnDestroy {
+export class MainChatMessageContainerComponent{
 	constructor(private chatService: ChatService,
 				private contactService: ContactService,
 				private localUserService: LocalUserService) { }
 
 
-	@Input() conversation: Conversation;
+	@Input() set messages(value: Message[]) {
+		this.buildMessageClusters(value);
+	}
 
 	messageClusters: MessageCluster[] = [];
-	onMessageReceivedSubscription: Subscription;
 
-	ngAfterViewInit() {
-		this.onMessageReceivedSubscription = 
-		this.chatService.onMessage.subscribe((message) => {
-			this.buildMessageCluster();
-		});
-	}
-
-	ngOnDestroy() {
-		this.onMessageReceivedSubscription.unsubscribe();
-	}
-
-	buildMessageCluster() {
+	buildMessageClusters(messages: Message[]) {
 		let messageClusters: MessageCluster[] = [];
 		let builtCluster: MessageCluster;
 
-		for (let message of this.conversation.messages) {
+		for (let message of messages) {
 			if (!builtCluster || message.senderId != builtCluster.senderId) {
 				if (builtCluster) {
 					messageClusters.push(builtCluster);

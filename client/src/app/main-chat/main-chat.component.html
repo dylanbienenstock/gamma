@@ -19,7 +19,7 @@
 		<ng-container *ngIf="currentConversation">
 			<ng-scrollbar autoHide="true" #scrollbar>
 				<app-main-chat-message-container
-				[conversation]="currentConversation">
+				[messages]="currentConversation.messages">
 				</app-main-chat-message-container>
 			</ng-scrollbar>
 
