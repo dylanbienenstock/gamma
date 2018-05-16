@@ -1,5 +1,5 @@
 import { LogInCreds, RegisterCreds, LogInResponse, RegisterResponse, SearchQuery, ContactList, FriendInviteRequest, AuthCreds, Contact } from "../../../gamma/account/account.types";
-import { StatusChangeDispatch, Message } from "../../../server/server.types";
+import { StatusChangeDispatch } from "../../../server/server.types";
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
@@ -9,6 +9,7 @@ import { ContactService } from "./contact.service";
 import { NativeService } from "./native.service";
 
 import { environment } from "../environments/environment"
+import { Message } from "../../../gamma/gamma.types";
 
 @Injectable()
 export class SocketService {

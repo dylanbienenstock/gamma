@@ -1,10 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Conversation } from './chat.service.types';
-import { Message } from '../../../server/server.types';
 import { SocketService } from './socket.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Contact } from '../../../gamma/account/account.types';
 import { LocalUserService } from './local-user.service';
+import { Message } from '../../../gamma/gamma.types';
 
 @Injectable()
 export class ChatService {

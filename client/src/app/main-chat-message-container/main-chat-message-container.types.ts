@@ -1,4 +1,4 @@
-import { Message } from "../../../../server/server.types";
+import { Message } from "../../../../gamma/gamma.types";
 
 export interface MessageCluster {
 	messages: Message[];

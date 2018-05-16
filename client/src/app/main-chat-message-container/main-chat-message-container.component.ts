@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Conversation } from '../chat.service.types';
 import { ChatService } from '../chat.service';
-import { Message } from '../../../../server/server.types';
 import { ContactService } from '../contact.service';
 import { MessageCluster } from './main-chat-message-container.types';
 import { LocalUserService } from '../local-user.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Message } from '../../../../gamma/gamma.types';
 
 @Component({
 	selector: 'app-main-chat-message-container',
