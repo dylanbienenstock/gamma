@@ -114,7 +114,7 @@ $message-border-radius-small: 4px;
 						color: $text-color;
 						font-size: 16px;
 						border-radius: $message-border-radius-small;
-						padding: 6px;
+						padding: 6px 10px;
 
 						border-top-left-radius: $message-border-radius-small;
 						border-bottom-left-radius: $message-border-radius-small;
@@ -130,6 +130,7 @@ $message-border-radius-small: 4px;
 
 						@media (max-width: 1000px) {
 							font-size: 14px;
+							padding: 4px 6px;
 						}
 					}
 
