@@ -13,7 +13,7 @@ import { Message } from '../../../../gamma/gamma.types';
 	styleUrls: ['./main-chat-message-container.component.scss']
 })
 
-export class MainChatMessageContainerComponent{
+export class MainChatMessageContainerComponent {
 	constructor(private chatService: ChatService,
 				private contactService: ContactService,
 				private localUserService: LocalUserService) { }
