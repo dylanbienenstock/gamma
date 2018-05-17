@@ -79,6 +79,10 @@ export class ChatService {
 	}
 
 	sendMessage(text: string, conversation: Conversation) {
+		text = text.trim();
+		
+		if (text.length == 0) return;
+
 		let message = {
 			text: text,
 			senderId: this.localUserService.id,
