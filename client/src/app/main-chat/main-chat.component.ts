@@ -14,26 +14,11 @@ import { LocalUserService } from '../local-user.service';
 })
 export class MainChatComponent {
 	constructor(private chatService: ChatService) {
-		this.onMessageSubscription =
-		this.chatService.onMessage
-		.subscribe((message: Message) => {
-			if (!this.autoScroll ||
-				!this.scrollbarRef ||
-				!this.scrollbarRef.view) return;
-			
-			let messageInCurrentConvo = 
-				message.recipientId == this.currentConversation.withId ||
-				message.senderId == this.currentConversation.withId;
-
-			if (messageInCurrentConvo) {
-				setTimeout(() => {
-					let scrollMax: number = this.scrollbarRef.view.scrollHeight;
-					
-					this.scrollbarRef.view.scrollTop = scrollMax;
-					this.autoScrollInProgress = true;
-				}, 0);
-			}
+		this.chatService.onMessage.subscribe((message: Message) => {
+			this.onMessage(message);
 		});
+
+		this.animateMessages();
 	}
 
 	@Input() sidebars;
@@ -42,11 +27,10 @@ export class MainChatComponent {
 
 	@ViewChild("scrollbar") scrollbarRef: ScrollbarComponent;
 
-	onMessageSubscription: Subscription;
 	currentConversation: Conversation;
 	autoScroll: boolean = true;
 	autoScrollInProgress: boolean = false;
-	autoScrollTimeout: any;
+	messagesToAnimate: Message[] = [];
 
 	onToggleContacts() {
 		this.toggleSidebar.emit("contacts");
@@ -65,7 +49,7 @@ export class MainChatComponent {
 	}
 
 	onScrollState(e) {
-		if (!this.scrollbarRef.view) return;
+		if (!this.scrollbarRef || !this.scrollbarRef.view) return;
 
 		if (this.autoScrollInProgress) {
 			this.autoScrollInProgress = false;
@@ -78,5 +62,66 @@ export class MainChatComponent {
 		distanceToBottom -= this.scrollbarRef.view.clientHeight;
 
 		this.autoScroll = (distanceToBottom <= 128);
+	}
+
+	onMessage(message: Message) {
+		let shouldAnimateMessage =
+			this.currentConversation && // Not the first message received this session
+			this.autoScroll && 			// Message is within viewport
+			this.scrollbarRef &&		// Scrollbar initialized
+			this.scrollbarRef.view &&	// Scrollbar view initialized
+										// v Message is in current conversation
+			(message.recipientId == this.currentConversation.withId ||
+			message.senderId == this.currentConversation.withId);
+
+		if (shouldAnimateMessage) {
+			message.visible = false;
+			message.animated = true;			
+			
+			this.messagesToAnimate.push(message);
+
+			setTimeout(() => {
+				let scrollMax: number = this.scrollbarRef.view.scrollHeight;
+
+				this.scrollbarRef.view.scrollTop = scrollMax;
+				this.autoScrollInProgress = true;
+
+				message.visible = true;
+				message.animationProgress = 0;
+				message.animationStartTime = Date.now();
+			}, 0);
+		} else {
+			message.visible = true;
+			message.animated = false;
+			message.animationProgress = 1;
+		}
+	}
+
+	// http://www.gizma.com/easing/#quint2
+	easeOutQuint(t, b, c, d) {
+		t /= d;
+		t--;
+
+		return c * (t * t * t * t * t + 1) + b;
+	};
+
+	animateMessages() {
+		this.messagesToAnimate = 
+		this.messagesToAnimate
+		.filter((message) => {
+			if (!message.visible) return true;
+
+			message.animationProgress =
+				this.easeOutQuint(Date.now() - message.animationStartTime, 0, 1, 600);
+
+			if (message.animationProgress >= 0.99) {
+				message.animated = false;
+				message.animationProgress = 1;
+			}
+
+			return message.animated;
+		});
+
+		requestAnimationFrame(this.animateMessages.bind(this));
 	}
 }
