@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { ScrollbarModule } from 'ngx-scrollbar';
+import { LinkyModule } from 'angular-linky';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
