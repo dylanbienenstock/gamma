@@ -86,14 +86,34 @@ export module Crypto {
 		if (!encrypted) throw "Failed to encrypt message";
 
 		let hash: string = md5(message.text);
-		message.text = encrypted;
 
 		let secureMessage: SecureMessage = {
 			nonce: keyResponse.nonce,
 			hash: hash,
-			message: message
+			message: {
+				text: encrypted,
+				senderId: message.senderId
+			}
 		};
 
 		return secureMessage;
+	}
+
+	export async function decryptMessage(secureMessage: SecureMessage, privateKey: string) {
+		let decrypted;
+		let privKeyObj = openpgp.key.readArmored(privateKey).keys[0];
+		await privKeyObj.decrypt(secureMessage.nonce.data);
+
+		let decryptOptions = {
+			message: openpgp.message.readArmored(secureMessage.message.text),
+			privateKeys: [privKeyObj]
+		};
+
+		await openpgp.decrypt(decryptOptions)
+		.then((_decrypted) => {
+			decrypted = _decrypted.data;
+		});
+
+		return decrypted;
 	}
 }
