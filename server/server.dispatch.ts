@@ -88,28 +88,24 @@ export module Dispatch {
 
 		if (!socket2 || !id2) return;
 
-		let data: StatusChangeDispatch = {
-			contact: statelessContact(socket),
-			status: State.getStatus(socket)
-		};
-
-		let data2: StatusChangeDispatch = {
-			contact: statelessContact(socket2),
-			status: State.getStatus(socket2)
-		};
-
 		direct({
 			from: socket,
 			to: id,
 			event: "status",
-			data: data
+			data: <StatusChangeDispatch> {
+				contact: statelessContact(socket),
+				status: State.getStatus(socket)
+			}
 		});
 
 		direct({
 			from: socket2,
 			to: id2,
 			event: "status",
-			data: data2
+			data: <StatusChangeDispatch> {
+				contact: statelessContact(socket2),
+				status: State.getStatus(socket2)
+			}
 		});
 	}
 
