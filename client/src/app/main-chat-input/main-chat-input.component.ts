@@ -16,7 +16,7 @@ export class MainChatInputComponent {
 
 	sendMessage(e) {
 		e.preventDefault();
-		this.chatService.sendMessage(this.input, this.conversation.withId);
+		this.chatService.sendMessage(this.input, this.conversation);
 
 		this.input = "";
 	}
