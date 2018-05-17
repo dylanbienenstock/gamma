@@ -27,9 +27,9 @@ export class SocketService {
 
 		this.socket = io(environment.serverURL);
 
-		// document.addEventListener('deviceready', function () {
-		// 	this.socket = io(environment.serverURL);
-		// });
+		document.addEventListener("deviceready", function() {
+			this.socket = io(environment.serverURL);
+		});
 	}
 
 	setupInternalListeners() {
@@ -37,16 +37,11 @@ export class SocketService {
 
 		this.internalListenersSetup = true;
 
-		console.log("setupInternalListeners")
-
 		this.socket.on("dispatch key request", (keyRequest) => {
-			console.log("event key request")
 			this.sendKey(keyRequest);
 		});
 
 		this.socket.on("dispatch key response", (keyResponse) => {
-			console.log("event key response")
-
 			this.receiveKey(keyResponse);
 		});
 	}
@@ -164,10 +159,39 @@ export class SocketService {
 
 	onMessageReceived(): Observable<Message> {
 		return new Observable<Message>((observer) => {
-			this.socket.on("dispatch message", (data: Message) => {
-				observer.next(data);
+			this.socket.on("dispatch message", async (data: SecureMessage) => {
+				let decryptedMessage: Message;
+
+				await this.decryptMessage(data)
+				.then((_decryptedMessage) => {
+					decryptedMessage = _decryptedMessage;
+				});
+
+				observer.next(decryptedMessage);
 			});
 		});
+	}
+
+	private async decryptMessage(secureMessage: SecureMessage): Promise<Message> {
+		let keyPair: KeyPair;
+		let keyPairIndex: number;
+
+		for (let i = 0; i < this.localKeyPairs.length; i++) {
+			if (this.localKeyPairs[i].nonce.timestamp == secureMessage.nonce.timestamp &&
+				this.localKeyPairs[i].nonce.data == secureMessage.nonce.data) {
+
+				keyPair = this.localKeyPairs[i];
+				keyPairIndex = i;
+
+				break;
+			}
+		}
+
+		if (!keyPair) throw "No matching local keypair";
+
+		secureMessage.message.text = await Crypto.decryptMessage(secureMessage, keyPair.private);
+
+		return secureMessage.message;
 	}
 
 	private requestKey(id: string): Promise<KeyResponse> {
@@ -271,6 +295,6 @@ export class SocketService {
 
 
 		// Send it
-		// this.socket.emit("message", secureMessage);
+		this.socket.emit("message", secureMessage);
 	}	
 }
