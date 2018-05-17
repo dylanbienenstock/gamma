@@ -19,6 +19,11 @@ export class ChatService {
 
 	conversations: Conversation[] = [];
 
+	private addMessageToConversation(conversation: Conversation, message: Message) {
+		conversation.messages =
+			Object.assign([], conversation.messages.concat(message));
+	}
+
 	setupSubscriptions() {
 		this.socketService.onMessageReceived()
 		.subscribe((message) => {
@@ -36,7 +41,7 @@ export class ChatService {
 			conversation = this._openNewConversation(message, false);
 		}
 		
-		conversation.messages.push(message);
+		this.addMessageToConversation(conversation, message);
 		this.onMessage.next(message);
 	}
 
@@ -73,21 +78,15 @@ export class ChatService {
 		conversation.open = false;
 	}
 
-	sendMessage(text: string, toId: string) {
-		let conversation = this.conversations
-		.find((conversation) => {
-			return conversation.withId == toId;
-		});
-
-		if (!conversation) return;
-
+	sendMessage(text: string, conversation: Conversation) {
 		let message = {
 			text: text,
 			senderId: this.localUserService.id,
-			recipientId: toId
+			recipientId: conversation.withId
 		};
 
-		conversation.messages.push(message);
+		this.addMessageToConversation(conversation, message);
+
 		this.onMessage.next(message);
 		this.socketService.sendMessage(message);
 	}
