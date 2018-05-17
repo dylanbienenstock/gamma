@@ -26,5 +26,5 @@ export interface KeyRequest {
 export interface KeyResponse {
 	nonce: Nonce;
 	publicKey: string;
-	recipientId: string;
+	recipientId?: string;
 }
