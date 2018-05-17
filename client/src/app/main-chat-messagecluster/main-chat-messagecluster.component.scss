@@ -14,9 +14,9 @@ $message-border-radius-small: 4px;
 		margin-top: 32px;
 	}
 
-	&:last-of-type {
-		margin-bottom: 32px;
-	}
+	// &:last-of-type {
+	// 	margin-bottom: 0;
+	// }
 
 	.container {
 		display: flex;

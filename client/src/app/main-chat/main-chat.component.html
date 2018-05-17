@@ -22,7 +22,7 @@
 		</div>
 
 		<ng-container *ngIf="currentConversation">
-			<ng-scrollbar autoHide="true" #scrollbar>
+			<ng-scrollbar autoHide="true" #scrollbar (scrollState)="onScrollState($event)">
 				<app-main-chat-message-container
 				[messages]="currentConversation.messages">
 				</app-main-chat-message-container>
