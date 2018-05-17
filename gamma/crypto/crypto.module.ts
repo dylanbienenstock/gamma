@@ -1,8 +1,11 @@
+import { Nonce, KeyPair, SecureMessage, KeyResponse } from "./crypto.types";
+import { Message, GammaConfig } from "../gamma.types";
+
 import * as openpgp from "openpgp";
-import { Nonce, KeyPair } from "./crypto.types";
+import * as secureRandom from "secure-random";
+import * as md5 from "js-md5";
 
 export module Crypto {
-
 	openpgp.config.compression = openpgp.enums.compression.zip;
 	const curve: string = "curve25519";
 
@@ -34,36 +37,63 @@ export module Crypto {
 	}
 
 	export async function generateNonce(): Promise<Nonce> {
-		let data: Uint8Array = await openpgp.crypto.random.getRandomBytes(16);
-		let timestamp = resistFingerprinting(Date.now());
-
 		return {
-			timestamp: timestamp,
-			data: data
+			timestamp: resistFingerprinting(Date.now()),
+			data: secureRandom(16).join("")
 		};
 	}
 
 	export async function generateKeyPair(nonce: Nonce): Promise<KeyPair> {
-		if(this.localKeyPairs.has(nonce)) throw "Invalid nonce";
-
 		// Gets a random name from list of NSA leaders
 		let name = nsaNames[Math.floor(Math.random() * nsaNames.length)];
 
 		let options = {
 			userIds: [{ name: name, email: nsaEmail }],
 			curve: curve, // https://safecurves.cr.yp.to/
-			passphrase: nonce.data.join("")
+			passphrase: nonce.data
 		};
 
 		let keyPair: KeyPair;
 
 		await openpgp.generateKey(options).then((key) => {
 			keyPair = {
+				nonce: nonce,
 				private: key.privateKeyArmored,
 				public: key.publicKeyArmored
 			};
 		});
 
 		return keyPair;
+	}
+
+	export async function encryptMessage(keyResponse: KeyResponse, message: Message): Promise<SecureMessage> {
+		let encrypted: string;
+		let error: any;
+
+		let encryptOptions = {
+			data: message.text,
+			publicKeys: openpgp.key
+				.readArmored(keyResponse.publicKey).keys
+		};
+		
+		await openpgp.encrypt(encryptOptions)
+		.catch((_error) => { error = _error; })
+		.then((_encrypted) => {
+			encrypted = _encrypted.data;
+		});
+
+		if (error) throw error;
+		if (!encrypted) throw "Failed to encrypt message";
+
+		let hash: string = md5(message.text);
+		message.text = encrypted;
+
+		let secureMessage: SecureMessage = {
+			nonce: keyResponse.nonce,
+			hash: hash,
+			message: message
+		};
+
+		return secureMessage;
 	}
 }

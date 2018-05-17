@@ -1,7 +1,9 @@
 import { State } from "./server.state";
 import { Socket } from "socket.io";
-import { DispatchEvent, StatusChangeDispatch, Message } from "./server.types";
+import { DispatchEvent, StatusChangeDispatch } from "./server.types";
 import { Contact } from "../gamma/account/account.types";
+import { KeyRequest, KeyResponse } from "../gamma/crypto/crypto.types";
+import { Message } from "../gamma/gamma.types";
 
 export module Dispatch {
 	function direct(dispatch: DispatchEvent) {
@@ -111,16 +113,46 @@ export module Dispatch {
 		});
 	}
 
-	export function messageSent(socket: Socket, message: Message) {
-		message.senderId = State.getId(socket);
+	export function keyRequested(socket: Socket, keyRequest: KeyRequest) {
+		console.log("dispatch keyRequested", {
+			from: State.getName(socket),
+			to: State.getName(State.getSocket(keyRequest.recipientId)),
+		});
 
+		direct({
+			from: socket,
+			to: keyRequest.recipientId,
+			event: "key request",
+			data: {
+				nonce: keyRequest.nonce,
+				senderId: State.getId(socket)
+			}
+		});
+	}
+
+	export function keySent(socket: Socket, keyResponse: KeyResponse) {
+		console.log("dispatch keySent", keyResponse)
+
+		direct({
+			from: socket,
+			to: keyResponse.recipientId,
+			event: "key response",
+			data: {
+				nonce: keyResponse.nonce,
+				publicKey: keyResponse.publicKey,
+				senderId: State.getId(socket)
+			}
+		});
+	}
+
+	export function messageSent(socket: Socket, message: Message) {
 		direct({
 			from: socket,
 			to: message.recipientId,
 			event: "message",
 			data: {
 				text: message.text,
-				senderId: message.senderId
+				senderId: State.getId(socket)
 			}
 		});
 	}

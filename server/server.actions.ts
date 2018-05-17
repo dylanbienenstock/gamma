@@ -3,7 +3,9 @@ import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds,
 import { AccountManager } from "../gamma/gamma.module";
 import { State } from "./server.state";
 import { Dispatch } from "./server.dispatch";
-import { StatusChangeRequest, Message } from "./server.types";
+import { StatusChangeRequest } from "./server.types";
+import { KeyRequest, KeyResponse } from "../gamma/crypto/crypto.types";
+import { Message } from "../gamma/gamma.types";
 
 export module Actions {
 	export function disconnect(socket: Socket) {
@@ -127,8 +129,24 @@ export module Actions {
 		});
 	}
 
-	export function sendMessage(socket: Socket, message: Message) {
+	export function requestKey(socket: Socket, keyRequest: KeyRequest) {
+		console.log("action requestKey")
 
+		if (!State.getSocket(keyRequest.recipientId)) return;
+		if (!State.userIsFriendsWith(socket, keyRequest.recipientId)) return;
+
+		Dispatch.keyRequested(socket, keyRequest);
+	}
+
+	export function sendKey(socket: Socket, keyResponse: KeyResponse) {
+		console.log("action sendKey")
+
+		if (!State.getSocket(keyResponse.recipientId)) return;
+		
+		Dispatch.keySent(socket, keyResponse);		
+	}
+
+	export function sendMessage(socket: Socket, message: Message) {
 		if (!State.getSocket(message.recipientId)) return;
 		if (!State.userIsFriendsWith(socket, message.recipientId)) return;
 
