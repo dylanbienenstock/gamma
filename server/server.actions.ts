@@ -4,7 +4,7 @@ import { AccountManager } from "../gamma/gamma.module";
 import { State } from "./server.state";
 import { Dispatch } from "./server.dispatch";
 import { StatusChangeRequest } from "./server.types";
-import { KeyRequest, KeyResponse } from "../gamma/crypto/crypto.types";
+import { KeyRequest, KeyResponse, SecureMessage } from "../gamma/crypto/crypto.types";
 import { Message } from "../gamma/gamma.types";
 
 export module Actions {
@@ -130,8 +130,6 @@ export module Actions {
 	}
 
 	export function requestKey(socket: Socket, keyRequest: KeyRequest) {
-		console.log("action requestKey")
-
 		if (!State.getSocket(keyRequest.recipientId)) return;
 		if (!State.userIsFriendsWith(socket, keyRequest.recipientId)) return;
 
@@ -139,17 +137,15 @@ export module Actions {
 	}
 
 	export function sendKey(socket: Socket, keyResponse: KeyResponse) {
-		console.log("action sendKey")
-
 		if (!State.getSocket(keyResponse.recipientId)) return;
 		
 		Dispatch.keySent(socket, keyResponse);		
 	}
 
-	export function sendMessage(socket: Socket, message: Message) {
-		if (!State.getSocket(message.recipientId)) return;
-		if (!State.userIsFriendsWith(socket, message.recipientId)) return;
+	export function sendMessage(socket: Socket, secureMessage: SecureMessage) {
+		if (!State.getSocket(secureMessage.message.recipientId)) return;
+		if (!State.userIsFriendsWith(socket, secureMessage.message.recipientId)) return;
 
-		Dispatch.messageSent(socket, message);
+		Dispatch.messageSent(socket, secureMessage);
 	}
 }
