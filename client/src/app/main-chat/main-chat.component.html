@@ -16,6 +16,11 @@
 	</app-main-chat-tabs>
 
 	<div class="content">
+		<div class="fade-top">
+			<div class="opaque"></div>
+			<div class="gradient"></div>
+		</div>
+
 		<ng-container *ngIf="currentConversation">
 			<ng-scrollbar autoHide="true" #scrollbar>
 				<app-main-chat-message-container
@@ -27,5 +32,10 @@
 			[conversation]="currentConversation">
 			</app-main-chat-input>
 		</ng-container>
+
+		<div class="fade-bottom">
+			<div class="gradient"></div>
+			<div class="opaque"></div>
+		</div>
 	</div>
 </div>

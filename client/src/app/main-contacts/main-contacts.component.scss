@@ -1,6 +1,9 @@
 @import "~global.scss";
 
 :host {
+	position: relative;
+	z-index: 2;
+
 	.container {
 		width: $sidebar-width;
 		min-width: $sidebar-min-width;

@@ -1,6 +1,9 @@
 @import "~global.scss";
 
 :host {
+	position: relative;
+	z-index: 2;
+
 	.container {
 		position: relative;		
 		display: flex;

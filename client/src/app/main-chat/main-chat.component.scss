@@ -42,6 +42,43 @@
 
 			display: flex;
 			flex-flow: column nowrap;
+
+			.fade-top,
+			.fade-bottom {
+				position: absolute;
+				left: 0;
+				width: 100vw;
+				z-index: 1;
+
+				.opaque {
+					width: 100%;
+					height: 10px;
+					background: $background-color;
+				}
+
+				.gradient {
+					width: 100%;
+					height: 22px;
+				}
+			}
+
+			.fade-top {
+				top: $top-bar-height;
+
+				.gradient {
+					background: $background-color;
+					background: linear-gradient(180deg, $background-color 0%, rgba($background-color, 0) 100%);
+				}
+			}
+
+			.fade-bottom {
+				bottom: 84px;
+
+				.gradient {
+					background: $background-color;
+					background: linear-gradient(0deg, $background-color 0%, rgba($background-color, 0) 100%);
+				}
+			}
 		}
 	}
 }
