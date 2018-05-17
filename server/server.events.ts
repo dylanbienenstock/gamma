@@ -2,7 +2,7 @@ import { Socket } from "socket.io";
 import { LogInCreds, RegisterCreds, SearchQuery, FriendInviteRequest, AuthCreds } from "../gamma/account/account.types";
 import { Actions } from "./server.actions";
 import { StatusChangeRequest } from "./server.types";
-import { KeyRequest, KeyResponse } from "../gamma/crypto/crypto.types";
+import { KeyRequest, KeyResponse, SecureMessage } from "../gamma/crypto/crypto.types";
 import { Message } from "../gamma/gamma.types";
 
 export module Events {
@@ -59,7 +59,7 @@ export module Events {
 			Actions.sendKey(socket, keyResponse);
 		});
 
-		socket.on("message", (message: Message) => {
+		socket.on("message", (message: SecureMessage) => {
 			Actions.sendMessage(socket, message);
 		});
 	}
