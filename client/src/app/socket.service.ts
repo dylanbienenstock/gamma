@@ -291,7 +291,7 @@ export class SocketService {
 		.then((_secureMessage) => { secureMessage = _secureMessage; })
 
 		if (error) throw error;
-		if (!keyResponse) throw "No encrypted message returned";
+		if (!secureMessage) throw "No encrypted message returned";
 
 
 		// Send it
