@@ -83,15 +83,15 @@ export class ChatService {
 		
 		if (text.length == 0) return;
 
-		let message = {
+		let message = <Message> {
 			text: text,
 			senderId: this.localUserService.id,
 			recipientId: conversation.withId
 		};
 
-		this.addMessageToConversation(conversation, message);
+		this.socketService.sendMessage(message);
 
 		this.onMessage.next(message);
-		this.socketService.sendMessage(message);
+		this.addMessageToConversation(conversation, message);
 	}
 }
