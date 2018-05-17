@@ -6,18 +6,25 @@
 			<p>{{ contactService.getFriendName(messageCluster.senderId) }}</p>		
 		</div>
 
-		<svg class="tail" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 3.175 3.175"
-		[class.local-user]="messageCluster.sentByLocalUser">
-			<path d="M1.5875 1.5875a.4131.4131 0 0 0-.293.122L.122 2.882A.4131.4131 0 0 0 0 3.175h3.175a.4131.4131 0 0 0-.122-.293L1.8805 1.7095a.4131.4131 0 0 0-.293-.122z"
-			fill="red" paint-order="markers fill stroke" />
-		</svg>
-
 		<div class="message-container"
 		[class.local-user]="messageCluster.sentByLocalUser">
 			<div class="message"
-			*ngFor="let message of messageCluster.messages">
+			*ngFor="let message of messageCluster.messages; first as isFirst;"
+			[ngStyle]="{
+				opacity: message.animated ? (message.animationProgress) : '',
+				transform: message.animated ? ('translateY(' + ((1 - message.animationProgress) * 18) + 'px)') : '',
+				visibility: message.visible ? '' : 'hidden'
+			}">
+				<svg class="tail" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 3.175 3.175"
+				[class.local-user]="messageCluster.sentByLocalUser"
+				*ngIf="isFirst">
+					<path d="M1.5875 1.5875a.4131.4131 0 0 0-.293.122L.122 2.882A.4131.4131 0 0 0 0 3.175h3.175a.4131.4131 0 0 0-.122-.293L1.8805 1.7095a.4131.4131 0 0 0-.293-.122z" fill="red" paint-order="markers fill stroke" />
+				</svg>
+
 				<div class="message-inner">
-					<p class="message-text">{{ message.text }}</p>
+					<p class="message-text">
+						{{ message.text }}
+					</p>
 				</div>
 			</div>
 		</div>
