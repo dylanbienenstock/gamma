@@ -59,7 +59,8 @@ import { NativeService } from './native.service';
 		AppRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
-		ScrollbarModule
+		ScrollbarModule,
+		LinkyModule
 	],
 	providers: [
 		SocketService,

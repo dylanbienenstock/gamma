@@ -22,9 +22,7 @@
 				</svg>
 
 				<div class="message-inner">
-					<p class="message-text">
-						{{ message.text }}
-					</p>
+					<p class="message-text" [innerHTML]="message.text | linky:linkOptions"></p>
 				</div>
 			</div>
 		</div>

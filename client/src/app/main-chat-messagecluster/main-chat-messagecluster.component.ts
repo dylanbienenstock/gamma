@@ -7,8 +7,17 @@ import { ContactService } from '../contact.service';
 	templateUrl: './main-chat-messagecluster.component.html',
 	styleUrls: ['./main-chat-messagecluster.component.scss']
 })
+
 export class MainChatMessageclusterComponent {
 	constructor(private contactService: ContactService) { }
 
 	@Input() messageCluster: MessageCluster;
+
+	linkOptions = {
+		urls: true,
+		email: false,
+		phone: false,
+		mention: false,
+		hashtag: false
+	};
 }
