@@ -10,4 +10,10 @@ export interface Message {
 		sent?: number;
 		received?: number;
 	};
+
+	// Graphics properties
+	animated?: boolean;
+	animationProgress?: number;
+	animationStartTime?: number;
+	visible?: boolean;
 }
