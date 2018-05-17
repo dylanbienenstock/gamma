@@ -167,6 +167,12 @@ export class SocketService {
 					decryptedMessage = _decryptedMessage;
 				});
 
+				if (!decryptedMessage.timestamps) {
+					decryptedMessage.timestamps = {};
+				}
+
+				decryptedMessage.timestamps.received = Date.now();
+				
 				observer.next(decryptedMessage);
 			});
 		});
@@ -270,6 +276,9 @@ export class SocketService {
 	}
 
 	async sendMessage(message: Message) {
+		message.timestamps = { 
+			sent: Crypto.resistFingerprinting(Date.now()) 
+		};
 
 		// Get the public key
 		let keyResponse: KeyResponse | void;

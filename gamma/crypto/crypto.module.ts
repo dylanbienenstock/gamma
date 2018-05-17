@@ -93,7 +93,8 @@ export module Crypto {
 			message: {
 				text: encrypted,
 				senderId: message.senderId,
-				recipientId: message.recipientId
+				recipientId: message.recipientId,
+				timestamps: message.timestamps
 			}
 		};
 

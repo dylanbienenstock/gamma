@@ -144,7 +144,8 @@ export module Dispatch {
 				hash: secureMessage.hash,
 				message: {
 					text: secureMessage.message.text,
-					senderId: State.getId(socket)
+					senderId: State.getId(socket),
+					timestamps: secureMessage.message.timestamps
 				}
 			}
 		});
