@@ -18,7 +18,6 @@ export class MainChatMessageContainerComponent {
 				private contactService: ContactService,
 				private localUserService: LocalUserService) { }
 
-
 	@Input() set messages(value: Message[]) {
 		this.buildMessageClusters(value);
 	}
