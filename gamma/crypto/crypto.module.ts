@@ -79,6 +79,8 @@ export module Crypto {
 		await openpgp.encrypt(encryptOptions)
 		.catch((_error) => { error = _error; })
 		.then((_encrypted) => {
+			if (!_encrypted) return;
+			
 			encrypted = _encrypted.data;
 		});
 
